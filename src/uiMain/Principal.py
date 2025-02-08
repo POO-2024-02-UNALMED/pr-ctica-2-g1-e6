@@ -5,16 +5,16 @@
 #|                                                                                                                                  |
 #|  +Nombre del módulo:                                                                                                             |
 #|                                                                                                                                  |
-#|      main.py                                                                                                                     |
+#|      Principal.py                                                                                                                |
 #|                                                                                                                                  |
 #|  +Resumen:                                                                                                                       |
 #|                                                                                                                                  |
-#|      Desde este módulo se va a empezar a ejecutar el programa, lo único que hace es redirigir a                                  |
-#|               Home.aterrizar(), donde se crea la ventana de inicio para la interfaz gráfica.                                     |
+#|      En este módulo está programada la pestaña principal del programa,                                                           |
+#|               desde la cual se pueden acceder a las 5 (cinco) funcionalidades.                                                   |
 #|                                                                                                                                  |
 #|  +Codificado por:                                                                                                                |
 #|                                                                                                                                  |
-#|      - Alejandro Pérez Barrera (2025-02-08) (Creador).                                                                           |
+#|      - Alejandro Pérez Barrera (2025-02-08) (Creador)                                                                            |
 #|                                                                                                                                  |
 #|  +Última revisión: 2025-02-08-16-47, AlPerBara                                                                                   |
 #|                                                                                                                                  |
@@ -24,8 +24,14 @@
 #|                                                                                                                                  |
 #|==================================================================================================================================|
 
-import Home #Home se utiliza para poder comenzar la ejecución del programa desde la pestaña de inicio.
+import tkinter as tk
 
-if __name__ == "__main__":
-    Home.aterrizar() #Home. aterrizar es el método para entrar a la clase de la pestaña de inicio
-    print("Cerar") #TODO: Quitar esto
+#Este método es solo para poder empezar la ejecución de esta clase desde aquí sin recibir el error TypeError: 'module' object is not callable
+def aterrizar():
+    root = tk.Tk()
+    Principal(root)
+    root.mainloop()
+
+
+class Principal:
+    print("prograam")
