@@ -16,7 +16,7 @@
 #|                                                                                                                                  |
 #|      - Alejandro Pérez Barrera (2025-02-08) (Creador)                                                                            |
 #|                                                                                                                                  |
-#|  +Última revisión: 2025-02-08-15-57, AlPerBara                                                                                   |
+#|  +Última revisión: 2025-02-08-20-15, AlPerBara                                                                                   |
 #|                                                                                                                                  |
 #|  +Novedades:                                                                                                                     |
 #|                                                                                                                                  |
@@ -39,6 +39,7 @@ class Home:#Home es la ventana de inicio, donde uno puede ver las fotos de los d
     def __init__(self, root):
         
         self.root=root #defino la raiz
+        self.root.iconphoto(False, tk.PhotoImage(file=f"src/uiMain/media/iconos/icono_principal.png")) #Asignar el ícono TODO: Crear un ícono en condiciones
         self.root.title("Inicio") #Le coloco su título
         self.root.geometry("800x600") #El tamaño de la ventana es de 800 x 600
         self.root.resizable(0,0) #Así no se puede cambiar el tamaño de la pestaña 😈😈😈🗣️🔥🔥 TODO: Consultar si está permitido que la ventana no sea resizable
