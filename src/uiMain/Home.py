@@ -3,24 +3,36 @@
 #|  Copyright (c) 2025 Agencia de Viajes Mundo Aventura S.A.                                                                        |
 #|                                                                                                                                  |
 #|                                                                                                                                  |
-#|  +Nombre del módulo:                                                                                                             |
+#|  + Nombre del módulo:                                                                                                            |
 #|                                                                                                                                  |
 #|      Home.py                                                                                                                     |
 #|                                                                                                                                  |
-#|  +Resumen:                                                                                                                       |
+#|  + Resumen:                                                                                                                      |
 #|                                                                                                                                  |
 #|      Este módulo contiene a la clase Home, la cual representa a la ventana de inicio,                                            |
 #|              la ventana que se abre de primera al comenzar a ejecutar el programa.                                               |
 #|                                                                                                                                  |
-#|  +Codificado por:                                                                                                                |
+#|  + Codificado por:                                                                                                               |
 #|                                                                                                                                  |
 #|      - Alejandro Pérez Barrera (2025-02-08) (Creador)                                                                            |
 #|                                                                                                                                  |
-#|  +Última revisión: 2025-02-08-20-15, AlPerBara                                                                                   |
+#|  + Última revisión: 2025-02-09-15-46, AlPerBara                                                                                  |
 #|                                                                                                                                  |
-#|  +Novedades:                                                                                                                     |
+#|  + Novedades:                                                                                                                    |
 #|                                                                                                                                  |
 #|      Este espacio está disponible para reportar novedades que se encuentren en este módulo...                                    |
+#|                                                                                                                                  |
+#|  + Pendientes en este módulo:                                                                                                    |
+#|                                                                                                                                  |
+#|      - Consultar si la ventana puede ser NO resizable.                                                                           |
+#|      - Cambiar o eliminar el color del frame principal derecho.                                                                  |
+#|      - Cambiar o eliminar el color del frame principal izquierdo.                                                                |
+#|      - Cambiar o eliminar el color del frame superior izquierdo.                                                                 |
+#|      - Cambiar o eliminar el color del frame inferior izquierdo.                                                                 |
+#|      - Cambiar o eliminar el color del frame superior derecho.                                                                   |
+#|      - Agregar nombre y descripción de los desarrolladores (Faltan 3 de 3).                                                      |
+#|      - Cambiar o eliminar el color del frame inferior derecho.                                                                   |
+#|      - Elaborar una descripción para el programa.                                                                                |
 #|                                                                                                                                  |
 #|==================================================================================================================================|
 
@@ -39,7 +51,7 @@ class Home:#Home es la ventana de inicio, donde uno puede ver las fotos de los d
     def __init__(self, root):
         
         self.root=root #defino la raiz
-        self.root.iconphoto(False, tk.PhotoImage(file=f"src/uiMain/media/iconos/icono_principal.png")) #Asignar el ícono TODO: Crear un ícono en condiciones
+        self.root.iconphoto(False, tk.PhotoImage(file=f"src/uiMain/media/iconos/icono_principal.png"))
         self.root.title("Inicio") #Le coloco su título
         self.root.geometry("800x600") #El tamaño de la ventana es de 800 x 600
         self.root.resizable(0,0) #Así no se puede cambiar el tamaño de la pestaña 😈😈😈🗣️🔥🔥 TODO: Consultar si está permitido que la ventana no sea resizable

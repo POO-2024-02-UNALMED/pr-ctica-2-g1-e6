@@ -3,24 +3,35 @@
 #|  Copyright (c) 2025 Agencia de Viajes Mundo Aventura S.A.                                                                        |
 #|                                                                                                                                  |
 #|                                                                                                                                  |
-#|  +Nombre del módulo:                                                                                                             |
+#|  + Nombre del módulo:                                                                                                            |
 #|                                                                                                                                  |
 #|      Principal.py                                                                                                                |
 #|                                                                                                                                  |
-#|  +Resumen:                                                                                                                       |
+#|  + Resumen:                                                                                                                      |
 #|                                                                                                                                  |
 #|      En este módulo está programada la pestaña principal del programa,                                                           |
 #|               desde la cual se pueden acceder a las 5 (cinco) funcionalidades.                                                   |
 #|                                                                                                                                  |
-#|  +Codificado por:                                                                                                                |
+#|  + Codificado por:                                                                                                               |
 #|                                                                                                                                  |
 #|      - Alejandro Pérez Barrera (2025-02-08) (Creador)                                                                            |
 #|                                                                                                                                  |
 #|  +Última revisión: 2025-02-08-16-47, AlPerBara                                                                                   |
 #|                                                                                                                                  |
-#|  +Novedades:                                                                                                                     |
+#|  + Novedades:                                                                                                                    |
 #|                                                                                                                                  |
 #|      Este espacio está disponible para reportar novedades que se encuentren en este módulo...                                    |
+#|                                                                                                                                  |
+#|  + Pendientes en este módulo:                                                                                                    |
+#|      - Consultar si la ventana puede ser NO resizable.                                                                           |
+#|      - Asignar comando para reservar hotel.                                                                                      |
+#|      - Asignar comando para reservar talleres.                                                                                   |
+#|      - Asignar comando para reservar transporte.                                                                                 |
+#|      - Asignar comando para realizar pago.                                                                                       |
+#|      - Asignar comando para reservar eventos.                                                                                    |
+#|      - Cambiar o eliminar el color del frame principal.                                                                          |
+#|      - Añadir información sobre la aplicación.                                                                                   |
+#|      - Añadir información sobre los desarrolladores.                                                                             |
 #|                                                                                                                                  |
 #|==================================================================================================================================|
 
@@ -37,10 +48,9 @@ def aterrizar():
 
 
 class Principal: #Principal es la ventana de inicio, desde la cual se accede a las funcionalidades 
-    print("prograam") #TODO: Eliminar esto
     def __init__(self, root):
         self.root=root #definir  raiz
-        self.root.iconphoto(False, tk.PhotoImage(file=f"src/uiMain/media/iconos/icono_principal.png")) #Asignar el ícono TODO: Crear un ícono en condiciones
+        self.root.iconphoto(False, tk.PhotoImage(file=f"src/uiMain/media/iconos/icono_principal.png"))
         self.root.title("Rumbo Aventura") #Le coloco su título
         self.root.geometry("800x600") #El tamaño de la ventana es de 800 x 600
         self.root.resizable(0,0) #Así no se puede cambiar el tamaño de la pestaña 😈😈😈🗣️🔥🔥 TODO: Consultar si está permitido que la ventana no sea resizable
@@ -84,22 +94,17 @@ class Principal: #Principal es la ventana de inicio, desde la cual se accede a l
         self.menu_ayuda = tk.Menu(self.barra_menu, tearoff=0)#Ahora creo el botoncito de inicio como tal
         #El tearoff hace que el menu no se pueda desprender de la pestaña principal,
         #se nota que el menu se puede desprender porque encima del menu salen unas rayitas punteadas, pero con tearoff=0 no salen 😀.
-        self.menu_ayuda.add_command(label="Acerca de", command=self.pop_up_ayuda)#Opción de información TODO:Asignar comando correspondiente
+        self.menu_ayuda.add_command(label="Acerca de", command=self.pop_up_ayuda)#Opción de información.
         self.barra_menu.add_cascade(label="Ayuda", menu=self.menu_ayuda)#Colocar el menú de ayudas en la barra de menús
 
 
-        #
+        #========== FRAME PARA COLOCAR LAS FUNCIONALIDADES ==========
+        self.frame_principal = tk.Frame(self.root, bg="cyan") #TODO: Quitar o cambiar el color de fondo
+        self.frame_principal.pack(expand=True,fill="both")
     
     #pop_up_aplicacion muestra una ventana con la informacion de la aplicacion
     def pop_up_aplicacion(self):
-        #root = tk.Tk()
-        #root.title("Sobre la aplicación")
-        #root.geometry("300x100")
-        #root.resizable(0,0)
-        #info = tk.Label(root, text="Información") 
-        #info.pack()
-        
-        messagebox.showinfo(f"Sobre La Aplicación", "Informacionn            e    \n           g") #TODO: Añadir información sobre la aplicación
+        messagebox.showinfo("Sobre La Aplicación", "Informacionn            e    \n           g") #TODO: Añadir información sobre la aplicación
 
     #return_inicio regresa a la pestaña de inicio
     def return_inicio(self):
@@ -107,11 +112,5 @@ class Principal: #Principal es la ventana de inicio, desde la cual se accede a l
         Home.aterrizar() #El metodo aterrizar de home crea la ventana de inicio y todo lo demás, referente a aquella funcionalidad
 
     def pop_up_ayuda(self):
-        #root = tk.Tk()
-        #root.title("Acerca de")
-        #root.geometry("300x100")
-        #root.resizable(0,0)
-        #info = tk.Label(root, text="Desarrolladores...") #TODO: Añadir nombre de los desarrolladores
-        #info.pack()
-        messagebox.showinfo("Acerca de", "Desarrolladores... n                       j            8                    7") 
+        messagebox.showinfo("Acerca de", "Desarrolladores... n                       j   \n         8                    7") #TODO: Añadir información sobre los desarrolladores
         
