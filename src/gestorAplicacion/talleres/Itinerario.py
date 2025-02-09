@@ -1,4 +1,5 @@
 class Itinerario:
+    actividades=[]
     def _init_(self, actividades, refrigerios, fecha, grupo, transporte):
         self.actividades = actividades
         self.actividades = actividades
