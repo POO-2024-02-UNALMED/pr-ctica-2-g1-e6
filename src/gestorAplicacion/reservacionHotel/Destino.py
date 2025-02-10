@@ -16,7 +16,7 @@
 #|                                                                                                                                  |
 #|      - Alejandro Pérez Barrera (2025-02-09) (Creador)                                                                            |
 #|                                                                                                                                  |
-#|  +Última revisión: 2025-02-09-16-53, AlPerBara                                                                                   |
+#|  +Última revisión: 2025-02-10-13-55, AlPerBara                                                                                   |
 #|                                                                                                                                  |
 #|  + Novedades:                                                                                                                    |
 #|                                                                                                                                  |
@@ -35,8 +35,8 @@ import Hotel
 
 class Destino:
 
-    _listadoDestinos =[]
-    _datos_ya_cargados = False
+    _listadoDestinos =[] #En este array se guardan los destinos, el nombre es así desde la versión de Java
+    _datos_ya_cargados = False #Cuando se crea destino se asume que no hay destinos en el array listadoDestinos
 
     #El constructor toma el nombre del destino, su nombre alterno, el pais, la region, la fama, temporada, como llegar y hoteles del destino
     def __init__(self, nombre, nombre_alterno, pais, region, fama, temporada, llegar, hoteles_destino):
@@ -64,82 +64,102 @@ class Destino:
     def set_listado_destinos(cls, destinos):
         cls._listadoDestinos=destinos
 
-    #========== GETTERS Y SETTERS ABURRIDOS==========
-    def get_nombre(self):
+    #========== GETTERS Y SETTERS ABURRIDOS ==========
+    
+    #Los setters y getters están definidos "The Pythonic Way"
+    #Property es un decorador para indicar que el método es un getter
+    @property
+    def nombre(self):
         return self._nombre
     
-    def set_nombre(self, nombre):
+    #<nombre_atributo>.setter es un decorador para indicar que el método es un setter
+    @nombre.setter
+    def nombre(self, nombre):
         self._nombre=nombre
 
 
 
-    def get_nombre_alterno(self):
+    @property
+    def nombre_alterno(self):
         return self._nombre_alterno
     
-    def set_nombre_alterno(self, nombre_alterno):
+    @nombre_alterno.setter
+    def nombre_alterno(self, nombre_alterno):
         self._nombre_alterno = nombre_alterno
 
 
 
-    def get_region(self):
+    @property
+    def region(self):
         return self._region
     
-    def set_region(self, region):
+    @region.setter
+    def region(self, region):
         self._region=region
 
 
 
-    def get_pais(self):
+    @property
+    def pais(self):
         return self._pais
     
-    def set_pais(self, pais):
+    @pais.setter
+    def pais(self, pais):
         self._pais=pais
 
 
     
-    def get_fama(self):
+    @property
+    def fama(self):
         return self._fama
     
-    def set_fama(self, fama):
+    @fama.setter
+    def fama(self, fama):
         self._fama=fama
 
 
 
-    def get_llegar(self):
+    @property
+    def llegar(self):
         return self._llegar
     
-    def set_llegar(self, llegar):
+    @llegar.setter
+    def llegar(self, llegar):
         self._llegar=llegar
 
 
 
-    def get_temporada(self):
+    @property
+    def temporada(self):
         return self._temporada
     
-    def set_temporada(self, temporada):
+    @temporada.setter
+    def temporada(self, temporada):
         self._temporada=temporada
 
 
 
-    def get_hoteles_destino(self):
+    @property
+    def hoteles_destino(self):
         return self._hoteles_destino
     
-    def set_hoteles_destino(self, hoteles):
+    @hoteles_destino.setter
+    def hoteles_destino(self, hoteles):
         self._hoteles_destino = hoteles
 
-    #========== TERMINAN SETTERS Y GETTERS
+    #========== TERMINAN SETTERS Y GETTERS ==========
 
     def buscar_destino(palabra_clave):
         retorno =[]
 
         for destino in Destino.get_destinos():
-            if palabra_clave.lower() in [destino.get_nombre(), destino.get_nombre_alterno().lower(), destino.get_region().lower(), destino.get_pais().lower()]:
+            if palabra_clave.lower() in [destino.nombre(), destino.nombre_alterno().lower(), destino.region().lower(), destino.pais().lower()]:
                 retorno.append(destino)
 
         return retorno
     
     def reserva_hecha(self, hotel_reservado, lujo_reserva, delta_demanda):
-        hotel_prestigio = hotel_reservado.get_prestigio()
+        hotel_prestigio = hotel_reservado.prestigio()
 
         if delta_demanda>0.35 and hotel_prestigio>8.65:
             self._fama=min(self._fama+((delta_demanda*hotel_prestigio)/20),5.0)
@@ -151,7 +171,8 @@ class Destino:
     @classmethod
     def generador_de_datos(cls):
         return [
-            Destino("París", "Paris", "Francia", "Île-de-France", random.randint(0, 5), random.randint(0, 2), 4,[]),
+            Destino("París", "Paris", "Francia", "Île-de-France", random.randint(0, 5), random.randint(0, 2), 4,[
+                Hotel("Le Meurice", 21, 14, 15, random.randint(7, 10), random.randint(80, 180))]),
             Destino("París", "Paris", "Francia", "Île-de-France", random.randint(0, 5), random.randint(0, 2), 4,[])
         ]
 
