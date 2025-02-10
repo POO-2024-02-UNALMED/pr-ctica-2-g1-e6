@@ -1,13 +1,13 @@
+from multimethod import multimethod
+
 class Itinerario:
     actividades=[]
+    @multimethod
     def _init_(self, actividades, refrigerios, fecha, grupo, transporte):
-        self.actividades = actividades
-        self.actividades = actividades
-        self.actividades = actividades
-        self.actividades = actividades
-        self.actividades = actividades
-        self.actividades = actividades
-
+        self.Itinerario(actividades, refrigerios, fecha, grupo)
+        self.transporte = transporte
+    
+    @multimethod
     def _init_(self, actividades, refrigerios, fecha, grupo):
         self.actividades = actividades
         self.refrigerios = refrigerios

@@ -1,4 +1,8 @@
-import gestorAplicacion.talleres
+import sys
+
+sys.path.append("src/gestorAplicacion")
+
+import gestorAplicacion 
 
 class uiTalleres:
     actividades = []
@@ -26,7 +30,21 @@ class uiTalleres:
                     break
                 else:
                     print("Debe seleccionar los números correspondientes a la opción deseada, no pude elegir opciones diferentes")
-            Itinerario.actividades.append(act)
-            sitios.append(sitio)
+            uiTalleres.actividades.append(act)
+            uiTalleres.sitios.append(sitio)
             uiTalleres.refrigerios.append(refrigerio)
-    talleres()
+        transporte=input("Desea incluir transporte: 1.Sí  2.No")
+        if transporte == 1:
+            transporte=int(input("Qué transporte desea: 1.Moto 2.Carro express 3.Carro 4.Bus turistico"))
+        else:
+            transporete = 0
+        Destinos = gestorAplicacion.Lugar(nro, 0, uiTalleres.sitios)
+        Manejo = gestorAplicacion.Gestion(documento, 0, 0, 0, 0)
+        if transporte == 0:
+            Ruta = gestorAplicacion.Itineario(uiTalleres.actividades, uiTalleres.refrigerios, 0, 0)
+        else:
+            Ruta = gestorAplicacion.Itineario(uiTalleres.actividades, uiTalleres.refrigerios, 0, 0, transporte)
+        print(Ruta)
+
+        
+        
