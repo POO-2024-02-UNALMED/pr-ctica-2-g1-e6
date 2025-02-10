@@ -1,6 +1,6 @@
 import sys
 
-sys.path.append("src/gestorAplicacion")
+sys.path.append("src/gestorAplicacion/talleres")
 
 import gestorAplicacion 
 
@@ -8,7 +8,7 @@ class uiTalleres:
     actividades = []
     refrigerios = []
     sitios = []
-    def talleres():
+    def talleres1():
         while True:
             documento=int(input("Digite número de documento: "))
             if documento > 9999999999:
@@ -33,7 +33,12 @@ class uiTalleres:
             uiTalleres.actividades.append(act)
             uiTalleres.sitios.append(sitio)
             uiTalleres.refrigerios.append(refrigerio)
-        transporte=input("Desea incluir transporte: 1.Sí  2.No")
+        while True:
+            transporte=input("Desea incluir transporte: 1.Sí  2.No")
+            if transporte == 1 or transporte ==2:
+                break
+            else:
+                print("Digite una opción valida 1 para agregar o 2 para no agregar")
         if transporte == 1:
             transporte=int(input("Qué transporte desea: 1.Moto 2.Carro express 3.Carro 4.Bus turistico"))
         else:
@@ -44,7 +49,26 @@ class uiTalleres:
             Ruta = gestorAplicacion.Itineario(uiTalleres.actividades, uiTalleres.refrigerios, 0, 0)
         else:
             Ruta = gestorAplicacion.Itineario(uiTalleres.actividades, uiTalleres.refrigerios, 0, 0, transporte)
-        print(Ruta)
+        
+        def talleres2():
+            Destinos.puntuacion()
+            if Destinos.puntaje > 3:
+                Destinos.grupo = 1
+                print("Fuiste agregado al grupo 1")
+            else:
+                Destinos.grupo = 2
+                print("Fuiste agregado al grupo 2")
+            x=0
+            for i in range (0, nro):
+                x = Destinos.Lugar[i] + Ruta.actividad[i]
+            x+=Ruta.grupo + Destinos.nro
+            z=0
+            for refri in Ruta.refrigerios:
+                z+= refri
+            x+=z/Ruta.refrigerios.lenght
+            Manejo.descuento = z
+            return z
+
 
         
         
