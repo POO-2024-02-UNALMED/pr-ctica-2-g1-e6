@@ -54,7 +54,7 @@ class Home:#Home es la ventana de inicio, donde uno puede ver las fotos de los d
         self.root.iconphoto(False, tk.PhotoImage(file=f"src/uiMain/media/iconos/icono_principal.png"))
         self.root.title("Inicio") #Le coloco su título
         self.root.geometry("800x600") #El tamaño de la ventana es de 800 x 600
-        self.root.resizable(0,0) #Así no se puede cambiar el tamaño de la pestaña 😈😈😈🗣️🔥🔥 TODO: Consultar si está permitido que la ventana no sea resizable
+        #self.root.resizable(0,0) #Así no se puede cambiar el tamaño de la pestaña 😈😈😈🗣️🔥🔥 TODO: Consultar si está permitido que la ventana no sea resizable
         
         
         #========== MENÚ DE LA PARTE SUPERIOR ==========

@@ -16,7 +16,7 @@
 #|                                                                                                                                  |
 #|      - Alejandro Pérez Barrera (2025-02-09) (Creador)                                                                            |
 #|                                                                                                                                  |
-#|  +Última revisión: 2025-02-10-13-55, AlPerBara                                                                                   |
+#|  +Última revisión: 2025-02-11-15-48, AlPerBara                                                                                   |
 #|                                                                                                                                  |
 #|  + Novedades:                                                                                                                    |
 #|                                                                                                                                  |
@@ -30,7 +30,7 @@
 
 
 import random
-import Hotel
+from Hotel import Hotel
 
 
 class Destino:
@@ -95,7 +95,7 @@ class Destino:
     
     @region.setter
     def region(self, region):
-        self._region=region
+        self._region = region
 
 
 
@@ -105,7 +105,7 @@ class Destino:
     
     @pais.setter
     def pais(self, pais):
-        self._pais=pais
+        self._pais = pais
 
 
     
@@ -115,7 +115,7 @@ class Destino:
     
     @fama.setter
     def fama(self, fama):
-        self._fama=fama
+        self._fama = fama
 
 
 
@@ -125,7 +125,7 @@ class Destino:
     
     @llegar.setter
     def llegar(self, llegar):
-        self._llegar=llegar
+        self._llegar = llegar
 
 
 
@@ -135,7 +135,7 @@ class Destino:
     
     @temporada.setter
     def temporada(self, temporada):
-        self._temporada=temporada
+        self._temporada = temporada
 
 
 
@@ -159,7 +159,7 @@ class Destino:
         return retorno
     
     def reserva_hecha(self, hotel_reservado, lujo_reserva, delta_demanda):
-        hotel_prestigio = hotel_reservado.prestigio()
+        hotel_prestigio = hotel_reservado.prestigio
 
         if delta_demanda>0.35 and hotel_prestigio>8.65:
             self._fama=min(self._fama+((delta_demanda*hotel_prestigio)/20),5.0)
@@ -172,11 +172,17 @@ class Destino:
     def generador_de_datos(cls):
         return [
             Destino("París", "Paris", "Francia", "Île-de-France", random.randint(0, 5), random.randint(0, 2), 4,[
-                Hotel("Le Meurice", 21, 14, 15, random.randint(7, 10), random.randint(80, 180))]),
+                Hotel("Le Meurice", 21, 0, 15, random.randint(7, 10), random.randint(80, 180))]),
             Destino("París", "Paris", "Francia", "Île-de-France", random.randint(0, 5), random.randint(0, 2), 4,[])
         ]
 
 
 if __name__ == "__main__": #TODO:remover esto
     data =Destino.get_destinos()
-    print(data[0].get_fama())
+    print(data[0].hoteles_destino[0].calcular_precio_esperado_noche(data[0].fama, data[0].temporada, 2, 1))
+    print(data[0].hoteles_destino[0].calcular_precio_total(1, 3))
+    print(data[0].hoteles_destino[0].demanda)
+    print(data[0].hoteles_destino[0].listar_precios())
+    print(data[0].hoteles_destino[0].cuartos_intermedios)
+    print(data[0].hoteles_destino[0].cuarto_reservado(4, 1, data[0]))
+    print(data[0].hoteles_destino[0].demanda)

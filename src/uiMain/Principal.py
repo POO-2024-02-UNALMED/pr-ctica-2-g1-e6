@@ -53,7 +53,7 @@ class Principal: #Principal es la ventana de inicio, desde la cual se accede a l
         self.root.iconphoto(False, tk.PhotoImage(file=f"src/uiMain/media/iconos/icono_principal.png"))
         self.root.title("Rumbo Aventura") #Le coloco su título
         self.root.geometry("800x600") #El tamaño de la ventana es de 800 x 600
-        self.root.resizable(0,0) #Así no se puede cambiar el tamaño de la pestaña 😈😈😈🗣️🔥🔥 TODO: Consultar si está permitido que la ventana no sea resizable
+        #self.root.resizable(0,0) #Así no se puede cambiar el tamaño de la pestaña 😈😈😈🗣️🔥🔥 TODO: Consultar si está permitido que la ventana no sea resizable
 
 
         #========== MENÚ DE LA PARTE SUPERIOR ==========
