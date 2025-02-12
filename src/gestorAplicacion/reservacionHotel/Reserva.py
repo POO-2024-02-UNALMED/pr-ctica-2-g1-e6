@@ -17,7 +17,7 @@
 #|                                                                                                                                  |
 #|      - Alejandro Pérez Barrera (2025-02-09) (Creador)                                                                            |
 #|                                                                                                                                  |
-#|  +Última revisión: 2025-02-09-17-12, AlPerBara                                                                                   |
+#|  +Última revisión: 2025-02-12-14-27, AlPerBara                                                                                   |
 #|                                                                                                                                  |
 #|  + Novedades:                                                                                                                    |
 #|                                                                                                                                  |
@@ -25,10 +25,202 @@
 #|                                                                                                                                  |
 #|  + Pendientes en este módulo:                                                                                                    |
 #|                                                                                                                                  |
-#|      - Empezar a codificar.                                                                                                      |
+#|      - Verificar errores.                                                                                                        |
+#|      - Integrar con interfaz de usuario.                                                                                         |
 #|                                                                                                                                  |
 #|==================================================================================================================================|
 
 
+from datetime import date
+from src.gestorAplicacion.reservacionHotel import Destino
+from src.gestorAplicacion.reservacionHotel import Hotel
+
+
 class Reserva:
-    pass
+    
+    _id_destino = None
+    
+    _reserva_actual = None
+    
+    #========== CONSTRUCTOR ==========
+    
+    def __init__(self, destino):
+        self._destino_viaje = destino
+        self._hotel_viaje = None
+        self._lujo_hotel_viaje = None
+        self._precio_total = None
+        self._viajeros_adultos = None
+        self._viajeros_menores = None
+        self._estadia = None
+        self._fecha_llegar = None
+        self._fecha_salir = None
+        
+    #========== GETTERS Y SETTERS ==========
+    
+    @classmethod
+    def get_id_destino(cls):
+        return cls._id_destino
+    
+    @classmethod
+    def set_id_destino(cls, id):
+        cls._id_destino = id
+        
+        
+        
+    @classmethod
+    def get_reserva_actual(cls):
+        return cls._reserva_actual
+    
+    @classmethod
+    def set_reserva_actual(cls, reserva):
+        cls._reserva_actual = reserva
+        
+        
+        
+    @property
+    def destino_viaje(self):
+        return self._destino_viaje
+    
+    @destino_viaje.setter
+    def destino_viaje(self, dedstino):
+        self._destino_viaje = dedstino
+        
+        
+        
+    @property
+    def hotel_viaje(self):
+        return self._hotel_viaje
+    
+    @hotel_viaje.setter
+    def hotel_viaje(self, hotel):
+        self._hotel_viaje = hotel
+        
+        
+        
+    @property
+    def lujo_hotel_viaje(self):
+        return self._lujo_hotel_viaje
+    
+    @lujo_hotel_viaje.setter
+    def lujo_hotel_viaje(self, lujo):
+        self._lujo_hotel_viaje = lujo
+        
+        
+        
+    @property
+    def precio_total(self):
+        return self._precio_total
+    
+    @precio_total.setter
+    def precio_total(self, percio):
+        self._precio_total = percio
+        
+    
+    
+    @property
+    def viajeros_adultos(self):
+        return self._viajeros_adultos
+    
+    @viajeros_adultos.setter
+    def viajeros_adultos(self, vjaieros):
+        self._viajeros_adultos = vjaieros
+        
+        
+        
+    @property
+    def viajeros_menores(self):
+        return self._viajeros_menores
+    
+    @viajeros_menores.setter
+    def viajeros_menores(self, vjaeres):
+        self._viajeros_menores = vjaeres
+        
+        
+        
+    @property
+    def estadia(self):
+        return self._estadia
+    
+    @estadia.setter
+    def estadia(self, estraida):
+        self._estadia = estraida
+        
+        
+    
+    @property
+    def fecha_llegar(self):
+        return self._fecha_llegar
+    
+    @fecha_llegar.setter
+    def fecha_llegar(self, fecah):
+        self._fecha_llegar = fecah
+        
+    
+    
+    @property
+    def fecha_salir(self):
+        return self._fecha_salir
+    
+    @fecha_salir.setter
+    def fecha_salir(self, fecha):
+        self._fecha_salir = fecha
+        
+    #========== MÉTODOS ==========
+    
+    @staticmethod
+    def buscar_destino(clave):
+        
+        return Destino.buscar_destino(clave)
+    
+    @staticmethod
+    def cantidad_numerica_resultados(resultados_busqueda):
+        
+        if len(resultados_busqueda)==0:
+            return 0
+        
+        elif len(resultados_busqueda)==1:
+            return 1
+        
+        else:
+            return 2
+        
+    def set_ambas_fechas(self, modificar, fecha_llegada, fecha_salida):
+        fecha_hoy = date.today()
+        
+        if (fecha_llegada <= fecha_hoy or fecha_salida <= fecha_hoy or fecha_salida <= fecha_llegada):
+            print("Fecha inválida") #TODO: Implementar error de fechas inválidas
+            
+        else:
+            self._fecha_llegar = fecha_llegada
+            self._fecha_salir = fecha_salida
+            
+            self._estadia = (fecha_salida - fecha_llegada).days
+            
+            if not modificar:
+                print("Seguir reservando") #TODO: Implementar continuidad en la reserva
+                
+        
+    def set_adultos_et_menores(self, modificar, mayores, menores):
+        
+        if (mayores>0 and menores>0 and ((mayores*2)>menores)):
+            self._viajeros_adultos = mayores
+            self._viajeros_menores = menores
+            
+            if not modificar:
+                print("Sigue reserva viajeros sin modificar") #TODO: Remover esto, implementar interacciones
+                
+        elif mayores>0 and menores>0:
+            print("Viajeros válidos, cantidad ilegal") #TODO: Implementar en interfaz
+            
+        else:
+            print("Viajeros inválidos") #TODO: Implementar en funcionalidad
+            
+    
+    def calculo_estadia_total(self):
+        self._precio_total = self._hotel_viaje.calcular_precio_total(self._lujo_hotel_viaje, self._estadia)
+        return self._precio_total
+    
+
+    def confirmar_hotel(self):
+        self._hotel_viaje.cuarto_reservado(self._estadia, self._lujo_hotel_viaje, self._destino_viaje)
+        self._reserva_actual = self
