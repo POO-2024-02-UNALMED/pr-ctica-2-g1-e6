@@ -17,7 +17,7 @@
 #|                                                                                                                                  |
 #|      - Alejandro Pérez Barrera (2025-02-09) (Creador)                                                                            |
 #|                                                                                                                                  |
-#|  +Última revisión: 2025-02-12-14-27, AlPerBara                                                                                   |
+#|  +Última revisión: 2025-02-13-09-12, AlPerBara                                                                                   |
 #|                                                                                                                                  |
 #|  + Novedades:                                                                                                                    |
 #|                                                                                                                                  |
@@ -27,13 +27,14 @@
 #|                                                                                                                                  |
 #|      - Verificar errores.                                                                                                        |
 #|      - Integrar con interfaz de usuario.                                                                                         |
+#|      - Añadir comentarios.                                                                                                       |
 #|                                                                                                                                  |
 #|==================================================================================================================================|
 
 
-from datetime import date
-from src.gestorAplicacion.reservacionHotel import Destino
-from src.gestorAplicacion.reservacionHotel import Hotel
+from datetime import date, datetime
+from Destino import Destino
+from Hotel import Hotel
 
 
 class Reserva:
@@ -185,7 +186,9 @@ class Reserva:
             return 2
         
     def set_ambas_fechas(self, modificar, fecha_llegada, fecha_salida):
-        fecha_hoy = date.today()
+        fecha_hoy = datetime.today()
+        fecha_llegada = datetime.strptime(fecha_llegada, "%Y-%m-%d")
+        fecha_salida = datetime.strptime(fecha_salida, "%Y-%m-%d")
         
         if (fecha_llegada <= fecha_hoy or fecha_salida <= fecha_hoy or fecha_salida <= fecha_llegada):
             print("Fecha inválida") #TODO: Implementar error de fechas inválidas

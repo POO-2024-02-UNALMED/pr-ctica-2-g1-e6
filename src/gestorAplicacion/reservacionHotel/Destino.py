@@ -16,7 +16,7 @@
 #|                                                                                                                                  |
 #|      - Alejandro Pérez Barrera (2025-02-09) (Creador)                                                                            |
 #|                                                                                                                                  |
-#|  +Última revisión: 2025-02-11-15-48, AlPerBara                                                                                   |
+#|  +Última revisión: 2025-02-13-09-11, AlPerBara                                                                                   |
 #|                                                                                                                                  |
 #|  + Novedades:                                                                                                                    |
 #|                                                                                                                                  |
@@ -24,13 +24,17 @@
 #|                                                                                                                                  |
 #|  + Pendientes en este módulo:                                                                                                    |
 #|                                                                                                                                  |
-#|      - Todo XD.                                                                                                                  |
+#|      - Implementar en interfaz de usuario.                                                                                       |
+#|      - Eliminar verificación al final del archivo.                                                                               |
+#|      - Añadir Hoteles y Destinos restantes.                                                                                      |
+#|      - Añadir comentarios.                                                                                                       |
 #|                                                                                                                                  |
 #|==================================================================================================================================|
 
 
 import random
 from Hotel import Hotel
+
 
 
 class Destino:
@@ -149,16 +153,18 @@ class Destino:
 
     #========== TERMINAN SETTERS Y GETTERS ==========
 
+    @staticmethod
     def buscar_destino(palabra_clave):
         retorno =[]
 
         for destino in Destino.get_destinos():
-            if palabra_clave.lower() in [destino.nombre(), destino.nombre_alterno().lower(), destino.region().lower(), destino.pais().lower()]:
+            if palabra_clave.lower() in [destino.nombre.lower(), destino.nombre_alterno.lower(), destino.region.lower(), destino.pais.lower()]:
                 retorno.append(destino)
 
         return retorno
     
     def reserva_hecha(self, hotel_reservado, lujo_reserva, delta_demanda):
+        from Reserva import Reserva
         hotel_prestigio = hotel_reservado.prestigio
 
         if delta_demanda>0.35 and hotel_prestigio>8.65:
@@ -172,17 +178,54 @@ class Destino:
     def generador_de_datos(cls):
         return [
             Destino("París", "Paris", "Francia", "Île-de-France", random.randint(0, 5), random.randint(0, 2), 4,[
-                Hotel("Le Meurice", 21, 0, 15, random.randint(7, 10), random.randint(80, 180))]),
-            Destino("París", "Paris", "Francia", "Île-de-France", random.randint(0, 5), random.randint(0, 2), 4,[])
+                Hotel("Le Meurice", 21, 0, 15, random.randint(7, 10), random.randint(80, 180)),
+                Hotel("Hotel Plaza Athénée", 18, 8, 3, random.randint(7, 10), random.randint(80, 180)),
+                Hotel("The Peninsula Paris", 20, 9, 19, random.randint(7, 10), random.randint(80, 180))]),
+            #Destino("París", "Paris", "Francia", "Île-de-France", random.randint(0, 5), random.randint(0, 2), 4,[])
         ]
 
 
 if __name__ == "__main__": #TODO:remover esto
-    data =Destino.get_destinos()
-    print(data[0].hoteles_destino[0].calcular_precio_esperado_noche(data[0].fama, data[0].temporada, 2, 1))
-    print(data[0].hoteles_destino[0].calcular_precio_total(1, 3))
-    print(data[0].hoteles_destino[0].demanda)
-    print(data[0].hoteles_destino[0].listar_precios())
-    print(data[0].hoteles_destino[0].cuartos_intermedios)
-    print(data[0].hoteles_destino[0].cuarto_reservado(4, 1, data[0]))
-    print(data[0].hoteles_destino[0].demanda)
+    
+    from Reserva import Reserva
+    query=Destino.buscar_destino("Francia")
+    print(Reserva.cantidad_numerica_resultados(query))
+    print(query[0].nombre+", "+query[0].region+", "+query[0].pais)
+    Reserva.set_id_destino(0)
+    reserva = Reserva(Destino.get_destinos()[Reserva.get_id_destino()])
+    print("Pais reserva: "+reserva.destino_viaje.pais)
+    
+    print("Fecha ilegal: ", end="")
+    reserva.set_ambas_fechas(False, "2025-02-13", "2025-02-15")
+    print("Fecha legal: ", end="")
+    reserva.set_ambas_fechas(False, "2025-02-15", "2025-02-17")
+    
+    print("Fechas:")
+    print(reserva.fecha_llegar)
+    print(reserva.fecha_salir)
+    print("Acaban fechas")
+
+    print("Viajeros ilegales: ",end="")
+    reserva.set_adultos_et_menores(False, 2, 5)
+    print("Viajeros inválidos: ",end="")
+    reserva.set_adultos_et_menores(False, 0, 0)
+    print("Viajeros legales: ",end="")
+    reserva.set_adultos_et_menores(False, 2, 1)
+    
+    print("Estadia: ",end="")
+    print(reserva.estadia)
+    print("Adultos: ", reserva.viajeros_adultos," Menores: ",reserva.viajeros_menores)
+    
+    print()
+    print("Hoteles:")
+    for hotel in reserva.destino_viaje.hoteles_destino:
+        print(hotel.nombre)
+        
+    print("Precio noche: "+str(reserva.destino_viaje.hoteles_destino[0].calcular_precio_esperado_noche(reserva.destino_viaje.fama, reserva.destino_viaje.temporada, reserva.viajeros_adultos,reserva.viajeros_menores)))
+    print(reserva.destino_viaje.hoteles_destino[0].listar_precios())
+    
+    reserva.lujo_hotel_viaje=2
+    reserva.hotel_viaje=reserva.destino_viaje.hoteles_destino[0]
+    print("Precio: "+str(reserva.calculo_estadia_total()))
+    
+    reserva.confirmar_hotel()
