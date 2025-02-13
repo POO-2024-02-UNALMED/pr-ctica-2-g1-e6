@@ -2,7 +2,7 @@ import sys
 
 sys.path.append("src/gestorAplicacion/talleres")
 
-import gestorAplicacion 
+import gestorAplicacion.talleres
 
 class uiTalleres:
     actividades = []
