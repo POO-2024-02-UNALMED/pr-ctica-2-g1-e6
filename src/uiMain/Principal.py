@@ -16,7 +16,7 @@
 #|                                                                                                                                  |
 #|      - Alejandro Pérez Barrera (2025-02-08) (Creador)                                                                            |
 #|                                                                                                                                  |
-#|  +Última revisión: 2025-02-14-10-38, AlPerBara                                                                                   |
+#|  +Última revisión: 2025-02-14-15-35, AlPerBara                                                                                   |
 #|                                                                                                                                  |
 #|  + Novedades:                                                                                                                    |
 #|                                                                                                                                  |
@@ -99,9 +99,24 @@ class Principal: #Principal es la ventana de inicio, desde la cual se accede a l
         self.barra_menu.add_cascade(label="Ayuda", menu=self.menu_ayuda)#Colocar el menú de ayudas en la barra de menús
 
 
-        #========== FRAME PARA COLOCAR LAS FUNCIONALIDADES ==========
+        #========== FRAMES PARA COLOCAR LAS FUNCIONALIDADES ==========
+        #Frame principal contiene la pestaña principal
         self.frame_principal = tk.Frame(self.root, bg="cyan") #TODO: Quitar o cambiar el color de fondo
-        self.frame_principal.pack(expand=True,fill="both")
+        self.frame_principal.pack(expand=True,fill="both", padx=10, pady=10)
+        
+        #En el frame superior se aloja el nombre de la funcionalidad actual
+        self.frame_superior = tk.Frame(self.frame_principal, bg="blue") #TODO: Quitar o cambiar el color de fondo
+        self.frame_superior.place(relx=0, rely=0, relwidth=1, relheight=0.15)
+        self.label_superior = tk.Label(self.frame_superior, text="Sistema de reservaciones y pagos", font=("Arial", 20, "bold"))
+        self.label_superior.place(relx=0.5, rely=0.5, anchor="center")
+        
+        #En el frame intermedio se aloja una descripción del contexto actual
+        self.frame_intermedio = tk.Frame(self.frame_principal, bg="green") #TODO: Quitar o cambiar el color de fondo
+        self.frame_intermedio.place(relx=0, rely=0.15, relwidth=1, relheight=0.1,)
+        
+        #EL FRAME INFERIOR ES EL CONTENEDOR DE LAS FUNCIONALIDADES
+        self.frame_inferior = tk.Frame(self.frame_principal, bg="yellow") #TODO: Quitar o cambiar el color de fondo
+        self.frame_inferior.place(relx=0, rely=0.25, relwidth=1, relheight=0.75)
     
     #pop_up_aplicacion muestra una ventana con la informacion de la aplicacion
     def pop_up_aplicacion(self):
@@ -115,10 +130,20 @@ class Principal: #Principal es la ventana de inicio, desde la cual se accede a l
     def pop_up_ayuda(self):
         messagebox.showinfo("Acerca de", "Desarrolladores... n                       j   \n         8                    7") #TODO: Añadir información sobre los desarrolladores
         
+    def despejar_frame_principal(self):
+        for widget in self.frame_principal.winfo_children():
+            widget.destroy()
         
     #========== FUNCINALIDADES ==========
     
+    #========== RESERVAR HOTEL ==========
+    
     def reservar_hotel(self):
+        #Primero es despejar el frame principal
+        self.despejar_frame_principal()
+        self.solicitar_destino()
         
-        campo1 = Fieldframe.Fieldframe(self.frame_principal, "Criterios de búsqueda", ["Destino", "Fecha de llegada", "Fecha de salida"], "Valores", [None, "Queso","23"], [True, False, True])
-        campo1.pack()
+    def solicitar_destino(self):
+        self.despejar_frame_principal()
+        
+        tk.Label(self.frame_principal, text="Ingrese el destino de su viaje", font=("Arial", 12, "bold")).pack(pady=10)
