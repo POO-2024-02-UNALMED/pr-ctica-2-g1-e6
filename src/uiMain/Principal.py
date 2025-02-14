@@ -16,7 +16,7 @@
 #|                                                                                                                                  |
 #|      - Alejandro Pérez Barrera (2025-02-08) (Creador)                                                                            |
 #|                                                                                                                                  |
-#|  +Última revisión: 2025-02-08-16-47, AlPerBara                                                                                   |
+#|  +Última revisión: 2025-02-14-10-38, AlPerBara                                                                                   |
 #|                                                                                                                                  |
 #|  + Novedades:                                                                                                                    |
 #|                                                                                                                                  |
@@ -39,6 +39,7 @@ import tkinter as tk #tkinter para crear la interfaz de usuario
 from tkinter import messagebox  #Esto es para mostrar los cuadritos de información
 
 import Home #Esto es para regresar a la ventana de inicio
+import Fieldframe #Esto es para poder crear los campos de texto
 
 #Este método es solo para poder empezar la ejecución de esta clase desde aquí sin recibir el error TypeError: 'module' object is not callable
 def aterrizar():
@@ -74,7 +75,7 @@ class Principal: #Principal es la ventana de inicio, desde la cual se accede a l
         self.menu_procesos = tk.Menu(self.barra_menu, tearoff=0)#Ahora creo el botoncito de inicio como tal
         #El tearoff hace que el menu no se pueda desprender de la pestaña principal,
         #se nota que el menu se puede desprender porque encima del menu salen unas rayitas punteadas, pero con tearoff=0 no salen 😀.
-        self.menu_procesos.add_command(label="Reservar habitación de hotel")#Opción reservar hotel TODO:Asignar comando correspondiente
+        self.menu_procesos.add_command(label="Reservar habitación de hotel", command=self.reservar_hotel)#Opción reservar hotel TODO:Asignar comando correspondiente
         self.menu_procesos.add_separator()#Y aquí un separador
 
         self.menu_procesos.add_command(label="Reservar Ruta de actividades y talleres")#Opcion para reservar talleres TODO: Asignar comando correspondiente
@@ -114,3 +115,10 @@ class Principal: #Principal es la ventana de inicio, desde la cual se accede a l
     def pop_up_ayuda(self):
         messagebox.showinfo("Acerca de", "Desarrolladores... n                       j   \n         8                    7") #TODO: Añadir información sobre los desarrolladores
         
+        
+    #========== FUNCINALIDADES ==========
+    
+    def reservar_hotel(self):
+        
+        campo1 = Fieldframe.Fieldframe(self.frame_principal, "Criterios de búsqueda", ["Destino", "Fecha de llegada", "Fecha de salida"], "Valores", [None, "Queso","23"], [True, False, True])
+        campo1.pack()

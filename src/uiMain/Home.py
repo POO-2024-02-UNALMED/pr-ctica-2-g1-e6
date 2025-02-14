@@ -16,7 +16,7 @@
 #|                                                                                                                                  |
 #|      - Alejandro Pérez Barrera (2025-02-08) (Creador)                                                                            |
 #|                                                                                                                                  |
-#|  + Última revisión: 2025-02-09-15-46, AlPerBara                                                                                  |
+#|  + Última revisión: 2025-02-14-10-37, AlPerBara                                                                                  |
 #|                                                                                                                                  |
 #|  + Novedades:                                                                                                                    |
 #|                                                                                                                                  |
@@ -178,5 +178,5 @@ class Home:#Home es la ventana de inicio, donde uno puede ver las fotos de los d
                     foto = foto.subsample(2,2)
                     lbl = tk.Label(self.frame_infra_dexter, image=foto)
                     lbl.image = foto
-                    lbl.grid(row=i, column=j, padx=1, pady=1, sticky="nsew")
+                    lbl.grid(row=i, column=j, sticky="nsew")
                     

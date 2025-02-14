@@ -10,4 +10,4 @@ class GuardarObjetos:
         pickle.dump(destinos, directorio)
         
         directorio.close()
-        print("saeve")
+        print("Consola: Destinos guardados.")

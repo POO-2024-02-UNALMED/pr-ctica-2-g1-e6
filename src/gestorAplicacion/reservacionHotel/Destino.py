@@ -16,7 +16,7 @@
 #|                                                                                                                                  |
 #|      - Alejandro Pérez Barrera (2025-02-09) (Creador)                                                                            |
 #|                                                                                                                                  |
-#|  +Última revisión: 2025-02-13-09-11, AlPerBara                                                                                   |
+#|  +Última revisión: 2025-02-14-10-38, AlPerBara                                                                                   |
 #|                                                                                                                                  |
 #|  + Novedades:                                                                                                                    |
 #|                                                                                                                                  |
@@ -39,6 +39,7 @@ from Hotel import Hotel
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../")))
 
 from src.baseDatos.GuardarObjetos import GuardarObjetos
+from src.baseDatos.CargarObjetos import CargarObjetos
 
 
 class Destino:
@@ -64,9 +65,16 @@ class Destino:
             return cls._listadoDestinos
         
         else:
-            cls.set_listado_destinos(cls.generador_de_datos()) #TODO: agregar metodo cargar_objetos
-            cls._datos_ya_cargados=True
-            return cls._listadoDestinos
+            destinos = CargarObjetos.cargar_destinos()
+            
+            if destinos == []:
+                cls.set_listado_destinos(cls.generador_de_datos())
+                cls._datos_ya_cargados=True
+                return cls._listadoDestinos
+            else:
+                cls.set_listado_destinos(destinos)
+                cls._datos_ya_cargados=True
+                return cls._listadoDestinos
     
     @classmethod
     def set_listado_destinos(cls, destinos):
@@ -235,4 +243,5 @@ if __name__ == "__main__": #TODO:remover esto
     
     reserva.confirmar_hotel()
     
-    GuardarObjetos.guardar_destinos(Destino.get_destinos())
+    #GuardarObjetos.guardar_destinos(Destino.get_destinos())
+    #CargarObjetos.cargar_destinos()
