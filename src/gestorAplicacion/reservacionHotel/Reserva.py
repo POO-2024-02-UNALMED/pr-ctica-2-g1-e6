@@ -32,7 +32,7 @@
 #|==================================================================================================================================|
 
 
-from datetime import date, datetime
+from datetime import datetime
 from Destino import Destino
 from Hotel import Hotel
 

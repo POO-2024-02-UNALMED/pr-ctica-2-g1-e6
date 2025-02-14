@@ -33,8 +33,12 @@
 
 
 import random
+import sys, os.path
 from Hotel import Hotel
 
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../")))
+
+from src.baseDatos.GuardarObjetos import GuardarObjetos
 
 
 class Destino:
@@ -188,6 +192,7 @@ class Destino:
 if __name__ == "__main__": #TODO:remover esto
     
     from Reserva import Reserva
+    
     query=Destino.buscar_destino("Francia")
     print(Reserva.cantidad_numerica_resultados(query))
     print(query[0].nombre+", "+query[0].region+", "+query[0].pais)
@@ -229,3 +234,5 @@ if __name__ == "__main__": #TODO:remover esto
     print("Precio: "+str(reserva.calculo_estadia_total()))
     
     reserva.confirmar_hotel()
+    
+    GuardarObjetos.guardar_destinos(Destino.get_destinos())
