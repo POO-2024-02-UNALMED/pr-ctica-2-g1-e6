@@ -21,11 +21,11 @@
 #|                                                                                                                                  |
 #|      - Alejandro Pérez Barrera (2025-02-15) (Creador)                                                                            |
 #|                                                                                                                                  |
-#|  +Última revisión: 2025-02-15-15-27, AlPerBara                                                                                   |
+#|  +Última revisión: 2025-02-15-16-25, AlPerBara                                                                                   |
 #|                                                                                                                                  |
 #|  + Novedades:                                                                                                                    |
 #|                                                                                                                                  |
-#|      - Añadido soporte para mensajes de error personalizados.                                                                    |
+#|      - Ahora get_value retorna None si se ejecuta referente a un campo vacío.                                                    |
 #|      - Actualmente este módulo solo está optimizado para la funcionalidad de reservar hoteles.                                   |
 #|                                                                                                                                  |
 #|  + Pendientes en este módulo:                                                                                                    |
@@ -56,19 +56,22 @@ class Fieldframe(tk.Frame):
     
     #callback: Una función que se llamará cuando se presione el botón de aceptar. No pasar este valor implica que no se llamará ninguna función.
     
+    #mostrar_error: Un booleano que indica si se mostrará un mensaje de error si no se llenan todos los campos. No pasar este valor implica que SI se mostrará un mensaje de error.
+    
     #mensaje_error_cabeza: El título de un mensaje de error personalizado que se mostrará si no se llenan todos los campos. No pasar este valor implica que se mostrará un mensaje genérico.
     
     #mensaje_error_cuerpo: Un mensaje de error personalizado que se mostrará si no se llenan todos los campos. Este valor va de la mano con mensaje_error_cabeza, si no se pasan los dos, no se mostrará ningún mensaje.
     
     #args y kwargs: Argumentos adicionales que se le pueden pasar al constructor de la clase padre (Frame)
     
-    def __init__(self, master,titulo_criterios, criterios, titulo_valores, valores=None, habilitado=None, callback=None, mensaje_error_cabeza=None, mensaje_error_cuerpo=None,*args, **kwargs):
+    def __init__(self, master, titulo_criterios, criterios, titulo_valores, valores=None, habilitado=None, callback=None,mostrar_error=True, mensaje_error_cabeza=None, mensaje_error_cuerpo=None,*args, **kwargs):
         super().__init__(master, *args, **kwargs)
         
         self.criterios = criterios
         #Inputs lleva seguimiento de todos los inputs que se crean, para poder procurar sus datos
         self.inputs= []
         self.callback = callback
+        self.mostrar_error = mostrar_error
         self.mensaje_error_cabeza = mensaje_error_cabeza
         self.mensaje_error_cuerpo = mensaje_error_cuerpo
         
@@ -108,29 +111,85 @@ class Fieldframe(tk.Frame):
         self.boton_cancelar = tk.Button(self, text="Cancelar", command=self.despejar)
         self.boton_cancelar.grid(row=len(self.criterios)+1, column=1, padx=5, pady=10)
         
-    #get_value retorna el valor de un criterio específico
-    #Recibe como argumento el índice del criterio que se quiere obtener
+    
+    
+    #|==============================================================================================================|
+    #|                                                                                                              |
+    #|  get_value(criterio):                                                                                        |
+    #|      Descripción:                                                                                            |
+    #|              - Retorna el valor de un criterio en particular,                                                |
+    #|                      de la lista de criterios que se le pasan al constructor en el atributo "criterios".     |
+    #|              - ESTA FUNCIÓN NO VERIFICA SI EL DATO ES VÁLIDO, SOLO RETORNA EL VALOR DEL CAMPO.               |
+    #|                                                                                                              |
+    #|      Parámetros:                                                                                             |
+    #|              - criterio: El índice del criterio que se quiere obtener.                                       |
+    #|                                                                                                              |
+    #|      Retorno:                                                                                                |
+    #|              - Retorna el valor del campo en la posición especificada.                                       |
+    #|              - Si el campo está vacío, se retorna None.                                                      |
+    #|                                                                                                              |
+    #|==============================================================================================================|
     def get_value(self, criterio):
         
-        return self.inputs[criterio].get()
+        if self.inputs[criterio].get() == "":
+            return None
+        
+        else:
+            return self.inputs[criterio].get()
+        
     
     
-    #procurar_todos retorna una lista con todos los valores de los criterios,
-    #la lista está en orden de los criterios que se pasaron al constructor
-    #Si no se han llenado todos los campos, se muestra un mensaje de error y se retorna un array vacío.
+    #|==================================================================================================================|
+    #|   procurar_datos:                                                                                                |
+    #|      Descripción:                                                                                                |
+    #|             - Retorna una lista con todos los valores de los criterios,                                          |
+    #|                      la lista está en orden de los criterios que se pasaron al constructor.                      |
+    #|             - ESTA FUNCIÓN NO VERIFICA SI TODOS LOS DATOS SON VÁLIDOS, SOLO RETORNA LOS VALORES DE LOS CAMPOS.   |
+    #|                                                                                                                  |
+    #|      Parámetros:                                                                                                 |
+    #|             - No recibe parámetros.                                                                              |
+    #|                                                                                                                  |
+    #|      Retorno:                                                                                                    |        
+    #|             - Retorna una lista con los valores de los campos en el orden especificado en el constructor.        |
+    #|             - Si no se han llenado todos los campos, se añade un None en el espacio vacío.                       |
+    #|==================================================================================================================|
     def procurar_todos(self):
         
-        if self.verificar_campos(): #Primero se verifica que todos los campos estén llenos
-                
-            return [each.get() for each in self.inputs] #si lo están, se retorna una lista con los valores de los campos
-        
-        else: #si no, se retorna un array vacío
+        retorno = []#en este array se guardarán los valores de los campos
             
-            return []
+        #Se recorre la lista de inputs   
+        for each in self.inputs:
+            
+            #Si el campo está vacío, se añade un None a la lista
+            if each.get() == "":
+                retorno.append(None)
+            
+            else:
+                retorno.append(each.get())
+                
+        return retorno #se retorna la lista con los valores de los campos
+        
         
     
-    #verificar_campos se encarga de verificar que todos los campos estén llenos
-    #Si falta así sea uno, se muestra un mensaje de error y se retorna False
+    #|==========================================================================================================================|
+    #|                                                                                                                          |
+    #|      verificar_campos:                                                                                                   |
+    #|          Descripción:                                                                                                    |
+    #|              - Verifica que todos los campos estén llenos.                                                               |
+    #|              - Puede mostrar un mensaje de error al faltar así sea uno de los campos.                                    |
+    #|              - Puede ejecutar una función si esta se especifica en el constructor si todos los campos están llenos.      |
+    #|              - Si se desactiva el mensaje de error, se ejecuta la función que se haya especificado.                      |
+    #|                                                                                                                          |
+    #|      Parámetros:                                                                                                         |
+    #|             - No recibe parámetros.                                                                                      |
+    #|                                                                                                                          |
+    #|       Retorno:                                                                                                           |
+    #|              - Retorna True si todos los campos están llenos (Si no se especifica una función de retorno).               |
+    #|              - Retorna False si falta al menos un campo (Si no se especifica una función de retorno).                    |
+    #|              - No retorna nada si se especifica una función de retorno y todos los campos están llenos.                  |
+    #|              - Muestra un mensaje de error si faltan campos por diligenciar (A no ser que se desactive el mensaje).      |
+    #|                                                                                                                          |
+    #|==========================================================================================================================|
     def verificar_campos(self):
         
         #Primero se asume que todos los campos están llenos
@@ -146,21 +205,35 @@ class Fieldframe(tk.Frame):
         #Si check es False, se muestra un mensaje de error y se retorna False, porque no todos los campos están llenos
         if not check:
             
-            #Si se pasó un mensaje de error personalizado, se muestra
-            if self.mensaje_error_cabeza != None and self.mensaje_error_cuerpo != None:
-                
-                messagebox.showerror(self.mensaje_error_cabeza, self.mensaje_error_cuerpo)
-                return False
+            #Verificar si se debe mostrar un mensaje de error
+            if self.mostrar_error:
             
-            #Si no se pasó un mensaje de error personalizado, se muestra un mensaje genérico
+                #Si se pasó un mensaje de error personalizado, se muestra
+                if self.mensaje_error_cabeza != None and self.mensaje_error_cuerpo != None:
+
+                    messagebox.showerror(self.mensaje_error_cabeza, self.mensaje_error_cuerpo)
+                    return False
+
+                #Si no se pasó un mensaje de error personalizado, se muestra un mensaje genérico
+                else:
+                    messagebox.showerror("Error", "Por favor diligencie todos los campos solicitados")
+                    return False
+            
+            #Si no se debe mostrar un mensaje de error, se ejecuta el callback    
             else:
-                messagebox.showerror("Error", "Por favor diligencie todos los campos solicitados")
-                return False
+                
+                #Si se pasó una función de callback, se llama
+                if self.callback:
+                
+                    self.callback()
+            
+                #Si no se pasó una función de callback, se retorna True
+                return True
         
         #Si check es True, se retorna True, porque todos los campos están llenos
         else:   
             
-            print("Diagnóstico: Todos los campos están llenos") #TODO: Remover print
+            print("Diagnóstico: Todos los campos  del Fieldframe están llenos") #TODO: Remover print
             
             #Si se pasó una función de callback, se llama
             if self.callback:
@@ -170,7 +243,21 @@ class Fieldframe(tk.Frame):
             #Si no se pasó una función de callback, se retorna True
             return True
     
-    #despejar se encarga de borrar todos los campos, al presionar el botón de cancelar.
+
+
+    #|======================================================|
+    #|                                                      |
+    #|      despejar:                                       |
+    #|          Descripción:                                |
+    #|              - Borra todos los campos de texto.      |
+    #|                                                      |
+    #|      Parámetros:                                     |
+    #|              - No recibe parámetros.                 |
+    #|                                                      |
+    #|      Retorno:                                        |
+    #|              - No retorna nada.                      |
+    #|                                                      |
+    #|======================================================|
     def despejar(self):
         for input in self.inputs:
             input.delete(0, tk.END)

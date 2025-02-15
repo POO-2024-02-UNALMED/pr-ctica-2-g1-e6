@@ -28,10 +28,12 @@ class uiReservaHotel:
         self.master.frame_inferior.columnconfigure(2, weight=1)
         
         #En la fila 0, columna 1 se coloca el fieldframe
-        self.field_frame = Fieldframe.Fieldframe(self.master.frame_inferior, "Destino", ["Introduzca un destino: "], "Nombre del destino", None, None, self.buscar_destino, "Error: Destino inválido","Por favor introduzca el nombre del destino que desea buscar")
+        self.field_frame = Fieldframe.Fieldframe(self.master.frame_inferior, "Destino", ["Introduzca un destino: "], "Nombre del destino", None, None, self.buscar_destino,False)
         self.field_frame.grid(row=0, column=1, padx=5, pady=5)
         
     def buscar_destino(self):
         print("Buscar")
+        nombre_destino = self.field_frame.procurar_todos()[0]
+        print(nombre_destino)
         
         
