@@ -16,7 +16,7 @@
 #|                                                                                                                                  |
 #|      - Alejandro Pérez Barrera (2025-02-08) (Creador)                                                                            |
 #|                                                                                                                                  |
-#|  +Última revisión: 2025-02-14-15-35, AlPerBara                                                                                   |
+#|  +Última revisión: 2025-02-15-15-27, AlPerBara                                                                                   |
 #|                                                                                                                                  |
 #|  + Novedades:                                                                                                                    |
 #|                                                                                                                                  |
@@ -39,7 +39,7 @@ import tkinter as tk #tkinter para crear la interfaz de usuario
 from tkinter import messagebox  #Esto es para mostrar los cuadritos de información
 
 import Home #Esto es para regresar a la ventana de inicio
-import Fieldframe #Esto es para poder crear los campos de texto
+import uiReservaHotel #Esto es para poder crear los campos de texto
 
 #Este método es solo para poder empezar la ejecución de esta clase desde aquí sin recibir el error TypeError: 'module' object is not callable
 def aterrizar():
@@ -112,11 +112,11 @@ class Principal: #Principal es la ventana de inicio, desde la cual se accede a l
         
         #En el frame intermedio se aloja una descripción del contexto actual
         self.frame_intermedio = tk.Frame(self.frame_principal, bg="green") #TODO: Quitar o cambiar el color de fondo
-        self.frame_intermedio.place(relx=0, rely=0.15, relwidth=1, relheight=0.1,)
+        self.frame_intermedio.place(relx=0, rely=0.15, relwidth=1, relheight=0.15,)
         
         #EL FRAME INFERIOR ES EL CONTENEDOR DE LAS FUNCIONALIDADES
         self.frame_inferior = tk.Frame(self.frame_principal, bg="yellow") #TODO: Quitar o cambiar el color de fondo
-        self.frame_inferior.place(relx=0, rely=0.25, relwidth=1, relheight=0.75)
+        self.frame_inferior.place(relx=0, rely=0.30, relwidth=1, relheight=0.7)
     
     #pop_up_aplicacion muestra una ventana con la informacion de la aplicacion
     def pop_up_aplicacion(self):
@@ -130,20 +130,28 @@ class Principal: #Principal es la ventana de inicio, desde la cual se accede a l
     def pop_up_ayuda(self):
         messagebox.showinfo("Acerca de", "Desarrolladores... n                       j   \n         8                    7") #TODO: Añadir información sobre los desarrolladores
         
-    def despejar_frame_principal(self):
-        for widget in self.frame_principal.winfo_children():
+    def despejar_frame_inferior(self):
+        for widget in self.frame_inferior.winfo_children():
             widget.destroy()
+            
+    def despejar_frame_intermedio(self):
+        for widget in self.frame_intermedio.winfo_children():
+            widget.destroy()
+            
+    def despejar_frame_superior(self):
+        for widget in self.frame_superior.winfo_children():
+            widget.destroy()
+            
+    def despejar_todos_los_frames(self):
+        self.despejar_frame_inferior()
+        self.despejar_frame_intermedio()
+        self.despejar_frame_superior()
         
     #========== FUNCINALIDADES ==========
     
     #========== RESERVAR HOTEL ==========
     
     def reservar_hotel(self):
-        #Primero es despejar el frame principal
-        self.despejar_frame_principal()
-        self.solicitar_destino()
+        reservar = uiReservaHotel.uiReservaHotel(self)
+        reservar.reservar_hotel()
         
-    def solicitar_destino(self):
-        self.despejar_frame_principal()
-        
-        tk.Label(self.frame_principal, text="Ingrese el destino de su viaje", font=("Arial", 12, "bold")).pack(pady=10)
