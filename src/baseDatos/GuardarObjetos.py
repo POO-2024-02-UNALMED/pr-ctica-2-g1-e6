@@ -11,3 +11,12 @@ class GuardarObjetos:
         
         directorio.close()
         print("Consola: Destinos guardados.")
+
+    @staticmethod
+    def guardar_registro(registro):
+        
+        directorio = open("src/baseDatos/temp/registro.pkl", "wb")
+        
+        pickle.dump(registro, directorio)
+        
+        directorio.close()

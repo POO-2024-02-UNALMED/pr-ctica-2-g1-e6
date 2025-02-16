@@ -13,3 +13,14 @@ class CargarObjetos:
         except FileNotFoundError:
             print("Consola: Procurando Destinos.")
             return []
+    
+    @staticmethod
+    def cargar_talleres():
+        try:
+            directorio = open("src/baseDatos/temp/registro.pkl", "rb")
+            registro = pickle.load(directorio)
+            directorio.close()
+            return registro
+        except FileNotFoundError:
+            print("No pude cargar el objeto :(")
+            return 1
