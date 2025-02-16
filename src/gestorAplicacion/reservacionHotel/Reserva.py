@@ -33,8 +33,8 @@
 
 
 from datetime import datetime
-from Destino import Destino
-from Hotel import Hotel
+from .Destino import Destino
+from .Hotel import Hotel
 
 
 class Reserva:

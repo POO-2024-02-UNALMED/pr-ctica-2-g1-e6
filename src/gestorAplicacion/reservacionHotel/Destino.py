@@ -34,7 +34,7 @@
 
 import random
 import sys, os.path
-from Hotel import Hotel
+from .Hotel import Hotel
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../")))
 

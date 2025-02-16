@@ -11,7 +11,7 @@ class CargarObjetos:
             print("cargado")
             return destinos
         except FileNotFoundError:
-            print("Consola: Procurando Destinos.")
+            print("src/baseDatos/CargarObjetos.py : Diagnóstico: Procurando Destinos.")
             return []
     
     @staticmethod
