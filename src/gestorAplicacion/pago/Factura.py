@@ -44,9 +44,7 @@ Total: ${self.monto:.2f}
         return f"Factura[id={self.id}, monto={self.monto:.2f}, método={self.metodo.get_descripcion()}]"
 
 
-
 if __name__ == "__main__":
-    
     factura = Factura(
         monto=150.50,
         metodo=MetodoPago.TARJETA,
@@ -54,8 +52,6 @@ if __name__ == "__main__":
         fecha_emision=datetime.now()
     )
     
-  
     print(factura.generar())
-    
     
     print(factura)
