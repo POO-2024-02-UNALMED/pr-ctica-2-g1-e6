@@ -17,7 +17,7 @@
 #|                                                                                                                                  |
 #|      - Alejandro Pérez Barrera (2025-02-09) (Creador)                                                                            |
 #|                                                                                                                                  |
-#|  +Última revisión: 2025-02-13-09-12, AlPerBara                                                                                   |
+#|  +Última revisión: 2025-02-16-20-06, AlPerBara                                                                                   |
 #|                                                                                                                                  |
 #|  + Novedades:                                                                                                                    |
 #|                                                                                                                                  |
@@ -26,7 +26,6 @@
 #|  + Pendientes en este módulo:                                                                                                    |
 #|                                                                                                                                  |
 #|      - Verificar errores.                                                                                                        |
-#|      - Integrar con interfaz de usuario.                                                                                         |
 #|      - Añadir comentarios.                                                                                                       |
 #|                                                                                                                                  |
 #|==================================================================================================================================|
@@ -191,7 +190,7 @@ class Reserva:
         fecha_salida = datetime.strptime(fecha_salida, "%Y-%m-%d")
         
         if (fecha_llegada <= fecha_hoy or fecha_salida <= fecha_hoy or fecha_salida <= fecha_llegada):
-            print("Fecha inválida") #TODO: Implementar error de fechas inválidas
+            return False #TODO: Implementar error de fechas inválidas
             
         else:
             self._fecha_llegar = fecha_llegada
@@ -200,23 +199,23 @@ class Reserva:
             self._estadia = (fecha_salida - fecha_llegada).days
             
             if not modificar:
-                print("Seguir reservando") #TODO: Implementar continuidad en la reserva
+                return True
                 
         
     def set_adultos_et_menores(self, modificar, mayores, menores):
         
-        if (mayores>0 and menores>0 and ((mayores*2)>menores)):
+        if (mayores>0 and menores>=0 and ((mayores*2)>=menores)):
             self._viajeros_adultos = mayores
             self._viajeros_menores = menores
             
             if not modificar:
-                print("Sigue reserva viajeros sin modificar") #TODO: Remover esto, implementar interacciones
+                return 1
                 
-        elif mayores>0 and menores>0:
-            print("Viajeros válidos, cantidad ilegal") #TODO: Implementar en interfaz
+        elif mayores>0 and menores>=0:
+            return 2
             
         else:
-            print("Viajeros inválidos") #TODO: Implementar en funcionalidad
+            return 3
             
     
     def calculo_estadia_total(self):
@@ -225,5 +224,10 @@ class Reserva:
     
 
     def confirmar_hotel(self):
-        self._hotel_viaje.cuarto_reservado(self._estadia, self._lujo_hotel_viaje, self._destino_viaje)
-        self._reserva_actual = self
+        if self._hotel_viaje.cuarto_reservado(self._estadia, self._lujo_hotel_viaje, self._destino_viaje):
+            
+            self._reserva_actual = self
+            return True
+        
+        else:
+            return False
