@@ -20,6 +20,7 @@ class CargarObjetos:
             directorio = open("src/baseDatos/temp/registro.pkl", "rb")
             registro = pickle.load(directorio)
             directorio.close()
+            print("Nice")
             return registro
         except FileNotFoundError:
             print("No pude cargar el objeto :(")

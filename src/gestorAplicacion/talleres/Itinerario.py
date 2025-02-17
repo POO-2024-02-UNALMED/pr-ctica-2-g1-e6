@@ -15,7 +15,7 @@ class Itinerario:
         self.grupo = grupo
 
     @multimethod
-    def __init__(self, documentos, precios, grupo1, grupo2, fechas, lug1, lug2, lug3, lug4):
+    def __init__(self, documentos=0, precios=0, grupo1=0, grupo2=0, fechas=0, lug1=0, lug2=0, lug3=0, lug4=0):
         self.documentos = documentos
         self.precios = precios
         self.grupo1 = grupo1

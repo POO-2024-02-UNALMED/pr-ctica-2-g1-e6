@@ -1,9 +1,23 @@
 from tkinter import Frame, Button, Label, Tk, Entry, messagebox
 
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
 import baseDatos.CargarObjetos
+import baseDatos.GuardarObjetos
+import gestorAplicacion.talleres.Lugar
+import gestorAplicacion.talleres.Gestion
+
+from gestorAplicacion.talleres.Itinerario import Itinerario
+from baseDatos.CargarObjetos import CargarObjetos
+from baseDatos.GuardarObjetos import GuardarObjetos
+
+registro = Itinerario()
 
 class talleres(Frame):  
-    baseDatos.CargarObjetos.cargar_talleres()
+    GuardarObjetos.guardar_registro(registro)
+
     def __init__(self, master=None): 
         super().__init__(master)  
         self.master = master

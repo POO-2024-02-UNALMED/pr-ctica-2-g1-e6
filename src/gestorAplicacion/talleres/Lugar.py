@@ -1,3 +1,4 @@
+from gestorAplicacion.talleres.Ubicacion import Ubicacion
 class Lugar(Ubicacion):
     sitios=[]
     def _init_(self, nro, distancia, sitios):
