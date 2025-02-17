@@ -17,7 +17,7 @@
 #|                                                                                                                                  |
 #|      - Alejandro Pérez Barrera (2025-02-09) (Creador)                                                                            |
 #|                                                                                                                                  |
-#|  +Última revisión: 2025-02-13-09-11, AlPerBara                                                                                   |
+#|  +Última revisión: 2025-02-16-20-04, AlPerBara                                                                                   |
 #|                                                                                                                                  |
 #|  + Novedades:                                                                                                                    |
 #|                                                                                                                                  |
@@ -25,8 +25,6 @@
 #|                                                                                                                                  |
 #|  + Pendientes en este módulo:                                                                                                    |
 #|                                                                                                                                  |
-#|      - Implementar en interfaz de usuario.                                                                                       |
-#|      - Implementar caso de error al intentar reservar un cuarto de hotel no disponible.                                          |
 #|      - Añadir comentarios.                                                                                                       |
 #|                                                                                                                                  |
 #|==================================================================================================================================|
@@ -268,10 +266,14 @@ class Hotel:
         
             self._demanda = self.calcular_demanda(self._cuartos_simples, self._cuartos_intermedios, self._cuartos_lujosos, self._prestigio, noches)
         
-            destino.reserva_hecha(self, lujo, self.delta_demanda(demanda_previa))
+            if destino.reserva_hecha(self, lujo, self.delta_demanda(demanda_previa)):
+                return True
+                
+            else:
+                return False
             
         else:
-            print("Reservando cuarto no disponible") #TODO: Indicar un error si se intenta reservar un cuarto no disponible
+            return False
         
         
     #delta demanda resta de la demanda actual la demanda antigua, obtiene la diferencia (delta).
