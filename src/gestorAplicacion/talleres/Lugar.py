@@ -12,3 +12,20 @@ class Lugar(Ubicacion):
         else:
             return 1
     
+    def get_nro(self):
+        return self.nro
+
+    def set_nro(self, nro):
+        self.nro = nro
+
+    def get_distancia(self):
+        return self.distancia
+
+    def set_distancia(self, distancia):
+        self.distancia = distancia
+
+    def get_sitios(self):
+        return self.sitios
+
+    def set_sitios(self, sitios):
+        self.sitios = sitios

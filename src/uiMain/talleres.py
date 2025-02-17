@@ -27,12 +27,9 @@ class talleres(Frame):
     def verify(self):
         a = float(self.entra.get())
         if a > 9999 and a < 999999999:
-
             self.entra.delete(0, "end")
         else:
             messagebox.showwarning("Advertencia", "Su documento debe ser un número con mas de 5 digitos y menos de 10")
-          
-
 
     def law(self):
         self.frame2.destroy()
