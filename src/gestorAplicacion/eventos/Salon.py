@@ -14,4 +14,35 @@ class Salon:
             return False
         else:
             return True
+    @property
+    def maxCap(self):
+        return self._maxCap
+
+    @maxCap.setter
+    def maxCap(self, value):
+        self._maxCap = value
+
+    @property
+    def disponible(self):
+        return self._disponible
+
+    @disponible.setter
+    def disponible(self, value):
+        self._disponible = value
+
+    @property
+    def reservado(self):
+        return self._reservado
+
+    @reservado.setter
+    def reservado(self, value):
+        self._reservado = value
+
+    @property
+    def serviciosConfirmados(self):
+        return self._serviciosConfirmados
+
+    @serviciosConfirmados.setter
+    def serviciosConfirmados(self, value):
+        self._serviciosConfirmados = value
     

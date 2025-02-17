@@ -1,3 +1,5 @@
+from gestorAplicacion.eventos.Evento import Evento
+
 class EventoEspecifico(Evento):
     def _init_(self, nombre, fecha, precio, tipoEvento):
         super()._init_(nombre, fecha, precio)
@@ -6,4 +8,5 @@ class EventoEspecifico(Evento):
     def valido(self):
         if self.evento != "":
             return True
+        
 
