@@ -24,10 +24,46 @@ class talleres(Frame):
         self.pack(expand=True, fill="both")  
         self.create_widgets()
     
+    #Empezar a preguntar por las actividades, lugares y refrigerios
+    def activityz(self):
+        pass
+
+    #definir fecha
+    def fecha(self):
+        if int(self.entra.get()) > 0 and int(self.entra.get()) < 21:
+            fecha = int(self.entra.get())
+            self.botonito.destroy()
+            self.entra.destroy()
+            self.doky.destroy()
+            self.frame3.config(bg="red", cursor="spider")
+            self.
+        else:
+            messagebox.showwarning("Advertencia", "Por favor digite un dia del mes entre el 1 y el 20")
+
+    #verificar nro > 0 and < 7 para dias a hacer actividades
+    def nro(self):
+        if int(self.entra.get()) > 0 and int(self.entra.get()) < 8:
+            nro = int(self.entra.get())
+            self.entra.delete(0, "end")
+            self.doky.config(text="¿Qué dia del mes vas a empezar con las actividades? Debe ser antes del dia 21, pues después deben estar listas todas la agenda")
+            self.botonito.config(command=self.fecha)
+        else:
+            messagebox.showwarning("Advertencia", "Solo puede reservar actividades entre 1 y 7 dias en total")
+
+
+
+    #Pedimos nro de dias que va a hacer actividades
+    def geto(self):
+        self.doky.config(text="¿Cuántos dias vas a realizar actividades?")
+        self.botonito.config(command=self.nro)
+    
+    #Pedimos documento al Usuario y lo verificamos k sea mas de 5 numeros y menos de 10
     def verify(self):
         a = float(self.entra.get())
         if a > 9999 and a < 999999999:
+            documento = self.entra.get()
             self.entra.delete(0, "end")
+            self.geto()
         else:
             messagebox.showwarning("Advertencia", "Su documento debe ser un número con mas de 5 digitos y menos de 10")
 
