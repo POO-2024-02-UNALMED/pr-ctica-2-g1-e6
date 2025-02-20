@@ -16,7 +16,7 @@
 #|                                                                                                                                  |
 #|      - Alejandro Pérez Barrera (2025-02-13) (Creador)                                                                            |
 #|                                                                                                                                  |
-#|  +Última revisión: 2025-02-16-20-03, AlPerBara                                                                                   |
+#|  +Última revisión: 2025-02-17-16-56, AlPerBara                                                                                   |
 #|                                                                                                                                  |
 #|  + Novedades:                                                                                                                    |
 #|                                                                                                                                  |
@@ -90,7 +90,7 @@ class uiReservaHotel:
             
                 for destino in self.destinos:
 
-                    self.lista_destinos.insert(tk.END, destino.nombre)
+                    self.lista_destinos.insert(tk.END, f"- {destino.nombre}, {destino.pais}")
 
                 self.lista_destinos.grid(row=0, column=1, padx=5, pady=5)
 
@@ -109,7 +109,7 @@ class uiReservaHotel:
             
             for destino in self.destinos:
                 
-                self.lista_destinos.insert(tk.END, destino.nombre)
+                self.lista_destinos.insert(tk.END, f"- {destino.nombre}, {destino.pais}")
             
             self.lista_destinos.grid(row=0, column=1, padx=5, pady=5)
             
@@ -207,7 +207,7 @@ class uiReservaHotel:
         for hotel in hoteles:
             precio = hotel.calcular_precio_esperado_noche(self.reserva_usuario.destino_viaje.fama, self.reserva_usuario.destino_viaje.temporada, self.reserva_usuario.viajeros_adultos, self.reserva_usuario.viajeros_menores)
             precio_str = f"{precio:,.2f}"
-            self.lista_hoteles.insert(tk.END, f"- {hotel.nombre} ({hotel.prestigio / 2} Estrellas) {'-' * (48 - len(hotel.nombre) - len(precio_str))} ${precio_str}*")
+            self.lista_hoteles.insert(tk.END, f"- {hotel.nombre} ({hotel.prestigio / 2} Estrellas) {'-' * (40 - len(hotel.nombre) - len(precio_str))} ${precio_str}*")
 
         self.lista_hoteles.grid(row=0, column=1, padx=5, pady=5)
         

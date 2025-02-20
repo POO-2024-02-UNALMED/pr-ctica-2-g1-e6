@@ -8,10 +8,8 @@ class CargarObjetos:
             directorio = open("src/baseDatos/temp/destinos.pkl", "rb")
             destinos = pickle.load(directorio)
             directorio.close()
-            print("cargado")
             return destinos
         except FileNotFoundError:
-            print("src/baseDatos/CargarObjetos.py : Diagnóstico: Procurando Destinos.")
             return []
     
     @staticmethod
@@ -25,3 +23,13 @@ class CargarObjetos:
         except FileNotFoundError:
             print("No pude cargar el objeto :(")
             return 1
+        
+    @staticmethod
+    def cargar_empresas():
+        try:
+            directorio = open("src/baseDatos/temp/empresas.pkl", "rb")
+            empresas = pickle.load(directorio)
+            directorio.close()
+            return empresas
+        except FileNotFoundError:
+            return []

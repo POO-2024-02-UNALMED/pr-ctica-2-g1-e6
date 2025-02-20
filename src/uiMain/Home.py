@@ -20,11 +20,10 @@
 #|                                                                                                                                  |
 #|  + Novedades:                                                                                                                    |
 #|                                                                                                                                  |
-#|      Este espacio está disponible para reportar novedades que se encuentren en este módulo...                                    |
+#|      - Ahora las imagenes cambian de tamaño con la ventana ES NECESARIO TENER PILLOW INSTALADO.                                  |
 #|                                                                                                                                  |
 #|  + Pendientes en este módulo:                                                                                                    |
 #|                                                                                                                                  |
-#|      - Consultar si la ventana puede ser NO resizable.                                                                           |
 #|      - Cambiar o eliminar el color del frame principal derecho.                                                                  |
 #|      - Cambiar o eliminar el color del frame principal izquierdo.                                                                |
 #|      - Cambiar o eliminar el color del frame superior izquierdo.                                                                 |
@@ -38,6 +37,8 @@
 
 from itertools import cycle #Cycle se utiliza para pasar por las imágenes de los desarrolladores e imágenes asociadas al programa.
 import tkinter as tk #Tkinter se utiliza para crear la interfaz gráfica
+
+from PIL import Image, ImageTk #Image y ImageTk se utilizan para poder mostrar las imágenes en la interfaz gráfica, y que estas se puedan redimensionar.
 
 import Principal #Principal se utiliza para poder continuar con la ejecución en la pestaña principal del programa.
 
@@ -103,12 +104,17 @@ class Home:#Home es la ventana de inicio, donde uno puede ver las fotos de los d
         #A continuación el espacio de las fotografías
         
         #Este array guarda todas las fotos del cuadro de abajo a la izquierda
-        self.todas_las_fotos = [tk.PhotoImage(file=f"src/uiMain/media/paisajes/imagen{i}.png") for i in range(1, 6)]
+        self.todas_las_fotos = [Image.open(f"src/uiMain/media/paisajes/imagen{i}.png") for i in range(1, 6)]
         #Aquí se guarda la foto que se vaya a mostrar
         self.ciclo_fotos= cycle(self.todas_las_fotos)
+        self.frame_infra_sinister.bind("<Configure>", self.redimensionar_imagen(next(self.ciclo_fotos)))
         
-        self.marquete_fotos = tk.Label(self.frame_infra_sinister, image=next(self.ciclo_fotos))#En este label se pone la foto para mostrarla
+        
+        self.marquete_fotos = tk.Label(self.frame_infra_sinister)#En este label se pone la foto para mostrarla
         self.marquete_fotos.pack(fill="both", expand=True)
+        
+        self.redimensionar_imagen(None, next(self.ciclo_fotos))
+        
         self.marquete_fotos.bind("<Enter>", self.hover_imagen)#este es el evento cuando se pasa el cursor sobre la foto
         self.marquete_fotos.bind("<Button-1>",self.comenzar_programa_principal)
         #Este es el botón para iniciar el programa -----> LO QUITÉ A FAVOR DE USAR LA FOTO COMO BOTÓN
@@ -133,6 +139,7 @@ class Home:#Home es la ventana de inicio, donde uno puede ver las fotos de los d
         #Este frame contiene las fotos:
         self.frame_infra_dexter = tk.Frame(self.frame_dexter, bg="purple") #TODO: Cambiar o quitar el color de fondo
         self.frame_infra_dexter.place(relheight=0.6,relwidth=1,relx=0,rely=0.4)
+        self.frame_infra_dexter.bind("<Configure>", lambda event: self.cambiar_fotos_dev())
         self.frame_fotos_devs = tk.Frame(self.frame_infra_dexter)
         self.frame_fotos_devs.pack(expand=True, fill="both")
         self.cambiar_fotos_dev()
@@ -148,7 +155,7 @@ class Home:#Home es la ventana de inicio, donde uno puede ver las fotos de los d
     #El método hover_imagen se ejecuta cuando el usuario pasa el cursor sobre la imagen
     def hover_imagen(self, evento):
         #Cuando el cursor se posa sobre la foto, se pasa a la siguiente imagen, con apoyo de un iterable cycle
-        self.marquete_fotos.config(image=next(self.ciclo_fotos))
+        self.redimensionar_imagen(None, next(self.ciclo_fotos))
         
     #Para comenzar el programa se redirige al módulo con la ventana principal
     def comenzar_programa_principal(self, evento):
@@ -171,12 +178,29 @@ class Home:#Home es la ventana de inicio, donde uno puede ver las fotos de los d
             #En esta variable se guarda el número del desarrollador que toca mostrar en pantalla
             id_desarrollador = self.los_devs.index(self.texto_info_devs.cget("text"))+1
             
+            ancho = self.frame_infra_dexter.winfo_width()//2
+            alto = self.frame_infra_dexter.winfo_height()//2
+            
             #Ubicar cada foto
             for i in range(2):
                 for j in range(2):
-                    foto = tk.PhotoImage(file=f"src/uiMain/media/personas/imagen{id_desarrollador}_{i*2+j+1}.png")
-                    foto = foto.subsample(2,2)
-                    lbl = tk.Label(self.frame_infra_dexter, image=foto)
-                    lbl.image = foto
+                    foto_pillow = Image.open(f"src/uiMain/media/personas/imagen{id_desarrollador}_{i*2+j+1}.png")
+                    foto_redimensionada = foto_pillow.resize((ancho,alto), Image.LANCZOS)
+                    foto_tkinter = ImageTk.PhotoImage(foto_redimensionada)
+                    
+                    lbl = tk.Label(self.frame_infra_dexter, image=foto_tkinter)
+                    lbl.image = foto_tkinter
                     lbl.grid(row=i, column=j, sticky="nsew")
+        
+    def redimensionar_imagen(self, evento=None, imagen=None):
+        
+        self.imagen_tk = None
+        
+        ancho = self.frame_infra_sinister.winfo_width()
+        alto = self.frame_infra_sinister.winfo_height()
+        
+        if ancho >1 and alto >1:
+            imagen_redimensionada = imagen.resize((ancho, alto), Image.LANCZOS)
+            self.imagen_tk = ImageTk.PhotoImage(imagen_redimensionada)
+            self.marquete_fotos.config(image=self.imagen_tk)
                     

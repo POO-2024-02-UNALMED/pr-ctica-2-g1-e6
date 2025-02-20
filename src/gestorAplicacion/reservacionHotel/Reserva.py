@@ -17,7 +17,7 @@
 #|                                                                                                                                  |
 #|      - Alejandro Pérez Barrera (2025-02-09) (Creador)                                                                            |
 #|                                                                                                                                  |
-#|  +Última revisión: 2025-02-16-20-06, AlPerBara                                                                                   |
+#|  +Última revisión: 2025-02-17-16-56, AlPerBara                                                                                   |
 #|                                                                                                                                  |
 #|  + Novedades:                                                                                                                    |
 #|                                                                                                                                  |
@@ -190,7 +190,7 @@ class Reserva:
         fecha_salida = datetime.strptime(fecha_salida, "%Y-%m-%d")
         
         if (fecha_llegada <= fecha_hoy or fecha_salida <= fecha_hoy or fecha_salida <= fecha_llegada):
-            return False #TODO: Implementar error de fechas inválidas
+            return False
             
         else:
             self._fecha_llegar = fecha_llegada
