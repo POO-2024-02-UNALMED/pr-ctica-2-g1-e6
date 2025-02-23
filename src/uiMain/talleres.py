@@ -29,9 +29,9 @@ class talleres(Frame):
         self.doky.config(text="¿Qué refrigerio desea para este dia?")
         self.ti1.config(text="1. Sandwich, 2. Hamburgesa, 3. Pizza")
         self.op4.destroy()
-        self.op1.config(image=self.image21, command=lambda: (self.food.append(1)))
-        self.op2.config(image = self.image22, command=lambda: (self.food.append(2)))
-        self.op3.config(image = self.image23, command=lambda: (self.food.append(3)))
+        self.op1.config(image=self.image21, command=lambda: (self.food.append(1), self.funcion1()))
+        self.op2.config(image = self.image22, command=lambda: (self.food.append(2), self.funcion1()))
+        self.op3.config(image = self.image23, command=lambda: (self.food.append(3), self.funcion1()))
         self.op1.pack(ipadx=20, ipady = 20)
         self.op2.pack(ipadx=20, ipady = 20)
         self.op3.pack(ipadx=20, ipady = 20)
@@ -50,7 +50,22 @@ class talleres(Frame):
         self.op7.destroy()
         self.master.geometry("750x600")
 
-
+    def funcion1(self):
+        self.op1=Button(self.frame3, image = self.image1, command=lambda: (self.taller.append(1), self.funcion2()))
+        self.op1.pack(side="left", padx=15, pady=0, ipadx=5, ipady=5)
+        self.op2=Button(self.frame3, image = self.image2, command=lambda: (self.taller.append(2), self.funcion2()))
+        self.op2.pack(side="left", padx=5, pady=0, ipadx=5, ipady=5)
+        self.op3=Button(self.frame3, image = self.image3, command=lambda: (self.taller.append(3), self.funcion2()))
+        self.op3.pack(side="left", padx=5, pady=0, ipady=5, ipadx=5)
+        self.op4=Button(self.frame3, image = self.image4, command=lambda: (self.taller.append(4), self.funcion2()))
+        self.op4.pack(side="left", padx=5, pady=0, ipadx=5, ipady=5)
+        self.op5=Button(self.frame3, image = self.image5, command=lambda: (self.taller.append(5), self.funcion2()))
+        self.op5.pack(side="left", padx=5, pady=0, ipadx=5, ipady=5)
+        self.op6=Button(self.frame3, image = self.image6, command=lambda: (self.taller.append(6), self.funcion2()))
+        self.op6.pack(side="left", padx=5, pady=0, ipadx=5, ipady=5)
+        self.op7=Button(self.frame3, image = self.image7, command=lambda: (self.taller.append(7), self.funcion2()))
+        self.op7.pack(side="left", padx=5, pady=0, ipadx=5, ipady=5)
+    
     #definir fecha
     def fecha(self):
         if int(self.entra.get()) > 0 and int(self.entra.get()) < 21:
@@ -83,20 +98,7 @@ class talleres(Frame):
             self.food = []
             for i in range(0, self.nro):
                 self.doky.config(text=f"Elija que actividad desea agendar para el dia {i+1}")
-                self.op1=Button(self.frame3, image = self.image1, command=lambda: (self.taller.append(1), self.funcion2()))
-                self.op1.pack(side="left", padx=15, pady=0, ipadx=5, ipady=5)
-                self.op2=Button(self.frame3, image = self.image2, command=lambda: (self.taller.append(2), self.funcion2()))
-                self.op2.pack(side="left", padx=5, pady=0, ipadx=5, ipady=5)
-                self.op3=Button(self.frame3, image = self.image3, command=lambda: (self.taller.append(3), self.funcion2()))
-                self.op3.pack(side="left", padx=5, pady=0, ipady=5, ipadx=5)
-                self.op4=Button(self.frame3, image = self.image4, command=lambda: (self.taller.append(4), self.funcion2()))
-                self.op4.pack(side="left", padx=5, pady=0, ipadx=5, ipady=5)
-                self.op5=Button(self.frame3, image = self.image5, command=lambda: (self.taller.append(5), self.funcion2()))
-                self.op5.pack(side="left", padx=5, pady=0, ipadx=5, ipady=5)
-                self.op6=Button(self.frame3, image = self.image6, command=lambda: (self.taller.append(6), self.funcion2()))
-                self.op6.pack(side="left", padx=5, pady=0, ipadx=5, ipady=5)
-                self.op7=Button(self.frame3, image = self.image7, command=lambda: (self.taller.append(7), self.funcion2()))
-                self.op7.pack(side="left", padx=5, pady=0, ipadx=5, ipady=5)
+                self.funcion1()
 
 
             
