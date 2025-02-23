@@ -1,4 +1,5 @@
-from tkinter import Frame, Button, Label, Tk, Entry, messagebox
+from tkinter import Frame, Button, Label, Tk, Entry, messagebox, PhotoImage
+from PIL import Image, ImageTk
 
 import sys
 import os
@@ -34,16 +35,42 @@ class talleres(Frame):
             fecha = int(self.entra.get())
             self.botonito.destroy()
             self.entra.destroy()
-            self.doky.destroy()
             self.frame3.config(bg="red", cursor="spider")
-            self.
+            self.image1 = PhotoImage(file="src/uiMain/media/talleres/planta.png")
+            self.image2 = PhotoImage(file="src/uiMain/media/talleres/ave.png")
+            self.image3 = PhotoImage(file="src/uiMain/media/talleres/cultura.png")
+            self.image4 = PhotoImage(file="src/uiMain/media/talleres/musica.png")
+            self.image5 = PhotoImage(file="src/uiMain/media/talleres/parque.png")
+            self.image6 = PhotoImage(file="src/uiMain/media/talleres/tejer.png")
+            self.image7 = PhotoImage(file="src/uiMain/media/talleres/tobogan.png")
+
+
+            for i in range(0, self.nro):
+                self.doky.config(text=f"Elija que actividad desea agendar para el dia {i+1}")
+                self.op1=Button(self.frame3, image = self.image1 )
+                self.op1.pack()
+                self.op2=Button(self.frame3, image = self.image2 )
+                self.op2.pack()
+                self.op3=Button(self.frame3, image = self.image3 )
+                self.op3.pack()
+                self.op4=Button(self.frame3, image = self.image4 )
+                self.op4.pack()
+                self.op5=Button(self.frame3, image = self.image5 )
+                self.op5.pack()
+                self.op6=Button(self.frame3, image = self.image6 )
+                self.op6.pack()
+                self.op7=Button(self.frame3, image = self.image7 )
+                self.op7.pack()
+
+
+            
         else:
             messagebox.showwarning("Advertencia", "Por favor digite un dia del mes entre el 1 y el 20")
 
     #verificar nro > 0 and < 7 para dias a hacer actividades
     def nro(self):
         if int(self.entra.get()) > 0 and int(self.entra.get()) < 8:
-            nro = int(self.entra.get())
+            self.nro = int(self.entra.get())
             self.entra.delete(0, "end")
             self.doky.config(text="¿Qué dia del mes vas a empezar con las actividades? Debe ser antes del dia 21, pues después deben estar listas todas la agenda")
             self.botonito.config(command=self.fecha)
