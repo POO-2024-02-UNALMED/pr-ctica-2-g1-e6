@@ -25,7 +25,19 @@ class talleres(Frame):
         self.pack(expand=True, fill="both")  
         self.create_widgets()
     
-    #Empezar a preguntar por las actividades, lugares y refrigerios
+    def funcion3(self):
+        self.doky.config(text="¿Qué refrigerio desea para este dia?")
+        self.ti1.config(text="1. Sandwich, 2. Hamburgesa, 3. Pizza")
+        self.op4.destroy()
+        self.op1.config(image=self.image21, command=lambda: (self.food.append(1)))
+        self.op2.config(image = self.image22, command=lambda: (self.food.append(2)))
+        self.op3.config(image = self.image23, command=lambda: (self.food.append(3)))
+        self.op1.pack(ipadx=20, ipady = 20)
+        self.op2.pack(ipadx=20, ipady = 20)
+        self.op3.pack(ipadx=20, ipady = 20)
+        
+
+
     def funcion2(self):
         self.doky.config(text="¿En que sitio deseas realizar la actividad?")
         self.ti1.config(text="1. Parque Berrio 2. San Antonio 3. San Ignacio o 4. Prado")
@@ -59,12 +71,16 @@ class talleres(Frame):
             self.image12 = PhotoImage(file="src/uiMain/media/talleres/lug2.png")
             self.image13 = PhotoImage(file="src/uiMain/media/talleres/lug3.png")
             self.image14 = PhotoImage(file="src/uiMain/media/talleres/lug4.png")
+            self.image21 = PhotoImage(file="src/uiMain/media/talleres/f1.png")
+            self.image22 = PhotoImage(file="src/uiMain/media/talleres/f2.png")
+            self.image23 = PhotoImage(file="src/uiMain/media/talleres/f3.png")
 
 
             self.ti1 = Label(self.frame3, bg="violet", fg="white", text="Haz click en: 1. Plantaton  2. Avevisor  3. casaCultura  4. casaMusica  5. TurcoParque  6. Tejedores o 7. Toboganes")
             self.ti1.pack(padx=100)
             self.taller = []
             self.lugar = []
+            self.food = []
             for i in range(0, self.nro):
                 self.doky.config(text=f"Elija que actividad desea agendar para el dia {i+1}")
                 self.op1=Button(self.frame3, image = self.image1, command=lambda: (self.taller.append(1), self.funcion2()))
