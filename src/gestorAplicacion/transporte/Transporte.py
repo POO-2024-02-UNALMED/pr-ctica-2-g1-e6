@@ -96,17 +96,23 @@ class GUI:
     
 from abc import ABC, abstractmethod
 from datetime import datetime
+import os.path, sys
+
 from .Empresa import Empresa
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../")))
+
+from src.excepciones.FechaInvalida import FechaInvalida
    
 class Transporte:
-    def __init__(self, empresa, destino, adultos, menores):
+    def __init__(self, empresa, destino, fecha_ir, fecha_volver=None):
         self._empresa = empresa
         self._destino = destino
-        self._adultos = adultos
-        self._menores = menores
+        self._adultos = None
+        self._menores = None
         self._is_round_trip = False
-        self._fecha_ir = None
-        self._fecha_volver = None
+        self._fecha_ir = fecha_ir
+        self._fecha_volver = fecha_volver
         self._distancia = self.distancia_KM(self.destino.pais, self.destino.region)
       
     #========== SETTERS Y GETTERS ==========
@@ -176,7 +182,7 @@ class Transporte:
             fecha_volver = datetime.strptime(fecha_volver, "%Y-%m-%d")
             
             if (fecha_ir <= fecha_hoy or fecha_volver <= fecha_hoy or fecha_volver <= fecha_ir):
-                return False
+                raise FechaInvalida()
             
             else:
                 self._fecha_ir = fecha_ir
