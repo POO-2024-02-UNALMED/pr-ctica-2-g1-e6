@@ -188,6 +188,7 @@ class Destino:
     @classmethod
     def generador_de_datos(cls):
         return [
+            #nro 0
             Destino("París", "Paris", "Francia", "Île-de-France", random.randint(0, 5), random.randint(0, 2), 4,[
                 Hotel("Le Meurice", 21, 0, 15, random.randint(7, 10), random.randint(80, 180)),
                 Hotel("Hotel Plaza Athénée", 18, 8, 3, random.randint(7, 10), random.randint(80, 180)),
@@ -213,6 +214,7 @@ class Destino:
                 Hotel("Inkari Suites Hotel", 22, 16, 12, random.randint(7, 10), random.randint(30, 100)),
                 Hotel("Decapolis Miraflores", 20, 15, 10, random.randint(7, 10), random.randint(30, 100))]),
             
+            # nro 5
             Destino("Bogotá", "bogota", "Colombia", "Cundinamarca", random.randint(0, 5), random.randint(0, 2), 3,[
                 Hotel("Great Tower Bogotá", 25, 15, 10, random.randint(7, 10), random.randint(30, 100)),
                 Hotel("Hotel Mayasa Bogotá", 20, 12, 8, random.randint(7, 10), random.randint(30, 100)),
@@ -238,6 +240,7 @@ class Destino:
                 Hotel("Hotel Ipanema", 23, 18, 14, random.randint(7, 10), random.randint(60, 135)),
                 Hotel("Hotel Leblon", 20, 15, 12, random.randint(7, 10), random.randint(55, 135))]),
             
+            # nro 10
             Destino("Leticia", "leticia", "Colombia", "Amazonas", random.randint(0, 5), random.randint(0, 2), 4, [
                 Hotel("Hotel Divino Niño", 15, 10, 5, random.randint(7, 10), random.randint(30, 100)),
                 Hotel("Waldo's Hotel Boutique", 18, 12, 6, random.randint(7, 10), random.randint(30, 100))]),
@@ -262,6 +265,7 @@ class Destino:
                 Hotel("Hotel Calypse Beach", 20, 15, 10, random.randint(7, 10), random.randint(60, 120)),
                 Hotel("Hotel Casablanca", 22, 18, 12, random.randint(7, 10), random.randint(50, 120))]),
 
+            # nro 15
              Destino("Pereira", "pereira", "Colombia", "Risaralda", random.randint(0, 5), random.randint(0, 2), 2, [
                 Hotel("Hotel Otún", 15, 10, 6, random.randint(7, 10), random.randint(30, 100)),
                 Hotel("Hotel Movich Pereira", 18, 12, 8, random.randint(7, 10), random.randint(30, 100))]),

@@ -2,23 +2,35 @@ from datetime import datetime
 import os, sys
 import random
 
+from .Transporte import Transporte
+from .Avion import Avion
+from .Autobus import Autobus
+from .Tren import Tren
+
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
-from gestorAplicacion.transporte import Transporte
 from src.gestorAplicacion.reservacionHotel.Destino import Destino
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../")))
 
 from src.baseDatos.CargarObjetos import CargarObjetos
 
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../")))
+
+from src.excepciones.FechaInvalida import FechaInvalida
+
 class Empresa:
     _empresas = []
     _datos_ya_cargados = False
 
-    def __init__(self, nombre, prestige, rate, destinos_disponibles):
+    def __init__(self, nombre, prestigio, tasa, destinos_disponibles, medio_destino):
         self._nombre = nombre
-        self._prestige = prestige  # Scale from 1-10
-        self._rate = rate  # Base commission rate
+        self._prestigio = prestigio  # Escala de [1 10]
+        self._tasa = tasa  # Tasa de comisión
         self._destinos_disponibles = destinos_disponibles
+        self._medio_destino = medio_destino
+        
+        self._fechas_reserva_usuario = []
+        self._round_trip_reserva_usuario = False
         
         
     #========== GETTERS Y SETTERS ==========
@@ -54,6 +66,14 @@ class Empresa:
     @destinos_disponibles.setter
     def destinos_disponibles(self, value):
         self._destinos_disponibles = value
+        
+    @property
+    def medio_destino(self):
+        return self._medio_destino
+    
+    @medio_destino.setter
+    def medio_destino(self, value):
+        self._medio_destino = value
 
     #========== MÉTODOS DE CLASE ==========
     
@@ -102,13 +122,25 @@ class Empresa:
         return precio_base + comision_final
 
     @staticmethod
-    def generador_de_datos():
-        """Generate initial company data"""
+    def generador_de_datos(): #Generar datos iniciales de empresas
         return [ #TODO: Agregar empresas
-            Empresa("Avianza", (random.randint(12,20)/2), (random.randint(100,400)/20), Destino.get_destinos()),
-            Empresa("LATA", (random.randint(12,20)/2), (random.randint(100,400)/20), Destino.get_destinos()),
-            Empresa("Brasil Express", (random.randint(12,20)/2), (random.randint(100,400)/20), Destino.get_destinos()),
-            Empresa("Cotrans", (random.randint(12,20)/2), (random.randint(100,400)/20), Destino.get_destinos())
+                #En el corchete va un array con los destinos, el número indica el medio de transporte que ofrece la empresa
+                #1 indica autobús, 2 indica tren, 3 indica avión
+            Empresa("Avianza", (random.randint(12,20)/2), (random.randint(100,400)/20), [Destino.get_destinos[0],Destino.get_destinos[2], Destino.get_destinos[3], Destino.get_destinos[4], Destino.get_destinos[5],
+                                                                                         Destino.get_destinos[7], Destino.get_destinos[8], Destino.get_destinos[9], Destino.get_destinos[11], Destino.get_destinos[12], 
+                                                                                         Destino.get_destinos[13], Destino.get_destinos[14]], 3),
+            Empresa("LATA", (random.randint(12,20)/2), (random.randint(100,400)/20), [Destino.get_destinos[2], Destino.get_destinos[3], Destino.get_destinos[4], Destino.get_destinos[5], Destino.get_destinos[6],
+                                                                                      Destino.get_destinos[7], Destino.get_destinos[8], Destino.get_destinos[9], Destino.get_destinos[11], Destino.get_destinos[12],
+                                                                                      Destino.get_destinos[13], Destino.get_destinos[14]], 3),
+            Empresa("Brasil Express", (random.randint(12,20)/2), (random.randint(100,400)/20),  [Destino.get_destinos[3], Destino.get_destinos[5], Destino.get_destinos[8], Destino.get_destinos[13]], 1),
+            Empresa("Cotrans", (random.randint(12,20)/2), (random.randint(100,400)/20),  [Destino.get_destinos[3], Destino.get_destinos[5], Destino.get_destinos[7], Destino.get_destinos[15]], 1),
+            Empresa("Ferro Nal", (random.randint(12,20)/2), (random.randint(100,400)/20), [Destino.get_destinos[3], Destino.get_destinos[5], Destino.get_destinos[7], Destino.get_destinos[8], Destino.get_destinos[13]], 2),
+            Empresa("Salta", (random.randint(12,20)/2), (random.randint(100,400)/20), [Destino.get_destinos[10]], 3),
+            Empresa("AeroEuropa", (random.randint(12,20)/2), (random.randint(100,400)/20), [Destino.get_destinos[0], Destino.get_destinos[1], Destino.get_destinos[12], Destino.get_destinos[16]], 3),
+            Empresa("Air Go", (random.randint(12,20)/2), (random.randint(100,400)/20), [Destino.get_destinos[0], Destino.get_destinos[2], Destino.get_destinos[9], Destino.get_destinos[11], Destino.get_destinos[16], 
+                                                                                        Destino.get_destinos[17]], 3),
+            Empresa("Quanto", (random.randint(12,20)/2), (random.randint(100,400)/20), [Destino.get_destinos[12], Destino.get_destinos[16], Destino.get_destinos[18]], 3),
+            Empresa("Estirar", (random.randint(12,20)/2), (random.randint(100,400)/20), [Destino.get_destinos[6], Destino.get_destinos[19]], 3)
         ]
     
         
@@ -129,6 +161,36 @@ class Empresa:
         else:
             return 2
     
+    
+    #Establecer las fechas de ida y vuelta
+    def set_ambas_fechas(self, fecha_ir, fecha_volver=None):
+        
+        fecha_hoy = datetime.today()
+        
+        fecha_ir = datetime.strptime(fecha_ir, "%Y-%m-%d")
+        
+        if fecha_volver is not None:
+            
+            if (fecha_ir <= fecha_hoy or fecha_volver <= fecha_hoy or fecha_volver <= fecha_ir):
+                raise FechaInvalida()
+            
+            else:
+                self._fechas_reserva_usuario.append(fecha_ir)
+                self._fechas_reserva_usuario.append(fecha_volver)
+                self._round_trip_reserva_usuario = True
+                return True
+            
+        else:
+            
+            fecha_ir = datetime.strptime(fecha_ir, "%Y-%m-%d")
+            
+            if (fecha_ir <= fecha_hoy):
+                raise FechaInvalida()
+            
+            else:
+                self._fechas_reserva_usuario.append(fecha_ir)
+                return True
+    
     @classmethod    
     def listar_empresas_con_destino(cls, destino):
         
@@ -137,34 +199,28 @@ class Empresa:
     
     
     
-              
-                
+    #Crear el transporte, dependiendo de que empresa ofrece el servicio
+    #1 indica autobús, 2 indica tren, 3 indica avión
+    def definir_transporte(self, empresa, destino):
         
-    def set_ambas_fechas(self, transporte_electo, fecha_ir, fecha_volver=None):
-        
-        fecha_ir = datetime.strptime(fecha_ir, "%Y-%m-%d")
-        
-        if fecha_volver is not None:
+        if empresa.medio_destino == 1:
+            self._transporte_reserva_usuario = Autobus(self, destino, self._fechas_reserva_usuario[0], self._fechas_reserva_usuario[1])
             
-            fecha_volver = datetime.strptime(fecha_volver, "%Y-%m-%d")
-            
-            transporte_electo.fechas(self, fecha_ir, fecha_volver)
-          
+        elif empresa.medio_destino == 2:
+            self._transporte_reserva_usuario = Tren(self, destino, self._fechas_reserva_usuario[0], self._fechas_reserva_usuario[1])
             
         else:
+            self._transporte_reserva_usuario = Avion(self, destino, self._fechas_reserva_usuario[0], self._fechas_reserva_usuario[1])
             
-            transporte_electo.fechas(self, fecha_ir)
-        
-        
-        
-                
         
     def set_adultos_et_menores(self, transporte_electo, mayores, menores):
         
-        if mayores>0 and menores>=0: #Solo se verifica que las cantidades sean positivas
-            return transporte_electo.set_adultos_et_menores(self, mayores, menores)
-            
-        else:
-            return 2
+        return transporte_electo.set_adultos_et_menores(self, mayores, menores)
+        
+        
+        
+                
+        
+    
             
     

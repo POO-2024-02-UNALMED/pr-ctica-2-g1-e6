@@ -1,19 +1,17 @@
 import math
-
 from .Transporte import Transporte
 
 
-class Avion(Transporte):
+class Tren(Transporte):
     
-    PRECIO_POR_KM=1463.19
+    PRECIO_POR_KM = 573.34
     
     def __init__(self, empresa, destino, fecha_ir, fecha_volver):
         super().__init__(empresa, destino, fecha_ir, fecha_volver)
         
-    
     def set_adultos_et_menores(self, mayores, menores):
         
-        if (mayores>0 and menores>=0 and ((mayores*2)>=menores)):
+        if (mayores>0 and menores>=0 and ((mayores*3)>=menores)):
             self._viajeros_adultos = mayores
             self._viajeros_menores = menores
             
@@ -25,9 +23,13 @@ class Avion(Transporte):
         else:
             return 3
     
-    
-    
     def calcular_precio_transporte(self, fama_destino, temporada_destino, personas, clase):
+        """precio_base = 200  # Example base price
+        factor_empresa = self.empresa.get_factor()
+        factor_destino = self.destino.get_factor()
+        factor_asiento = 1.0 if self.tipo_asiento == 'Turista' else 2.0
+        descuento_ida_vuelta = 0.85 if self.ida_vuelta else 1.0
+        return precio_base * factor_empresa * factor_destino * factor_asiento * descuento_ida_vuelta"""
         
         t = 1.2
         if temporada_destino == 0:
@@ -79,6 +81,7 @@ class Avion(Transporte):
         
         return total
     
+    
     #Tiempo en horas, velocidad en km/h
     def tiempo_de_viaje(self, distancia):
-        return (distancia/720)+0.5
+        return distancia/130
