@@ -26,15 +26,27 @@ class talleres(Frame):
         self.create_widgets()
     
     #Empezar a preguntar por las actividades, lugares y refrigerios
-    def activityz(self):
-        pass
+    def funcion2(self):
+        self.doky.config(text="¿En que sitio deseas realizar la actividad?")
+        self.ti1.config(text="1. Parque Berrio 2. San Antonio 3. San Ignacio o 4. Prado")
+        self.op1.config(image=self.image11, padx=30, command=lambda: (self.lugar.append(1), self.funcion3()))
+        self.op2.config(image = self.image12, padx=30, command=lambda: (self.lugar.append(2), self.funcion3()))
+        self.op3.config(image = self.image13, padx=30, command=lambda: (self.lugar.append(3), self.funcion3()))
+        self.op4.config(image = self.image14, padx=30, command=lambda: (self.lugar.append(4), self.funcion3()))
+        self.op5.destroy()
+        self.op6.destroy()
+        self.op7.destroy()
+        self.master.geometry("750x600")
+
 
     #definir fecha
     def fecha(self):
         if int(self.entra.get()) > 0 and int(self.entra.get()) < 21:
             fecha = int(self.entra.get())
+            self.doky.config(bg="purple", fg="yellow")
             self.botonito.destroy()
             self.entra.destroy()
+            self.master.geometry("1500x600")
             self.frame3.config(bg="red", cursor="spider")
             self.image1 = PhotoImage(file="src/uiMain/media/talleres/planta.png")
             self.image2 = PhotoImage(file="src/uiMain/media/talleres/ave.png")
@@ -43,24 +55,32 @@ class talleres(Frame):
             self.image5 = PhotoImage(file="src/uiMain/media/talleres/parque.png")
             self.image6 = PhotoImage(file="src/uiMain/media/talleres/tejer.png")
             self.image7 = PhotoImage(file="src/uiMain/media/talleres/tobogan.png")
+            self.image11 = PhotoImage(file="src/uiMain/media/talleres/lug1.png")
+            self.image12 = PhotoImage(file="src/uiMain/media/talleres/lug2.png")
+            self.image13 = PhotoImage(file="src/uiMain/media/talleres/lug3.png")
+            self.image14 = PhotoImage(file="src/uiMain/media/talleres/lug4.png")
 
 
+            self.ti1 = Label(self.frame3, bg="violet", fg="white", text="Haz click en: 1. Plantaton  2. Avevisor  3. casaCultura  4. casaMusica  5. TurcoParque  6. Tejedores o 7. Toboganes")
+            self.ti1.pack(padx=100)
+            self.taller = []
+            self.lugar = []
             for i in range(0, self.nro):
                 self.doky.config(text=f"Elija que actividad desea agendar para el dia {i+1}")
-                self.op1=Button(self.frame3, image = self.image1 )
-                self.op1.pack()
-                self.op2=Button(self.frame3, image = self.image2 )
-                self.op2.pack()
-                self.op3=Button(self.frame3, image = self.image3 )
-                self.op3.pack()
-                self.op4=Button(self.frame3, image = self.image4 )
-                self.op4.pack()
-                self.op5=Button(self.frame3, image = self.image5 )
-                self.op5.pack()
-                self.op6=Button(self.frame3, image = self.image6 )
-                self.op6.pack()
-                self.op7=Button(self.frame3, image = self.image7 )
-                self.op7.pack()
+                self.op1=Button(self.frame3, image = self.image1, command=lambda: (self.taller.append(1), self.funcion2()))
+                self.op1.pack(side="left", padx=15, pady=0, ipadx=5, ipady=5)
+                self.op2=Button(self.frame3, image = self.image2, command=lambda: (self.taller.append(2), self.funcion2()))
+                self.op2.pack(side="left", padx=5, pady=0, ipadx=5, ipady=5)
+                self.op3=Button(self.frame3, image = self.image3, command=lambda: (self.taller.append(3), self.funcion2()))
+                self.op3.pack(side="left", padx=5, pady=0, ipady=5, ipadx=5)
+                self.op4=Button(self.frame3, image = self.image4, command=lambda: (self.taller.append(4), self.funcion2()))
+                self.op4.pack(side="left", padx=5, pady=0, ipadx=5, ipady=5)
+                self.op5=Button(self.frame3, image = self.image5, command=lambda: (self.taller.append(5), self.funcion2()))
+                self.op5.pack(side="left", padx=5, pady=0, ipadx=5, ipady=5)
+                self.op6=Button(self.frame3, image = self.image6, command=lambda: (self.taller.append(6), self.funcion2()))
+                self.op6.pack(side="left", padx=5, pady=0, ipadx=5, ipady=5)
+                self.op7=Button(self.frame3, image = self.image7, command=lambda: (self.taller.append(7), self.funcion2()))
+                self.op7.pack(side="left", padx=5, pady=0, ipadx=5, ipady=5)
 
 
             
