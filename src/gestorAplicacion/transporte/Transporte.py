@@ -218,6 +218,7 @@ class Transporte:
     def tiempo_de_viaje(self):
         pass
     
+    @staticmethod
     def distancia_KM(pais, region):
         if pais=="Colombia":
             if region=="Bolivar":
