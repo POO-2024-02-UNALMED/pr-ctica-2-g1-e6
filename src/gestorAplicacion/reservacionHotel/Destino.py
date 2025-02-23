@@ -16,11 +16,11 @@
 #|                                                                                                                                  |
 #|      - Alejandro Pérez Barrera (2025-02-09) (Creador)                                                                            |
 #|                                                                                                                                  |
-#|  +Última revisión: 2025-02-17-16-57, AlPerBara                                                                                   |
+#|  +Última revisión: 2025-02-23-12-01, AlPerBara                                                                                   |
 #|                                                                                                                                  |
 #|  + Novedades:                                                                                                                    |
 #|                                                                                                                                  |
-#|      -Ahora solo falta agregar más destinos.                                                                                     |
+#|      -Ahora hay más destinos disponibles, junto con casos de excepción.                                                          |
 #|                                                                                                                                  |
 #|  + Pendientes en este módulo:                                                                                                    |
 #|                                                                                                                                  |                                                                                      |
@@ -37,6 +37,8 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../.
 
 from src.baseDatos.GuardarObjetos import GuardarObjetos
 from src.baseDatos.CargarObjetos import CargarObjetos
+
+from src.excepciones.DestinoInexistente import DestinoInexistente
 
 
 class Destino:
@@ -170,7 +172,11 @@ class Destino:
             if palabra_clave.lower() in [destino.nombre.lower(), destino.nombre_alterno.lower(), destino.region.lower(), destino.pais.lower()]:
                 retorno.append(destino)
 
-        return retorno
+        if retorno != []:
+            return retorno
+        
+        else:
+            raise DestinoInexistente("No se encontró ningún destino con la palabra clave: "+palabra_clave)
     
     def reserva_hecha(self, hotel_reservado, lujo_reserva, delta_demanda):
         #from .Reserva import Reserva

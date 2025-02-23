@@ -1,6 +1,7 @@
 import math
 
 from .Transporte import Transporte
+from .Empresa import Empresa
 
 class Autobus(Transporte):
     
@@ -23,7 +24,9 @@ class Autobus(Transporte):
     
     
     
-    def calcular_precio_transporte(self, fama_destino, temporada_destino, personas, clase):
+    def calcular_precio_transporte(self, fama_destino, temporada_destino, adultos, menores, clase):
+        
+        personas = adultos + menores
         
         t = 1.2
         if temporada_destino == 0:
@@ -45,11 +48,13 @@ class Autobus(Transporte):
         else:
             pass
         
-        total = (self.PRECIO_POR_KM/1000)*(((math.pow(math.log(self._distancia,5),2))*self._distancia)/((math.sqrt(self._distancia))-math.log(self._distancia,5))*(fama_destino/3)*t*c*personas)
+        parcial = (self.PRECIO_POR_KM/1000)*(((math.pow(math.log(self._distancia,5),2))*self._distancia)/((math.sqrt(self._distancia))-math.log(self._distancia,5))*(fama_destino/3)*t*c*personas)
         
-        return total
+        return Empresa.calcular_tarifa(self._destino, parcial)
     
-    def calcular_precio_ida_vuelta(self, fama_destino, temporada_destino, personas, clase):
+    def calcular_precio_ida_vuelta(self, fama_destino, temporada_destino, adultos, menores, clase):
+        
+        personas = adultos + menores
         
         t = 1.2
         if temporada_destino == 0:
@@ -71,11 +76,14 @@ class Autobus(Transporte):
         else:
             pass
         
-        total = (self.PRECIO_POR_KM/1000)*(((math.pow(math.log(self._distancia,5),2))*self._distancia)/((math.sqrt(self._distancia))-math.log(self._distancia,5))*(fama_destino/3)*t*c*personas*1.8)
+        parcial = (self.PRECIO_POR_KM/1000)*(((math.pow(math.log(self._distancia,5),2))*self._distancia)/((math.sqrt(self._distancia))-math.log(self._distancia,5))*(fama_destino/3)*t*c*personas*1.8)
         
-        return total
+        return Empresa.calcular_tarifa(self._destino, parcial)
     
     
     #Tiempo en horas, velocidad en km/h
-    def tiempo_de_viaje(self, distancia):
+    def tiempo_de_viaje(self):
+        
+        distancia = Transporte.distancia_KM(self._destino.pais, self._destino.region)
+        
         return distancia/40

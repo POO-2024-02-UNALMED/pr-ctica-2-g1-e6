@@ -99,27 +99,7 @@ class Empresa:
         cls._empresas = empresas
 
     #========== MÉTODOS ==========
-    def calcular_tarifa(self, destino, precio_base):
-        """
-        Calculate final price including company's commission
-        Takes into account:
-        - Company's base rate
-        - Company's prestige
-        - Destination's fame
-        - Destination's season
-        """
-        # Base commission calculation
-        comision_base = precio_base * (self._rate / 100)
-        
-        # Adjust based on company prestige (higher prestige = higher commission)
-        factor_prestigio = 1 + (self._prestige / 20)  # Max 50% increase for top prestige
-        
-        # Adjust based on destination fame and season
-        factor_destino = 1 + ((destino.fama / 10) + (destino.temporada / 5))
-        
-        comision_final = comision_base * factor_prestigio * factor_destino
-        
-        return precio_base + comision_final
+
 
     @staticmethod
     def generador_de_datos(): #Generar datos iniciales de empresas
@@ -216,6 +196,45 @@ class Empresa:
     def set_adultos_et_menores(self, transporte_electo, mayores, menores):
         
         return transporte_electo.set_adultos_et_menores(self, mayores, menores)
+    
+    
+    
+    def calcular_tarifa(self, destino, precio_base):
+        """
+        Calcular el precio final incluyendo la comisión de la empresa
+        Toma en cuenta:
+        - Tasa base de la empresa
+        - Prestigio de la empresa
+        - Fama del destino
+        - Temporada del destino
+        """
+        
+        # Calcular comisión base
+        comision_base = precio_base * (self._tasa / 100)
+        
+        # Ajustar con base al prestigio de la empresa (máximo 50%)
+        factor_prestigio = 1 + (self._prestigio / 20)
+        
+        # Adjustar con base a temporada y fama del destino
+        factor_destino = 1 + ((destino.fama / 10) + (destino.temporada / 5))
+        
+        comision_final = comision_base * factor_prestigio * factor_destino
+        
+        return precio_base + comision_final
+    
+    
+    def confirmar_reserva(self, transporte, tipo_asiento, ida_vuelta):
+        
+        precio = transporte.calcular_precio()
+        self.incrementar_demanda()
+        return precio
+    
+    def incrementar_demanda(self): 
+        if self._prestigio < 10:
+            self._prestigio += 0.1
+        
+        if self._tasa < 20:
+            self._tasa += 0.1
         
         
         

@@ -1,6 +1,6 @@
 import math
 from .Transporte import Transporte
-
+from .Empresa import Empresa
 
 class Tren(Transporte):
     
@@ -23,7 +23,7 @@ class Tren(Transporte):
         else:
             return 3
     
-    def calcular_precio_transporte(self, fama_destino, temporada_destino, personas, clase):
+    def calcular_precio_transporte(self, fama_destino, temporada_destino, adultos, menores, clase):
         """precio_base = 200  # Example base price
         factor_empresa = self.empresa.get_factor()
         factor_destino = self.destino.get_factor()
@@ -31,6 +31,8 @@ class Tren(Transporte):
         descuento_ida_vuelta = 0.85 if self.ida_vuelta else 1.0
         return precio_base * factor_empresa * factor_destino * factor_asiento * descuento_ida_vuelta"""
         
+        personas = adultos + menores
+        
         t = 1.2
         if temporada_destino == 0:
             t = 1
@@ -51,11 +53,13 @@ class Tren(Transporte):
         else:
             pass
         
-        total = (self.PRECIO_POR_KM/1000)*(((math.pow(math.log(self._distancia,5),2))*self._distancia)/((math.sqrt(self._distancia))-math.log(self._distancia,5))*(fama_destino/3)*t*c*personas)
+        parcial = (self.PRECIO_POR_KM/1000)*(((math.pow(math.log(self._distancia,5),2))*self._distancia)/((math.sqrt(self._distancia))-math.log(self._distancia,5))*(fama_destino/3)*t*c*personas)
         
-        return total
+        return Empresa.calcular_tarifa(self._destino, parcial)
     
-    def calcular_precio_ida_vuelta(self, fama_destino, temporada_destino, personas, clase):
+    def calcular_precio_ida_vuelta(self, fama_destino, temporada_destino, adultos, menores, clase):
+        
+        personas = adultos + menores
         
         t = 1.2
         if temporada_destino == 0:
@@ -77,11 +81,14 @@ class Tren(Transporte):
         else:
             pass
         
-        total = (self.PRECIO_POR_KM/1000)*(((math.pow(math.log(self._distancia,5),2))*self._distancia)/((math.sqrt(self._distancia))-math.log(self._distancia,5))*(fama_destino/3)*t*c*personas*1.8)
+        parcial = (self.PRECIO_POR_KM/1000)*(((math.pow(math.log(self._distancia,5),2))*self._distancia)/((math.sqrt(self._distancia))-math.log(self._distancia,5))*(fama_destino/3)*t*c*personas*1.8)
         
-        return total
+        return Empresa.calcular_tarifa(self._destino, parcial)
     
     
     #Tiempo en horas, velocidad en km/h
-    def tiempo_de_viaje(self, distancia):
+    def tiempo_de_viaje(self):
+        
+        distancia = Transporte.distancia_KM(self._destino.pais, self._destino.region)
+        
         return distancia/130

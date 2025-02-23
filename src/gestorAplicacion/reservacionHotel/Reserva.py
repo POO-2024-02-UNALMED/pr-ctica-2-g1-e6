@@ -35,6 +35,13 @@ from datetime import datetime
 from .Destino import Destino
 from .Hotel import Hotel
 
+import os.path, sys
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../")))
+
+from src.excepciones.FechaInvalida import FechaInvalida
+from src.excepciones.ViajerosInvalidos import ViajerosInvalidos
+
 
 class Reserva:
     
@@ -190,7 +197,12 @@ class Reserva:
         fecha_salida = datetime.strptime(fecha_salida, "%Y-%m-%d")
         
         if (fecha_llegada <= fecha_hoy or fecha_salida <= fecha_hoy or fecha_salida <= fecha_llegada):
-            return False
+            if (fecha_llegada <=fecha_hoy):
+                raise FechaInvalida(f"La fecha de llegada ({fecha_llegada.strftime("%d - %m - %Y")}) toma lugar antes de la fecha actual ({fecha_hoy.strftime("%d - %m - %Y")})")
+            elif (fecha_salida <= fecha_hoy):
+                raise FechaInvalida(f"La fecha de salida ({fecha_salida.strftime("%d - %m - %Y")}) toma lugar antes de la fecha actual ({fecha_hoy.strftime("%d - %m - %Y")})")
+            else:
+                raise FechaInvalida(f"La fecha de salida ({fecha_salida.strftime("%d - %m - %Y")}) toma lugar antes de la fecha de llegada ({fecha_llegada.strftime("%d - %m - %Y")})")
             
         else:
             self._fecha_llegar = fecha_llegada
@@ -198,8 +210,7 @@ class Reserva:
             
             self._estadia = (fecha_salida - fecha_llegada).days
             
-            if not modificar:
-                return True
+            return True
                 
         
     def set_adultos_et_menores(self, modificar, mayores, menores):
@@ -215,7 +226,7 @@ class Reserva:
             return 2
             
         else:
-            return 3
+            raise ViajerosInvalidos("El número de viajeros adultos y menores no es válido.")
             
     
     def calculo_estadia_total(self):

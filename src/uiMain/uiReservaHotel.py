@@ -16,17 +16,16 @@
 #|                                                                                                                                  |
 #|      - Alejandro Pérez Barrera (2025-02-13) (Creador)                                                                            |
 #|                                                                                                                                  |
-#|  +Última revisión: 2025-02-17-16-56, AlPerBara                                                                                   |
+#|  +Última revisión: 2025-02-23-12-00, AlPerBara                                                                                   |
 #|                                                                                                                                  |
 #|  + Novedades:                                                                                                                    |
 #|                                                                                                                                  |
-#|      -La funcionalidad es utilizable, ahora es necesario depurar e implementar casos de excepción.                               |
+#|      -Se han implementado casos de excepción.                                                                                    |
 #|                                                                                                                                  |
 #|  + Pendientes en este módulo:                                                                                                    |
 #|                                                                                                                                  |                                    
 #|      - Verificar errores.                                                                                                        |                                    
 #|      - Añadir comentarios.                                                                                                       |                        
-#|      - Casos de excepción.                                                                                                       |                            
 #|                                                                                                                                  |                                                                          
 #|==================================================================================================================================|
 
@@ -40,6 +39,13 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../"
 from src.gestorAplicacion.reservacionHotel.Destino import Destino
 from src.gestorAplicacion.reservacionHotel.Reserva import Reserva
 import locale #Locale es para mostrar el nombre de los meses en español
+
+from src.excepciones.FechaInvalida import FechaInvalida
+
+from src.excepciones.ViajerosInvalidos import ViajerosInvalidos
+
+from src.excepciones.DestinoInexistente import DestinoInexistente
+
 
 class uiReservaHotel:
     def __init__(self, master):
@@ -82,22 +88,29 @@ class uiReservaHotel:
         tk.Label(self.master.frame_intermedio, font=("Arial",12), wraplength=700, text="Por favor seleccione un destino y haga clic en el botón seleccionar.").place(relx=0.5, rely=0.5, anchor="center")
         
         if nombre_destino is not None:
-            self.lista_destinos = tk.Listbox(self.master.frame_inferior, selectmode=tk.SINGLE, font=("Arial", 12), height=10, width=50)
             
-            self.destinos = Destino.buscar_destino(nombre_destino)
-            
-            if len(self.destinos)>0:
-            
-                for destino in self.destinos:
-
-                    self.lista_destinos.insert(tk.END, f"- {destino.nombre}, {destino.pais}")
-
-                self.lista_destinos.grid(row=0, column=1, padx=5, pady=5)
-
-                self.boton_seleccionar = tk.Button(self.master.frame_inferior, text="Seleccionar", command=self.seleccionar_destino, height=3, width=15, font=("Arial", 12))
-                self.boton_seleccionar.grid(row=1, column=1, padx=5, pady=5)
+            try:
                 
-            else:
+                self.lista_destinos = tk.Listbox(self.master.frame_inferior, selectmode=tk.SINGLE, font=("Arial", 12), height=10, width=50)
+
+                self.destinos = Destino.buscar_destino(nombre_destino)
+
+                if len(self.destinos)>0:
+                
+                    for destino in self.destinos:
+
+                        self.lista_destinos.insert(tk.END, f"- {destino.nombre}, {destino.pais}")
+
+                    self.lista_destinos.grid(row=0, column=1, padx=5, pady=5)
+
+                    self.boton_seleccionar = tk.Button(self.master.frame_inferior, text="Seleccionar", command=self.seleccionar_destino, height=3, width=15, font=("Arial", 12))
+                    self.boton_seleccionar.grid(row=1, column=1, padx=5, pady=5)
+
+                else:
+                    messagebox.showwarning("Destino no encontrado", "No se encontraron destinos que coincidan con su búsqueda.")
+                    self.solicitar_destino()
+                    
+            except DestinoInexistente:
                 messagebox.showwarning("Destino no encontrado", "No se encontraron destinos que coincidan con su búsqueda.")
                 self.solicitar_destino()
             
@@ -159,6 +172,9 @@ class uiReservaHotel:
             except ValueError:
                 messagebox.showerror("Error de datos", "Por favor, introduzca datos válidos.")
                 
+            except FechaInvalida:
+                messagebox.showwarning("Error en fechas", "Por favor, introduzca fechas válidas.")
+                
     def pedir_personas(self):
         self.master.despejar_frame_inferior()
         self.master.despejar_frame_intermedio()
@@ -193,6 +209,9 @@ class uiReservaHotel:
             
             except ValueError:  
                 messagebox.showerror("Error de datos", "Por favor, introduzca datos válidos.")
+                
+            except ViajerosInvalidos:
+                messagebox.showwarning("Error en viajeros", "Por favor, introduzca un número válido de viajeros.")
                 
     def mostrar_hoteles(self):
         self.master.despejar_frame_inferior()
