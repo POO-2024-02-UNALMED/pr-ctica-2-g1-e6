@@ -16,13 +16,13 @@ class Tren(Transporte):
             self._viajeros_adultos = mayores
             self._viajeros_menores = menores
             
-            return 1
+            return True
                 
         elif mayores>0 and menores>=0:
             return 2
             
         else:
-            return 3
+            return False
     
     def calcular_precio_transporte(self, fama_destino, temporada_destino, adultos, menores, clase):
         """precio_base = 200  # Example base price

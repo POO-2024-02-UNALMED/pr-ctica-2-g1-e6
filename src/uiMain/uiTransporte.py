@@ -18,6 +18,8 @@ from src.gestorAplicacion.reservacionHotel.Destino import Destino
 from src.excepciones.DestinoInexistente import DestinoInexistente
 from src.excepciones.FechaInvalida import FechaInvalida
 
+from src.excepciones.ViajerosInvalidos import ViajerosInvalidos
+
 
 # filepath: /c:/Users/USUARIO/Documents/Universidad/POO/AgenciaViajes/pr-ctica-2-g1-e6/src/uiMain/uiTransporte.py
 
@@ -233,7 +235,41 @@ class uiTransporte():
         
         
     def validar_numero_personas(self):
-        pass
+        
+        personas = self.field_frame.procurar_todos()
+        
+        try:
+            
+            adultos = int(personas[0]) if personas[0] else 0
+            menores = int(personas[1]) if personas[1] else 0
+            
+            total = adultos + menores
+            
+            resultado_esperado = self.transporte_reserva.set_adultos_et_menores(adultos, menores)
+
+            if resultado_esperado == True:
+                
+                self.total_viajeros = total
+                # Siquiente paso
+                #self.elegir_clase()
+                print("Siguiente paso")
+            
+            elif resultado_esperado == 2:
+                
+                if  isinstance(self.transporte_reserva, Avion):
+                    messagebox.showwarning("Error en viajeros", "Lo lamentamos, pero por motivos legales no podemos permitir que más de dos menores de edad viajen viajen bajo la supervición de un solo adulto.")
+                    
+                elif isinstance(self.transporte_reserva, Tren):
+                    messagebox.showwarning("Error en viajeros", "Lo lamentamos, pero por motivos legales no podemos permitir que más de tres menores de edad viajen viajen bajo la supervición de un solo adulto.")
+            
+            else:
+                messagebox.showwarning("Error en viajeros", "Por favor, introduzca un número válido de viajeros.")
+
+        except ValueError:
+            messagebox.showerror("Error de datos", "Por favor, introduzca datos válidos.")
+            
+        except ViajerosInvalidos:
+            messagebox.showerror("Error en viajeros", "Por favor, introduzca un número válido de viajeros.")
 
 ###############################
     """def create_widgets_step1(self):

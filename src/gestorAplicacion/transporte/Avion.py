@@ -15,16 +15,19 @@ class Avion(Transporte):
     def set_adultos_et_menores(self, mayores, menores):
         
         if (mayores>0 and menores>=0 and ((mayores*2)>=menores)):
+            
             self._viajeros_adultos = mayores
             self._viajeros_menores = menores
             
-            return 1
+            return True
                 
         elif mayores>0 and menores>=0:
+            
             return 2
             
         else:
-            return 3
+            
+            return False
     
     
     
