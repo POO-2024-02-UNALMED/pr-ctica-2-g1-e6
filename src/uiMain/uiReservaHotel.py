@@ -16,11 +16,11 @@
 #|                                                                                                                                  |
 #|      - Alejandro Pérez Barrera (2025-02-13) (Creador)                                                                            |
 #|                                                                                                                                  |
-#|  +Última revisión: 2025-02-23-12-00, AlPerBara                                                                                   |
+#|  +Última revisión: 2025-02-24-10-58, AlPerBara                                                                                   |
 #|                                                                                                                                  |
 #|  + Novedades:                                                                                                                    |
 #|                                                                                                                                  |
-#|      -Se han implementado casos de excepción.                                                                                    |
+#|      - Ahora en el resumen de la reserva se puede ver el precio total.                                                           |
 #|                                                                                                                                  |
 #|  + Pendientes en este módulo:                                                                                                    |
 #|                                                                                                                                  |                                    
@@ -308,9 +308,12 @@ class uiReservaHotel:
         tk.Label(self.master.frame_inferior, text=f"Hotel: {self.reserva_usuario.hotel_viaje.nombre}", font=("Arial", 14)).grid(row=4, column=1, padx=5, pady=5)
         tipo_habitacion = ["Sencilla", "Prémium", "Presidencial"]
         tk.Label(self.master.frame_inferior, text=f"Habitación: {tipo_habitacion[self.reserva_usuario.lujo_hotel_viaje]}", font=("Arial", 14)).grid(row=5, column=1, padx=5, pady=5)
+        precio_total = self.reserva_usuario.calculo_estadia_total()
+        precio_str = f"{precio_total:,.2f}"
+        tk.Label(self.master.frame_inferior, text=f"Precio total: ${precio_str}", font=("Arial", 14, "bold")).grid(row=6, column=1, padx=5, pady=20)
         
-        self.boton_confirmar = tk.Button(self.master.frame_inferior, text="Confirmar", command=self.confirmar_reserva, height=3, width=15, font=("Arial", 16))
-        self.boton_confirmar.grid(row=6, column=1, padx=5, pady=5)
+        self.boton_confirmar = tk.Button(self.master.frame_inferior, text="Confirmar", command=self.confirmar_reserva, height=2, width=13, font=("Arial", 16))
+        self.boton_confirmar.grid(row=7, column=1, padx=5, pady=5)
         
     def confirmar_reserva(self):
         if self.reserva_usuario.confirmar_hotel():

@@ -21,6 +21,8 @@ class Empresa:
     
     _fechas_reserva_usuario = []
     _round_trip_reserva_usuario = False
+    
+    _SESGO = 120
 
     def __init__(self, nombre, prestigio, tasa, destinos_disponibles, medio_destino):
         self._nombre = nombre
@@ -41,6 +43,14 @@ class Empresa:
     @classmethod 
     def set_fechas_reserva_usuario(cls, value):
         cls._fechas_reserva_usuario = value
+        
+    @classmethod
+    def round_trip_reserva_usuario(cls):
+        return cls._round_trip_reserva_usuario
+
+    @classmethod
+    def set_round_trip_reserva_usuario(cls, value):
+        cls._round_trip_reserva_usuario = value
     
     @property
     def nombre(self):
@@ -121,7 +131,7 @@ class Empresa:
                                                   Destino.get_destinos()[13], Destino.get_destinos()[14]], "Avión"),
             Empresa("Brasil Express", (random.randint(12,20)/2), (random.randint(100,400)/20),  [Destino.get_destinos()[3], Destino.get_destinos()[5], Destino.get_destinos()[8], Destino.get_destinos()[13]], "Autobús"),
             Empresa("Cotrans", (random.randint(12,20)/2), (random.randint(100,400)/20),  [Destino.get_destinos()[3], Destino.get_destinos()[5], Destino.get_destinos()[7], Destino.get_destinos()[15]], "Autobús"),
-            Empresa("Ferro Nal", (random.randint(12,20)/2), (random.randint(100,400)/20), [Destino.get_destinos()[3], Destino.get_destinos()[5], Destino.get_destinos()[7], Destino.get_destinos()[8], Destino.get_destinos()[13]], "Tren"),
+            Empresa("Ferro Nal", (random.randint(12,20)/2), (random.randint(100,400)/20), [Destino.get_destinos()[3], Destino.get_destinos()[5], Destino.get_destinos()[8], Destino.get_destinos()[13]], "Tren"),
             Empresa("Salta", (random.randint(12,20)/2), (random.randint(100,400)/20), [Destino.get_destinos()[10]], "Avión"),
             Empresa("AeroEuropa", (random.randint(12,20)/2), (random.randint(100,400)/20), [Destino.get_destinos()[0], Destino.get_destinos()[1], Destino.get_destinos()[12], Destino.get_destinos()[16]], "Avión"),
             Empresa("Air Go", (random.randint(12,20)/2), (random.randint(100,400)/20), [Destino.get_destinos()[0], Destino.get_destinos()[2], Destino.get_destinos()[9], Destino.get_destinos()[11], Destino.get_destinos()[16], 
@@ -236,12 +246,18 @@ class Empresa:
         
         comision_final = comision_base * factor_prestigio * factor_destino
         
-        return precio_base + comision_final
+        return (precio_base + comision_final)*self._SESGO
     
     
     def confirmar_reserva(self, transporte, tipo_asiento, ida_vuelta):
         
-        precio = transporte.calcular_precio()
+        if ida_vuelta:
+            precio = transporte.calcular_precio_ida_vuelta(tipo_asiento)
+            
+        else:
+            precio = transporte.calcular_precio_transporte(tipo_asiento)
+            
+        
         self.incrementar_demanda()
         return precio
     

@@ -31,9 +31,13 @@ class Avion(Transporte):
     
     
     
-    def calcular_precio_transporte(self, fama_destino, temporada_destino, adultos, menores, clase):
+    def calcular_precio_transporte(self, clase):
         
-        personas = adultos + menores
+        fama_destino=self.destino.fama
+        
+        temporada_destino = self.destino.temporada
+        
+        personas = self._viajeros_adultos + self._viajeros_menores
         
         t = 1.2
         if temporada_destino == 0:
@@ -57,11 +61,15 @@ class Avion(Transporte):
         
         parcial = (self.PRECIO_POR_KM/1000)*(((math.pow(math.log(self._distancia,5),2))*self._distancia)/((math.sqrt(self._distancia))-math.log(self._distancia,5))*(fama_destino/3)*t*c*personas)
         
-        return Empresa.calcular_tarifa(self._destino, parcial)
+        return self.empresa.calcular_tarifa(self._destino, parcial)
     
-    def calcular_precio_ida_vuelta(self, fama_destino, temporada_destino, adultos, menores, clase):
+    def calcular_precio_ida_vuelta(self, clase):
         
-        personas = adultos + menores
+        fama_destino=self.destino.fama
+        
+        temporada_destino = self.destino.temporada
+        
+        personas = self._viajeros_adultos + self._viajeros_menores
         
         t = 1.2
         if temporada_destino == 0:
@@ -85,7 +93,7 @@ class Avion(Transporte):
         
         parcial = (self.PRECIO_POR_KM/1000)*(((math.pow(math.log(self._distancia,5),2))*self._distancia)/((math.sqrt(self._distancia))-math.log(self._distancia,5))*(fama_destino/3)*t*c*personas*1.8)
         
-        return Empresa.calcular_tarifa(self._destino, parcial)
+        return self.empresa.calcular_tarifa(self._destino, parcial)
     
     #Tiempo en horas, velocidad en km/h
     def tiempo_de_viaje(self):

@@ -251,8 +251,8 @@ class uiTransporte():
                 
                 self.total_viajeros = total
                 # Siquiente paso
-                #self.elegir_clase()
-                print("Siguiente paso")
+                self.elegir_clase()
+                #print("Siguiente paso")
             
             elif resultado_esperado == 2:
                 
@@ -270,6 +270,137 @@ class uiTransporte():
             
         except ViajerosInvalidos:
             messagebox.showerror("Error en viajeros", "Por favor, introduzca un número válido de viajeros.")
+            
+            
+    def elegir_clase(self):
+        
+        self.master.despejar_frame_inferior()
+        self.master.despejar_frame_intermedio()
+        
+        tk.Label(self.master.frame_intermedio, font=("Arial",12), wraplength=700, text="Por favor seleccione la clase en la que desea viajar.").place(relx=0.5, rely=0.5, anchor="center")
+        
+        self.master.frame_inferior.columnconfigure(0, weight=1)
+        self.master.frame_inferior.columnconfigure(1, weight=1)
+        self.master.frame_inferior.columnconfigure(2, weight=1)
+        
+        self.lista_clases = tk.Listbox(self.master.frame_inferior, selectmode=tk.SINGLE, font=("Arial", 12), height=5, width=40)
+        
+        """if isinstance(self.transporte_reserva, Avion):
+            clases = ["Turista", "Business", "Primera Clase"]
+        elif isinstance(self.transporte_reserva, Tren):
+            clases = ["Básico", "Estándar", "Preferente"]
+        elif isinstance(self.transporte_reserva, Autobus):
+            clases = ["Normal", "Plus", "Comfort"]
+            
+        
+        
+        for clase in len(clases):
+            
+            precio = 0
+            
+            if Empresa.round_trip_reserva_usuario():
+                precio = self.transporte_reserva.calcular_precio_ida_vuelta(clase)
+            
+            else:
+                precio = self.transporte_reserva.calcular_precio_transporte(clase)
+                
+                
+            precio_str = f"{precio:,.2f}"
+            self.lista_clases.insert(tk.END, f"{clase} {'-' * (50 - len(clase) - len(precio_str))} ${precio_str}")"""
+            
+        if Empresa.round_trip_reserva_usuario():
+            precio = self.transporte_reserva.calcular_precio_ida_vuelta(0)
+            precio_str = f"{precio:,.2f}"
+            self.lista_clases.insert(tk.END, f"* Económico {'-' * (50 - 11 - len(precio_str))} ${precio_str}")
+            
+            precio = self.transporte_reserva.calcular_precio_ida_vuelta(1)
+            precio_str = f"{precio:,.2f}"
+            self.lista_clases.insert(tk.END, f"* Normal {'-' * (50 - 6 - len(precio_str))} ${precio_str}")
+            
+            precio = self.transporte_reserva.calcular_precio_ida_vuelta(2)
+            precio_str = f"{precio:,.2f}"
+            self.lista_clases.insert(tk.END, f"* Prémium {'-' * (50 - 7 - len(precio_str))} ${precio_str}")
+            
+        else:
+            precio = self.transporte_reserva.calcular_precio_transporte(0)
+            precio_str = f"{precio:,.2f}"
+            self.lista_clases.insert(tk.END, f"* Económico {'-' * (50 - 11 - len(precio_str))} ${precio_str}")
+            
+            precio = self.transporte_reserva.calcular_precio_transporte(1)
+            precio_str = f"{precio:,.2f}"
+            self.lista_clases.insert(tk.END, f"* Normal {'-' * (50 - 6 - len(precio_str))} ${precio_str}")
+            
+            precio = self.transporte_reserva.calcular_precio_transporte(2)
+            precio_str = f"{precio:,.2f}"
+            self.lista_clases.insert(tk.END, f"* Prémium {'-' * (50 - 7 - len(precio_str))} ${precio_str}")
+        
+        self.lista_clases.grid(row=0, column=1, padx=5, pady=5)
+        
+        self.boton_seleccionar = tk.Button(self.master.frame_inferior, text="Seleccionar", command=self.validar_clase, height=3, width=15, font=("Arial", 12))
+        self.boton_seleccionar.grid(row=1, column=1, padx=5, pady=5)
+        
+    def validar_clase(self):
+        
+        try:
+            
+            clase_elegida = self.lista_clases.curselection()[0]
+            self.clase = clase_elegida
+            
+            self.mostrar_resumen()
+            #self.calcular_reserva()
+            
+        except IndexError:
+            messagebox.showwarning("Selección inválida", "Por favor, seleccione una clase de la lista.")
+            
+    def mostrar_resumen(self):
+        
+        self.master.despejar_frame_inferior()
+        self.master.despejar_frame_intermedio()
+        
+        #self.precio = 0
+        
+        if Empresa.round_trip_reserva_usuario():
+            
+            self.precio = self.transporte_reserva.calcular_precio_ida_vuelta(self.clase)
+            
+            
+        else:
+            
+            self.precio = self.transporte_reserva.calcular_precio_transporte(self.clase)
+            
+            
+        self.tiempo = self.transporte_reserva.tiempo_de_viaje()
+    
+        locale.setlocale(locale.LC_TIME, 'es_ES.UTF-8')
+    
+        resumen_items = [
+            f"Destino: {self.destino_viaje.nombre}, {self.destino_viaje.pais}",
+            f"Medio de Transporte: {self.empresa.medio_destino}",
+            f"Empresa: {self.empresa.nombre}",
+            f"Adultos: {self.transporte_reserva._viajeros_adultos}",
+            f"Menores: {self.transporte_reserva._viajeros_menores}",
+            f"Fecha de Salida: {self.transporte_reserva.fecha_ir.strftime("%d de %B de %Y")}"
+        ]
+    
+        if Empresa.round_trip_reserva_usuario():
+            resumen_items.append(f"Fecha de Retorno: {self.transporte_reserva.fecha_volver.strftime("%d de %B de %Y")}")
+
+        resumen_items.extend([
+            f"Precio Total: ${self.precio:,.2f}",
+            f"Tiempo Estimado de Viaje: {self.tiempo:.2f} horas"
+        ])
+
+        for idx, item in enumerate(resumen_items):
+            tk.Label(self.master.frame_inferior, font=("Arial", 12), wraplength=700, text=item).grid(row=idx, column=1, padx=5, pady=5)
+
+        tk.Button(self.master.frame_inferior, text="Confirmar", command=self.confirmar_reserva, height=3, width=15, font=("Arial", 12)).grid(row=len(resumen_items), column=1, padx=5, pady=5, sticky="ew")
+        
+    def confirmar_reserva(self):
+        
+        
+        self.empresa.confirmar_reserva(self.transporte_reserva, self.clase, True if self.fecha_vuelta else False)
+        messagebox.showinfo("Reserva Confirmada", "Su reserva de transporte ha sido confirmada.")
+        self.reservar_transporte()
 
 ###############################
     """def create_widgets_step1(self):

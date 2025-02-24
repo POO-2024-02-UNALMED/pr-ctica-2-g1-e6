@@ -207,11 +207,11 @@ class Transporte:
         pass
      
     @abstractmethod
-    def calcular_precio_transporte(self, fama_destino, temporada_destino, adultos, menores, clase):
+    def calcular_precio_transporte(self, clase):
         pass
     
     @abstractmethod
-    def calcular_precio_ida_vuelta(self, fama_destino, temporada_destino, adultos, menores, clase):
+    def calcular_precio_ida_vuelta(self, clase):
         pass
         
     @abstractmethod
