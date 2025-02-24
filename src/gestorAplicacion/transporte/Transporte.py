@@ -207,17 +207,18 @@ class Transporte:
         pass
      
     @abstractmethod
-    def calcular_precio_transporte(self, fama_destino, temporada_destino, personas, clase):
+    def calcular_precio_transporte(self, fama_destino, temporada_destino, adultos, menores, clase):
         pass
     
     @abstractmethod
-    def calcular_precio_ida_vuelta(self, fama_destino, temporada_destino, personas, clase):
+    def calcular_precio_ida_vuelta(self, fama_destino, temporada_destino, adultos, menores, clase):
         pass
         
     @abstractmethod
-    def tiempo_de_viaje(self, distancia):
+    def tiempo_de_viaje(self):
         pass
     
+    @staticmethod
     def distancia_KM(pais, region):
         if pais=="Colombia":
             if region=="Bolivar":

@@ -16,7 +16,7 @@
 #|                                                                                                                                  |
 #|      - Alejandro Pérez Barrera (2025-02-08) (Creador)                                                                            |
 #|                                                                                                                                  |
-#|  +Última revisión: 2025-02-15-15-27, AlPerBara                                                                                   |
+#|  +Última revisión: 2025-02-15-17-46, AlPerBara                                                                                   |
 #|                                                                                                                                  |
 #|  + Novedades:                                                                                                                    |
 #|                                                                                                                                  |
@@ -40,6 +40,7 @@ from tkinter import messagebox  #Esto es para mostrar los cuadritos de informaci
 
 import Home #Esto es para regresar a la ventana de inicio
 import uiReservaHotel #Esto es para poder crear los campos de texto
+import uiTransporte
 
 #Este método es solo para poder empezar la ejecución de esta clase desde aquí sin recibir el error TypeError: 'module' object is not callable
 def aterrizar():
@@ -81,7 +82,7 @@ class Principal: #Principal es la ventana de inicio, desde la cual se accede a l
         self.menu_procesos.add_command(label="Reservar Ruta de actividades y talleres")#Opcion para reservar talleres TODO: Asignar comando correspondiente
         self.menu_procesos.add_separator()#Y aquí un separador
 
-        self.menu_procesos.add_command(label="Reservar medio de transporte")#Opción reservar trasporte TODO:Asignar comando correspondiente
+        self.menu_procesos.add_command(label="Reservar medio de transporte", command=self.reservar_transporte)#Opción reservar trasporte TODO:Asignar comando correspondiente
         self.menu_procesos.add_separator()#Y aquí un separador
 
         self.menu_procesos.add_command(label="Realizar pagos")#Opción pagar TODO:Asignar comando correspondiente
@@ -154,4 +155,8 @@ class Principal: #Principal es la ventana de inicio, desde la cual se accede a l
     def reservar_hotel(self):
         reservar = uiReservaHotel.uiReservaHotel(self)
         reservar.reservar_hotel()
+        
+    def reservar_transporte(self):
+        reservacion = uiTransporte.uiTransporte(self)
+        reservacion.reservar_transporte()
         
