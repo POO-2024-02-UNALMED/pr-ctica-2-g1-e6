@@ -3,11 +3,22 @@ import sys
 sys.path.append("src/gestorAplicacion/talleres")
 
 import gestorAplicacion.talleres
+from gestorAplicacion.talleres.Gestion import Gestion
+from gestorAplicacion.talleres.Lugar import Lugar
+from gestorAplicacion.talleres.Ubicacion import Ubicacion
+from gestorAplicacion.talleres.Itinerario import Itinerario
+
 
 class uiTalleres:
     actividades = []
     refrigerios = []
     sitios = []
+
+    def funcion1(self, documento, actividades, refrigerios, fecha, transporte, nro):
+        Destinos = Lugar(nro, 0, 0)
+        Manejo = Gestion(documento, 0, 0, 0, 0)
+        Ruta = Itinerario(actividades, refrigerios, fecha, transporte)
+
     def talleres1():
         while True:
             documento=int(input("Digite número de documento: "))

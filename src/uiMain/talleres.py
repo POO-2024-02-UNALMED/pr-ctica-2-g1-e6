@@ -1,5 +1,4 @@
 from tkinter import Frame, Button, Label, Tk, Entry, messagebox, PhotoImage
-from PIL import Image, ImageTk
 
 import sys
 import os
@@ -10,6 +9,7 @@ import baseDatos.GuardarObjetos
 import gestorAplicacion.talleres.Lugar
 import gestorAplicacion.talleres.Gestion
 
+from uiTalleres import uiTalleres
 from gestorAplicacion.talleres.Itinerario import Itinerario
 from baseDatos.CargarObjetos import CargarObjetos
 from baseDatos.GuardarObjetos import GuardarObjetos
@@ -25,18 +25,22 @@ class talleres(Frame):
         self.pack(expand=True, fill="both")  
         self.create_widgets()
 
+    def grupo(self):
+        uiTalleres.funcion1(self, )
+
     def funcion4(self):
         if len(self.food) >= self.nro:
             self.doky.config(text="¿Desea incluir transporte al recorrido?: 1. Si o 2. No")
             self.op3.destroy()
-            self.op1.config(text="Si", bg="green", fg="white", image=self.imagetrue, command=lambda: (self.food.append(1), self.funcion4()))
-            self.op2.config(text="Nop", bg="red", fg="white",  image=self.imagefalse, command=lambda: (self.food.append(1), self.funcion4()) )
+            self.op1.config(text="Si", bg="green", fg="white", image=self.imagetrue, command=lambda: (self.transporte=1, self.grupo()))
+            self.op2.config(text="Nop", bg="red", fg="white",  image=self.imagefalse, command=lambda: (self.transporte=2, self.grupo()) )
             self.op1.pack(ipadx=30, ipady = 30)
             self.op2.pack(ipadx=30, ipady = 30)
         else: 
             self.op1.destroy()
             self.op2.destroy()
             self.op3.destroy()
+            self.k += 1
             self.funcion1()
     
     def funcion3(self):
@@ -66,6 +70,7 @@ class talleres(Frame):
 
     def funcion1(self):
         self.master.geometry("1500x600")
+        self.doky.config(text=f"Elija que actividad desea agendar para el dia {self.k} ")
         self.op1=Button(self.frame3, image = self.image1, command=lambda: (self.taller.append(1), self.funcion2()))
         self.op1.pack(side="left", padx=15, pady=0, ipadx=5, ipady=5)
         self.op2=Button(self.frame3, image = self.image2, command=lambda: (self.taller.append(2), self.funcion2()))
@@ -107,17 +112,14 @@ class talleres(Frame):
             self.imagetrue = PhotoImage(file="src/uiMain/media/talleres/true.png")
             self.imagefalse = PhotoImage(file="src/uiMain/media/talleres/false.png")
 
-
-
             self.ti1 = Label(self.frame3, bg="violet", fg="white", text="Haz click en: 1. Plantaton  2. Avevisor  3. casaCultura  4. casaMusica  5. TurcoParque  6. Tejedores o 7. Toboganes")
             self.ti1.pack(padx=100)
             self.taller = []
             self.lugar = []
             self.food = []
             self.transporte = 0
-            for i in range(0, self.nro):
-                self.doky.config(text=f"Elija que actividad desea agendar para el dia {i+1}")
-                self.funcion1()
+            self.k = 1
+            self.funcion1()
 
 
             
