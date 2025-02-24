@@ -1,5 +1,6 @@
 import sys
-
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 sys.path.append("src/gestorAplicacion/talleres")
 
 import gestorAplicacion.talleres
@@ -21,33 +22,33 @@ class uiTalleres:
     def grupo(self, Registro, Destinos, Manejo, Ruta):
         a = 0
         sum = 0
-        for ruta in Ruta.actividades:
-            sum += ruta
+        for i in (0, self.nro):
+            sum += Destinos.sitios[i]
+            pass
         
         for sitio in Destinos.sitios:
             a += sitio
 
         preGrupo = (sum + a) / Destinos.nro
 
+        print(preGrupo)
+
     def funcion1(self, documento, actividades, refrigerios, fecha, transporte, nro, sitios):
+        a=0
+        sum=0
         Registro = CargarObjetos.cargar_talleres()
-        Destinos = Lugar(nro, 0, 0)
+        Destinos = Lugar(nro, 0, sitios)
         Manejo = Gestion(documento, 0, 0, 0, 0)
         Ruta = Itinerario(actividades, refrigerios, fecha, transporte)
         for i in (0, nro):
             a+=sitios[i]
+            pass
         a = a/nro
-        for i in Registro.lug1:
-            sum+=Registro.lug1[i]
-            sum+=Registro.lug2[i]
-            sum+=Registro.lug3[i]
-            sum+=Registro.lug4[i]
-        sum = sum / len(Registro.lug1)*4
+        sum = Registro.lug1+Registro.lug2+Registro.lug3+Registro.lug4
+        sum = sum / (Registro.lug1*4+1)
         sum = (sum + a)/2
         Lugar.Puntuacion = sum
-        self.grupo(Registro, Destinos, Manejo, Ruta)
-
-
+        uiTalleres.grupo(self,Registro, Destinos, Manejo, Ruta)
 
 
     def talleres1():

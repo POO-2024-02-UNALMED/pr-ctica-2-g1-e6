@@ -4,7 +4,7 @@ class Lugar(Ubicacion):
     Puntuacion = 0
     sitios=[]
 
-    def _init_(self, nro, distancia, sitios):
+    def __init__(self, nro, distancia, sitios):
         self.nro = nro
         self.distancia = distancia
         self.sitios = sitios

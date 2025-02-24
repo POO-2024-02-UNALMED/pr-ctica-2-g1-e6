@@ -1,5 +1,5 @@
 class Gestion:
-    def _init_(self, Documento, Seguro, Precio, Descuento, Presupuesto):
+    def __init__(self, Documento, Seguro, Precio, Descuento, Presupuesto):
         self.Documento = Documento
         self.Precio = Precio
         self.Seguro = Seguro

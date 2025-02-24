@@ -24,15 +24,21 @@ class talleres(Frame):
         self.pack(expand=True, fill="both")  
         self.create_widgets()
 
-    def grupo(self):
-        uiTalleres.funcion1(self, )
+    def grupo1(self):
+        self.transporte=1
+        uiTalleres.funcion1(self, self.documento, self.taller, self.food, self.date, self.transporte, self.nro, self.lugar)
+
+    def grupo2(self):
+        self.transporte=2
+        uiTalleres.funcion1(self, self.documento, self.taller, self.food, self.date, self.transporte, self.nro, self.lugar)
+
 
     def funcion4(self):
         if len(self.food) >= self.nro:
             self.doky.config(text="¿Desea incluir transporte al recorrido?: 1. Si o 2. No")
             self.op3.destroy()
-            self.op1.config(text="Si", bg="green", fg="white", image=self.imagetrue, command=lambda: (self.transporte=1, self.grupo()))
-            self.op2.config(text="Nop", bg="red", fg="white",  image=self.imagefalse, command=lambda: (self.transporte=2, self.grupo()) )
+            self.op1.config(text="Si", bg="green", fg="white", image=self.imagetrue, command=self.grupo1())
+            self.op2.config(text="Nop", bg="red", fg="white",  image=self.imagefalse, command=self.grupo2()) 
             self.op1.pack(ipadx=30, ipady = 30)
             self.op2.pack(ipadx=30, ipady = 30)
         else: 
@@ -88,7 +94,7 @@ class talleres(Frame):
     #definir fecha
     def fecha(self):
         if int(self.entra.get()) > 0 and int(self.entra.get()) < 21:
-            fecha = int(self.entra.get())
+            self.date = int(self.entra.get())
             self.doky.config(bg="purple", fg="yellow")
             self.botonito.destroy()
             self.entra.destroy()
@@ -146,7 +152,7 @@ class talleres(Frame):
     def verify(self):
         a = float(self.entra.get())
         if a > 9999 and a < 999999999:
-            documento = self.entra.get()
+            self.documento = self.entra.get()
             self.entra.delete(0, "end")
             self.geto()
         else:
