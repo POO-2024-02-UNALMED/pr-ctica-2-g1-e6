@@ -22,7 +22,7 @@ class CargarObjetos:
             return registro
         except FileNotFoundError:
             print("No pude cargar el objeto :(")
-            return 1
+            return False
         
     @staticmethod
     def cargar_empresas():

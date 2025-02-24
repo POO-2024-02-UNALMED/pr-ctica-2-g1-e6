@@ -17,7 +17,6 @@ from baseDatos.GuardarObjetos import GuardarObjetos
 registro = Itinerario()
 
 class talleres(Frame):  
-    GuardarObjetos.guardar_registro(registro)
 
     def __init__(self, master=None): 
         super().__init__(master)  

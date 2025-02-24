@@ -7,17 +7,31 @@ from gestorAplicacion.talleres.Gestion import Gestion
 from gestorAplicacion.talleres.Lugar import Lugar
 from gestorAplicacion.talleres.Ubicacion import Ubicacion
 from gestorAplicacion.talleres.Itinerario import Itinerario
+from baseDatos.CargarObjetos import CargarObjetos
+from baseDatos.GuardarObjetos import GuardarObjetos
 
 
 class uiTalleres:
     actividades = []
     refrigerios = []
     sitios = []
+    a=0
 
-    def funcion1(self, documento, actividades, refrigerios, fecha, transporte, nro):
+    def funcion1(self, documento, actividades, refrigerios, fecha, transporte, nro, sitios):
+        Registro = CargarObjetos.cargar_talleres()
         Destinos = Lugar(nro, 0, 0)
         Manejo = Gestion(documento, 0, 0, 0, 0)
         Ruta = Itinerario(actividades, refrigerios, fecha, transporte)
+        for i in (0, nro):
+            a+=sitios[i]
+        for i in Registro.lug1:
+            sum+=Registro.lug1[i]
+            sum+=Registro.lug2[i]
+            sum+=Registro.lug3[i]
+            sum+=Registro.lug4[i]
+
+
+
 
     def talleres1():
         while True:
