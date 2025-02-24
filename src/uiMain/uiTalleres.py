@@ -16,6 +16,18 @@ class uiTalleres:
     refrigerios = []
     sitios = []
     a=0
+    sum=0
+
+    def grupo(self, Registro, Destinos, Manejo, Ruta):
+        a = 0
+        sum = 0
+        for ruta in Ruta.actividades:
+            sum += ruta
+        
+        for sitio in Destinos.sitios:
+            a += sitio
+
+        preGrupo = (sum + a) / Destinos.nro
 
     def funcion1(self, documento, actividades, refrigerios, fecha, transporte, nro, sitios):
         Registro = CargarObjetos.cargar_talleres()
@@ -24,11 +36,16 @@ class uiTalleres:
         Ruta = Itinerario(actividades, refrigerios, fecha, transporte)
         for i in (0, nro):
             a+=sitios[i]
+        a = a/nro
         for i in Registro.lug1:
             sum+=Registro.lug1[i]
             sum+=Registro.lug2[i]
             sum+=Registro.lug3[i]
             sum+=Registro.lug4[i]
+        sum = sum / len(Registro.lug1)*4
+        sum = (sum + a)/2
+        Lugar.Puntuacion = sum
+        self.grupo(Registro, Destinos, Manejo, Ruta)
 
 
 
