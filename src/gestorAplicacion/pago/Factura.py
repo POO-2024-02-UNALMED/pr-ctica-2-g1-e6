@@ -15,9 +15,22 @@ class MetodoPago(Enum):
     def __init__(self, codigo, descripcion):
         self.codigo = codigo
         self.descripcion = descripcion
+    
+    @property
+    def get_codigo(self):
+        return self._codigo
+    
+    @property
+    def set_codigo(self, codigo):
+        self._codigo = codigo
 
+    @property
     def get_descripcion(self):
         return self.descripcion
+    
+    @property
+    def set_descripcion(self, descripcion):
+        self._descripcion = descripcion
 
 @dataclass
 class Factura:
