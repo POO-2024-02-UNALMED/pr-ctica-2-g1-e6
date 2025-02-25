@@ -19,10 +19,13 @@ class uiTalleres:
     a=0
     sum=0
 
+    def funcion2(self, carro):
+        pass
+
     def grupo(self, Registro, Destinos, Manejo, Ruta):
         a = 0
         sum = 0
-        for i in (0, self.nro):
+        for i in (0, len(Destinos.sitios)-1):
             sum += Destinos.sitios[i]
             pass
         
@@ -31,24 +34,28 @@ class uiTalleres:
 
         preGrupo = (sum + a) / Destinos.nro
 
-        print(preGrupo)
+        if preGrupo > 7:
+            Ruta.grupo=1
+        else:
+            Ruta.grupo=2
 
     def funcion1(self, documento, actividades, refrigerios, fecha, transporte, nro, sitios):
         a=0
-        sum=0
+        suma=0
         Registro = CargarObjetos.cargar_talleres()
         Destinos = Lugar(nro, 0, sitios)
         Manejo = Gestion(documento, 0, 0, 0, 0)
         Ruta = Itinerario(actividades, refrigerios, fecha, transporte)
-        for i in (0, nro):
-            a+=sitios[i]
-            pass
+        a = sum(Destinos.sitios)
+
         a = a/nro
-        sum = Registro.lug1+Registro.lug2+Registro.lug3+Registro.lug4
-        sum = sum / (Registro.lug1*4+1)
-        sum = (sum + a)/2
-        Lugar.Puntuacion = sum
+        suma = Registro.lug1+Registro.lug2+Registro.lug3+Registro.lug4
+        suma = suma / (Registro.lug1*4+1)
+        suma = (suma + a)/2
+        Lugar.Puntuacion = suma
         uiTalleres.grupo(self,Registro, Destinos, Manejo, Ruta)
+
+        return Ruta.grupo
 
 
     def talleres1():

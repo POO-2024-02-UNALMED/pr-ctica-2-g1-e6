@@ -24,21 +24,58 @@ class talleres(Frame):
         self.pack(expand=True, fill="both")  
         self.create_widgets()
 
+
+    def descuento(self):
+        messagebox.showinfo("Información", f"Usted ha sido agregado al grupo: {self.group}")
+        self.frame3.config(bg="black", cursor="star")
+        self.ti1.config(bg="white", text="Asignación de grupos")
+        uiTalleres.funcion2(self, self.transporte)
+
+    def a(self):
+        self.transporte = 1
+        self.descuento()
+
+    def b(self):
+        self.transporte = 2
+        self.descuento()
+
+    def c(self):
+        self.transporte = 3
+        self.descuento()
+
+    def d(self):
+        self.transporte = 4
+        self.descuento()
+
     def grupo1(self):
         self.transporte=1
-        uiTalleres.funcion1(self, self.documento, self.taller, self.food, self.date, self.transporte, self.nro, self.lugar)
+        self.doky.config(text="En que vehiculo desea hacer su recorrido ??")
+        self.ti1.config(text="1). Moto 2). Carro express 3). Carro premium 4). Bus turistico ")
+        self.group=uiTalleres.funcion1(self, self.documento, self.taller, self.food, self.date, self.transporte, self.nro, self.lugar)
+        self.op1.config(bg="purple", image=self.moto, command=self.a)
+        self.op1.pack(side="left", ipady=10, ipadx=10, padx=5)
+        self.op2.config(bg="purple", image=self.express, command=self.b)
+        self.op2.pack(side="left", ipady=10, ipadx=10, padx=5)
+        self.op3 = Button(self.frame3, bg="purple", image=self.carro, command=self.c)
+        self.op3.pack(side="left", ipady=10, ipadx=10, padx=5)
+        self.op4 = Button(self.frame3, bg="purple", image=self.bus, command=self.d)
+        self.op4.pack(side="left", ipady=10, ipadx=10, padx=5)
 
+        
     def grupo2(self):
         self.transporte=2
-        uiTalleres.funcion1(self, self.documento, self.taller, self.food, self.date, self.transporte, self.nro, self.lugar)
-
+        self.group=uiTalleres.funcion1(self, self.documento, self.taller, self.food, self.date, self.transporte, self.nro, self.lugar)
+        self.op1.destroy()
+        self.op2.destroy()
+        self.transporte=0
+        self.descuento()
 
     def funcion4(self):
         if len(self.food) >= self.nro:
             self.doky.config(text="¿Desea incluir transporte al recorrido?: 1. Si o 2. No")
             self.op3.destroy()
-            self.op1.config(text="Si", bg="green", fg="white", image=self.imagetrue, command=self.grupo1())
-            self.op2.config(text="Nop", bg="red", fg="white",  image=self.imagefalse, command=self.grupo2()) 
+            self.op1.config(text="Si", bg="green", fg="white", image=self.imagetrue, command=self.grupo1)
+            self.op2.config(text="Nop", bg="red", fg="white",  image=self.imagefalse, command=self.grupo2) 
             self.op1.pack(ipadx=30, ipady = 30)
             self.op2.pack(ipadx=30, ipady = 30)
         else: 
@@ -116,6 +153,10 @@ class talleres(Frame):
             self.image23 = PhotoImage(file="src/uiMain/media/talleres/f3.png")
             self.imagetrue = PhotoImage(file="src/uiMain/media/talleres/true.png")
             self.imagefalse = PhotoImage(file="src/uiMain/media/talleres/false.png")
+            self.moto = PhotoImage(file="src/uiMain/media/talleres/moto.png")
+            self.express = PhotoImage(file="src/uiMain/media/talleres/express.png")
+            self.carro = PhotoImage(file="src/uiMain/media/talleres/carro.png")
+            self.bus = PhotoImage(file="src/uiMain/media/talleres/bus.png") 
 
             self.ti1 = Label(self.frame3, bg="violet", fg="white", text="Haz click en: 1. Plantaton  2. Avevisor  3. casaCultura  4. casaMusica  5. TurcoParque  6. Tejedores o 7. Toboganes")
             self.ti1.pack(padx=100)
