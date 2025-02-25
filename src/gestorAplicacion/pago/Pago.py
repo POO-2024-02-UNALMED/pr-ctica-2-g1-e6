@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import List
 import uuid
-from Factura import Factura, MetodoPago, EstadoPago
+from .factura import Factura, MetodoPago, EstadoPago
 
 class Pago:
     CARGO_MINIMO = 1000.0
