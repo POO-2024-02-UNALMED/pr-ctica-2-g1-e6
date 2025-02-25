@@ -19,7 +19,7 @@ from tkinter import messagebox  # Para mostrar cuadros de información
 import Home  # Módulo para regresar a la ventana de inicio
 import uiReservaHotel  # Funcionalidad de reservar hotel
 import uiTransporte  # Funcionalidad de transporte
-from uiPago import uiPago  # Integración de la funcionalidad de pago
+import uiPago  # Funcionalidad de pago
 
 # Este método es para iniciar la ejecución de esta clase sin recibir error TypeError: 'module' object is not callable
 def aterrizar():
