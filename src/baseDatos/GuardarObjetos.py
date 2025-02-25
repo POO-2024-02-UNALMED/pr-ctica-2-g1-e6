@@ -20,3 +20,12 @@ class GuardarObjetos:
         pickle.dump(registro, directorio)
         
         directorio.close()
+        
+    @staticmethod
+    def guardar_emtrans(emtrans):
+        
+        directorio = open("src/baseDatos/temp/emtrans.pkl", "wb")
+        
+        pickle.dump(emtrans, directorio)
+        
+        directorio.close()

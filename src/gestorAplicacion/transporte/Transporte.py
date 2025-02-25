@@ -1,4 +1,37 @@
-"""from abc import ABC, abstractmethod
+#|==================================================================================================================================|
+#|                                                                                                                                  |
+#|  Copyright (c) 2025 Agencia de Viajes Mundo Aventura S.A.                                                                        |
+#|                                                                                                                                  |
+#|  + Nombre del módulo:                                                                                                            |
+#|                                                                                                                                  |
+#|      Transporte.py                                                                                                               |
+#|                                                                                                                                  |
+#|  + Resumen:                                                                                                                      |
+#|                                                                                                                                  |
+#|      Este módulo es una clase abstracta, la cuál se utiliza como base                                                            |
+#|              para crear los distintos medios de transporte.                                                                      |
+#|                                                                                                                                  |
+#|  + Codificado por:                                                                                                               |
+#|                                                                                                                                  |
+#|      - Alejandro Pérez Barrera (2025-02-23) (Creador)                                                                            |
+#|                                                                                                                                  |
+#|  +Última revisión: 2025-02-25-08-28, AlPerBara                                                                                   |
+#|                                                                                                                                  |
+#|  + Novedades:                                                                                                                    |
+#|                                                                                                                                  |
+#|                                                                                                                                  |
+#|  + Pendientes en este módulo:                                                                                                    |
+#|                                                                                                                                  |
+#|                                                                                                                                  |
+#|==================================================================================================================================|
+
+
+#Todo esto es código inutilizado (Usado como referencia para estructurar esta funcionalidad)
+#       , se deja con comentarios para evitar que ocurran cosas malucas.
+
+"""
+
+from abc import ABC, abstractmethod
 
 class Transporte(ABC):
     
@@ -92,17 +125,19 @@ class GUI:
         return precio
 
     def calcular_tiempo_estimado(self, destino, velocidad_promedio):
-        return destino.distancia / velocidad_promedio  # Time = Distance / Speed"""
+        return destino.distancia / velocidad_promedio  # Time = Distance / Speed
+        
+"""
     
-from abc import ABC, abstractmethod
-from datetime import datetime
-import os.path, sys
+from abc import ABC, abstractmethod #Esta clase es abstracta, por lo que importa el módulo ABC de la librería abc
+from datetime import datetime #Esto es para manejar fechas
+import os.path, sys #Esto es para poder importar módulos de otros directorios
 
 from .Empresa import Empresa
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../")))
 
-from src.excepciones.FechaInvalida import FechaInvalida
+from src.excepciones.FechaInvalida import FechaInvalida #Se importa la excepción FechaInvalida
    
 class Transporte:
     def __init__(self, empresa, destino, fecha_ir, fecha_volver=None):
@@ -175,6 +210,7 @@ class Transporte:
         
     #========== MÉTODOS ==========
         
+    #Validar fechas verifica que no se vaya a viajar al pasado o algo similar, si no se ingresa una fecha de retorno, se toma por nula
     def validar_fechas(self, fecha_ir, fecha_volver=None):
         fecha_hoy = datetime.today()
         if fecha_volver:
@@ -202,24 +238,31 @@ class Transporte:
                 return True
             
         
+    #Este método se encarga de asignar la cantidad de adultos y menores que van a viajar
     @abstractmethod
     def set_adultos_et_menores(self, mayores, menores):
         pass
      
+    #Este método se encarga de calcular el precio del transporte
     @abstractmethod
     def calcular_precio_transporte(self, clase):
         pass
     
+    #Este método se encarga de calcular el precio de un viaje de ida y vuelta
     @abstractmethod
     def calcular_precio_ida_vuelta(self, clase):
         pass
-        
+    
+    #Este método se encarga de calcular el tiempo de viaje    
     @abstractmethod
     def tiempo_de_viaje(self):
         pass
     
+    #Este método se encarga de calcular la distancia entre dos regiones, comenzando desde Medellín, hasta el destino
     @staticmethod
     def distancia_KM(pais, region):
+        #Primero se verifica si el destino está en Colombia, si no, se toma como destino un país extranjero
+        #Esta verificación viene desde el código de Java, una implementación bruta pero efectiva
         if pais=="Colombia":
             if region=="Bolivar":
                 return 460.88
@@ -238,7 +281,9 @@ class Transporte:
             elif region=="Risaralda":
                 return 158.02
             else:
-                return 350.45
+                return 350.45 #Valor genérico para evitar excepciones
+        
+        #Si el destino no está en Colombia, se toma como destino un país extranjero
         else:
             if pais=="Francia":
                 return 8602.81
@@ -265,4 +310,4 @@ class Transporte:
             elif pais=="Emiratos Arabes Unidos":
                 return 13658.18
             else:
-                return 5654.45
+                return 5654.45 #Valor genérico, aproximadamente la distancia de Colombia a algún lugar en norte américa

@@ -16,29 +16,27 @@
 #|                                                                                                                                  |
 #|      - Alejandro Pérez Barrera (2025-02-09) (Creador)                                                                            |
 #|                                                                                                                                  |
-#|  +Última revisión: 2025-02-23-12-01, AlPerBara                                                                                   |
+#|  +Última revisión: 2025-02-25-08-56, AlPerBara                                                                                   |
 #|                                                                                                                                  |
 #|  + Novedades:                                                                                                                    |
 #|                                                                                                                                  |
-#|      -Ahora hay más destinos disponibles, junto con casos de excepción.                                                          |
 #|                                                                                                                                  |
 #|  + Pendientes en este módulo:                                                                                                    |
 #|                                                                                                                                  |                                                                                      |
-#|      - Añadir comentarios.                                                                                                       |
 #|                                                                                                                                  |
 #|==================================================================================================================================|
 
 
-import random
-import sys, os.path
-from .Hotel import Hotel
+import random #random se importa para generar los destinos
+import sys, os.path #sys y os.path se importan para poder importar los módulos de la carpeta baseDatos
+from .Hotel import Hotel #Se importa la clase Hotel para poder añadir hoteles a los destinos
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../")))
 
 from src.baseDatos.GuardarObjetos import GuardarObjetos
-from src.baseDatos.CargarObjetos import CargarObjetos
+from src.baseDatos.CargarObjetos import CargarObjetos #Se importa la clase CargarObjetos para poder cargar los destinos
 
-from src.excepciones.DestinoInexistente import DestinoInexistente
+from src.excepciones.DestinoInexistente import DestinoInexistente #Se importa la excepción DestinoInexistente para poder lanzarla
 
 
 class Destino:
@@ -164,33 +162,45 @@ class Destino:
 
     #========== TERMINAN SETTERS Y GETTERS ==========
 
+    #Método para buscar destinos, con una palabra clave
     @staticmethod
     def buscar_destino(palabra_clave):
         retorno =[]
 
+        #Por cada destino de la lista de destinos, se buscan coincidencias por nombre, nombre alterno, región y país
         for destino in Destino.get_destinos():
             if palabra_clave.lower() in [destino.nombre.lower(), destino.nombre_alterno.lower(), destino.region.lower(), destino.pais.lower()]:
+                #Todo destino que presente alguna coincidencia, se añade a la lista de retorno
                 retorno.append(destino)
 
+        #Si la lista de retorno no está vacía, se retorna
         if retorno != []:
             return retorno
         
+        #Si la lista de retorno está vacía, se lanza una excepción
         else:
             raise DestinoInexistente("No se encontró ningún destino con la palabra clave: "+palabra_clave)
     
+    #Método para modificar los atributos de un destino, si se hace una reserva
     def reserva_hecha(self, hotel_reservado, lujo_reserva, delta_demanda):
         #from .Reserva import Reserva
         hotel_prestigio = hotel_reservado.prestigio
 
+        #Se verifca si la demanda es alta y el hotel es prestigioso
         if delta_demanda>0.35 and hotel_prestigio>8.65:
+            #En ficho caso, se aumenta la fama del destino
             self._fama=min(self._fama+((delta_demanda*hotel_prestigio)/20),5.0)
 
+        #Se verifica si la reserva es de lujo o la demanda es alta
         if (lujo_reserva>=2 or delta_demanda>0.45) and self._temporada<2:
+            #En dicho caso, se aumenta la temporada
             self._temporada+=1
             
+        #confirmación de éxito
         return True
 
     
+    #Este método genera destinos si no hay ninguno en la memoria, implementa valores aleatorios
     @classmethod
     def generador_de_datos(cls):
         return [

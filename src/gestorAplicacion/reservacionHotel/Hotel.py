@@ -17,15 +17,13 @@
 #|                                                                                                                                  |
 #|      - Alejandro Pérez Barrera (2025-02-09) (Creador)                                                                            |
 #|                                                                                                                                  |
-#|  +Última revisión: 2025-02-16-20-04, AlPerBara                                                                                   |
+#|  +Última revisión: 2025-02-24-08-59, AlPerBara                                                                                   |
 #|                                                                                                                                  |
 #|  + Novedades:                                                                                                                    |
 #|                                                                                                                                  |
-#|      -Hace falta verificar que este módulo se comporte como es de esperarse.                                                     |
 #|                                                                                                                                  |
 #|  + Pendientes en este módulo:                                                                                                    |
 #|                                                                                                                                  |
-#|      - Añadir comentarios.                                                                                                       |
 #|                                                                                                                                  |
 #|==================================================================================================================================|
 

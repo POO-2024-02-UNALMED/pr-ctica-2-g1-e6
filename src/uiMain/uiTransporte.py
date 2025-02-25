@@ -1,3 +1,35 @@
+#|==================================================================================================================================|
+#|                                                                                                                                  |
+#|  Copyright (c) 2025 Agencia de Viajes Mundo Aventura S.A.                                                                        |
+#|                                                                                                                                  |
+#|  + Nombre del módulo:                                                                                                            |
+#|                                                                                                                                  |
+#|      uiTransporte.py                                                                                                             |
+#|                                                                                                                                  |
+#|  + Resumen:                                                                                                                      |
+#|                                                                                                                                  |
+#|      Este módulo contiene la interfaz de usuario para la reserva de medios de transporte.                                        |
+#|              Se encarga de solicitar al usuario el destino de su viaje, las fechas de llegada y salida (Si aplica),              |
+#|              y el número de personas con las que viaja.                                                                          |
+#|                                                                                                                                  |
+#|  + Codificado por:                                                                                                               |
+#|                                                                                                                                  |
+#|      - Alejandro Pérez Barrera (2025-02-23) (Creador)                                                                            |
+#|                                                                                                                                  |
+#|  +Última revisión: 2025-02-25-08-28, AlPerBara                                                                                   |
+#|                                                                                                                                  |
+#|  + Novedades:                                                                                                                    |
+#|                                                                                                                                  |
+#|      - Añadida barra de scroll.                                                                                                  |
+#|                                                                                                                                  |
+#|  + Pendientes en este módulo:                                                                                                    |
+#|                                                                                                                                  |
+#|      - Verificar errores.                                                                                                        |
+#|      - Añadir comentarios.                                                                                                       |
+#|                                                                                                                                  |
+#|==================================================================================================================================|
+
+
 import tkinter as tk
 from tkinter import messagebox
 import os.path, sys, datetime, locale
@@ -83,7 +115,7 @@ class uiTransporte():
                 
                 self.lista_destinos = tk.Listbox(self.master.frame_inferior, selectmode=tk.SINGLE, font=("Arial", 12), height=10, width=50)
 
-                self.destinos = Destino.buscar_destino(nombre_destino)
+                self.destinos = Empresa.buscar_destino(nombre_destino)
 
                 if len(self.destinos)>0:
                 
@@ -106,7 +138,20 @@ class uiTransporte():
             
         else:
             
+            self.master.despejar_frame_intermedio()
+            tk.Label(self.master.frame_intermedio, font=("Arial",12), wraplength=700, text="Mostrando todos nuestros destinos, para ver más destinos, por favor utilice la barra de scroll.").place(relx=0.5, rely=0.5, anchor="center")
+
+            
             self.lista_destinos = tk.Listbox(self.master.frame_inferior, selectmode=tk.SINGLE, font=("Arial", 12), height=10, width=50)
+            
+            self.scroll = tk.Scrollbar(self.master.frame_inferior, orient="vertical", command=self.lista_destinos.yview)
+            
+            self.lista_destinos.config(yscrollcommand=self.scroll.set)
+            
+            self.scroll.grid(row=0, column=2, sticky="ns")
+            
+            
+
             
             self.destinos = Destino.get_destinos()
             
@@ -114,7 +159,7 @@ class uiTransporte():
                 
                 self.lista_destinos.insert(tk.END, f"- {destino.nombre}, {destino.pais}")
             
-            self.lista_destinos.grid(row=0, column=1, padx=5, pady=5)
+            self.lista_destinos.grid(row=0, column=1, padx=5, pady=5, sticky="nsew")
             
             self.boton_seleccionar = tk.Button(self.master.frame_inferior, text="Seleccionar", command=self.seleccionar_destino, height=3, width=15, font=("Arial", 12))
             self.boton_seleccionar.grid(row=1, column=1, padx=5, pady=5)
@@ -359,14 +404,7 @@ class uiTransporte():
         
         #self.precio = 0
         
-        if Empresa.round_trip_reserva_usuario():
-            
-            self.precio = self.transporte_reserva.calcular_precio_ida_vuelta(self.clase)
-            
-            
-        else:
-            
-            self.precio = self.transporte_reserva.calcular_precio_transporte(self.clase)
+        self.precio = self.empresa.dar_precio(self.transporte_reserva, self.clase, True if self.fecha_vuelta else False)
             
             
         self.tiempo = self.transporte_reserva.tiempo_de_viaje()
@@ -398,7 +436,7 @@ class uiTransporte():
     def confirmar_reserva(self):
         
         
-        self.empresa.confirmar_reserva(self.transporte_reserva, self.clase, True if self.fecha_vuelta else False)
+        self.empresa.incrementar_demanda()
         messagebox.showinfo("Reserva Confirmada", "Su reserva de transporte ha sido confirmada.")
         self.reservar_transporte()
 

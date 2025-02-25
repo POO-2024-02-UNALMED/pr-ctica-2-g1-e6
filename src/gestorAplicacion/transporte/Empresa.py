@@ -249,17 +249,18 @@ class Empresa:
         return (precio_base + comision_final)*self._SESGO
     
     
-    def confirmar_reserva(self, transporte, tipo_asiento, ida_vuelta):
+    def dar_precio(self, transporte, tipo_asiento, ida_vuelta):
+        
         
         if ida_vuelta:
-            precio = transporte.calcular_precio_ida_vuelta(tipo_asiento)
+            return transporte.calcular_precio_ida_vuelta(tipo_asiento)
             
         else:
-            precio = transporte.calcular_precio_transporte(tipo_asiento)
+            return transporte.calcular_precio_transporte(tipo_asiento)
             
         
-        self.incrementar_demanda()
-        return precio
+        #self.incrementar_demanda()
+        #return precio
     
     def incrementar_demanda(self): 
         if self._prestigio < 10:

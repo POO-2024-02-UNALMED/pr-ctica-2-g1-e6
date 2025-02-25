@@ -16,17 +16,17 @@
 #|                                                                                                                                  |
 #|      - Alejandro Pérez Barrera (2025-02-13) (Creador)                                                                            |
 #|                                                                                                                                  |
-#|  +Última revisión: 2025-02-24-10-58, AlPerBara                                                                                   |
+#|  +Última revisión: 2025-02-25-08-28, AlPerBara                                                                                   |
 #|                                                                                                                                  |
 #|  + Novedades:                                                                                                                    |
 #|                                                                                                                                  |
-#|      - Ahora en el resumen de la reserva se puede ver el precio total.                                                           |
+#|      - Añadida barra de scroll.                                                                                                  |
 #|                                                                                                                                  |
 #|  + Pendientes en este módulo:                                                                                                    |
-#|                                                                                                                                  |                                    
-#|      - Verificar errores.                                                                                                        |                                    
-#|      - Añadir comentarios.                                                                                                       |                        
-#|                                                                                                                                  |                                                                          
+#|                                                                                                                                  |
+#|      - Verificar errores.                                                                                                        |
+#|      - Añadir comentarios.                                                                                                       |
+#|                                                                                                                                  |
 #|==================================================================================================================================|
 
 
@@ -79,6 +79,7 @@ class uiReservaHotel:
         self.field_frame = Fieldframe.Fieldframe(self.master.frame_inferior, "Destino", ["Introduzca un destino: "], "Nombre del destino", None, None, self.listar_destinos,False)
         self.field_frame.grid(row=0, column=1,padx=5, pady=5)
         
+    #Este método se encarga de listar los destinos que coincidan con la búsqueda del usuario
     def listar_destinos(self):
         
         nombre_destino = self.field_frame.procurar_todos()[0]
@@ -87,6 +88,7 @@ class uiReservaHotel:
         self.master.despejar_frame_intermedio()
         tk.Label(self.master.frame_intermedio, font=("Arial",12), wraplength=700, text="Por favor seleccione un destino y haga clic en el botón seleccionar.").place(relx=0.5, rely=0.5, anchor="center")
         
+        #Si el usuario introdujo un destino, se buscan los destinos que coincidan con la búsqueda
         if nombre_destino is not None:
             
             try:
@@ -95,6 +97,7 @@ class uiReservaHotel:
 
                 self.destinos = Destino.buscar_destino(nombre_destino)
 
+                #Si hay al menos un resultado, se listan los destinos
                 if len(self.destinos)>0:
                 
                     for destino in self.destinos:
@@ -106,6 +109,7 @@ class uiReservaHotel:
                     self.boton_seleccionar = tk.Button(self.master.frame_inferior, text="Seleccionar", command=self.seleccionar_destino, height=3, width=15, font=("Arial", 12))
                     self.boton_seleccionar.grid(row=1, column=1, padx=5, pady=5)
 
+                #Si no hay resultados, se le informa al usuario
                 else:
                     messagebox.showwarning("Destino no encontrado", "No se encontraron destinos que coincidan con su búsqueda.")
                     self.solicitar_destino()
@@ -113,10 +117,23 @@ class uiReservaHotel:
             except DestinoInexistente:
                 messagebox.showwarning("Destino no encontrado", "No se encontraron destinos que coincidan con su búsqueda.")
                 self.solicitar_destino()
-            
+        
+        #Si el usuario no introdujo un destino, se listan todos los destinos    
         else:
             
+            self.master.despejar_frame_intermedio()
+            tk.Label(self.master.frame_intermedio, font=("Arial",12), wraplength=700, text="Mostrando todos nuestros destinos, para ver más destinos, por favor utilice la barra de scroll.").place(relx=0.5, rely=0.5, anchor="center")
+
+            
+            
             self.lista_destinos = tk.Listbox(self.master.frame_inferior, selectmode=tk.SINGLE, font=("Arial", 12), height=10, width=50)
+            
+            self.scroll = tk.Scrollbar(self.master.frame_inferior, orient="vertical", command=self.lista_destinos.yview)
+            
+            self.lista_destinos.config(yscrollcommand=self.scroll.set)
+            
+            self.scroll.grid(row=0, column=2, sticky="ns")
+            
             
             self.destinos = Destino.get_destinos()
             
@@ -124,7 +141,7 @@ class uiReservaHotel:
                 
                 self.lista_destinos.insert(tk.END, f"- {destino.nombre}, {destino.pais}")
             
-            self.lista_destinos.grid(row=0, column=1, padx=5, pady=5)
+            self.lista_destinos.grid(row=0, column=1, padx=5, pady=5, sticky="nsew")
             
             self.boton_seleccionar = tk.Button(self.master.frame_inferior, text="Seleccionar", command=self.seleccionar_destino, height=3, width=15, font=("Arial", 12))
             self.boton_seleccionar.grid(row=1, column=1, padx=5, pady=5)
