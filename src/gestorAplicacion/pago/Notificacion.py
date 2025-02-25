@@ -27,13 +27,9 @@ Monto: ${factura.monto:.2f}"""
 
 
 if __name__ == "__main__":
-    
     notificacion = Notificacion()
-  
     notificacion.enviar("Test message")
-  
     notificacion.enviar_error("Something went wrong")
-    
     print("\nHistorial de notificaciones:")
     for notif in notificacion.get_historial_notificaciones():
         print(notif)
