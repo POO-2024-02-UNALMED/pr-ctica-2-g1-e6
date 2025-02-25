@@ -10,7 +10,7 @@ class GuardarObjetos:
         pickle.dump(destinos, directorio)
         
         directorio.close()
-        print("Consola: Destinos guardados.")
+        #print("Consola: Destinos guardados.")
 
     @staticmethod
     def guardar_registro(registro):
@@ -29,3 +29,4 @@ class GuardarObjetos:
         pickle.dump(emtrans, directorio)
         
         directorio.close()
+        #print("Consola: Emptrans guardados.")

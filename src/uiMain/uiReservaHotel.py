@@ -38,6 +38,7 @@ import sys, os.path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
 from src.gestorAplicacion.reservacionHotel.Destino import Destino
 from src.gestorAplicacion.reservacionHotel.Reserva import Reserva
+from src.baseDatos.GuardarObjetos import GuardarObjetos
 import locale #Locale es para mostrar el nombre de los meses en español
 
 from src.excepciones.FechaInvalida import FechaInvalida
@@ -334,6 +335,7 @@ class uiReservaHotel:
         
     def confirmar_reserva(self):
         if self.reserva_usuario.confirmar_hotel():
+            GuardarObjetos.guardar_destinos(Destino.get_destinos())
             messagebox.showinfo("Reserva exitosa", "Su reserva ha sido confirmada exitosamente.")
             self.reservar_hotel()
             

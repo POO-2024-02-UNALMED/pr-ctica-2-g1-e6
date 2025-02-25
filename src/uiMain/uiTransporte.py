@@ -52,6 +52,8 @@ from src.excepciones.FechaInvalida import FechaInvalida
 
 from src.excepciones.ViajerosInvalidos import ViajerosInvalidos
 
+from src.baseDatos.GuardarObjetos import GuardarObjetos
+
 
 # filepath: /c:/Users/USUARIO/Documents/Universidad/POO/AgenciaViajes/pr-ctica-2-g1-e6/src/uiMain/uiTransporte.py
 
@@ -437,6 +439,7 @@ class uiTransporte():
         
         
         self.empresa.incrementar_demanda()
+        GuardarObjetos.guardar_emtrans(Empresa.get_listado_empresas())
         messagebox.showinfo("Reserva Confirmada", "Su reserva de transporte ha sido confirmada.")
         self.reservar_transporte()
 
@@ -486,7 +489,7 @@ class uiTransporte():
         else:
             self.medio = Autobus(Empresa("Empresa C", 3, 1.0, None, None),
                                  self.destino, self.fecha_ida, self.fecha_vuelta)
-        self.next_step()"""
+        self.next_step()
 
     def create_widgets_step4(self):
         for child in self.winfo_children():
@@ -555,4 +558,4 @@ class uiTransporte():
         elif self.step == 6:
             self.create_widgets_step6()
         elif self.step == 7:
-            self.create_widgets_step7()
+            self.create_widgets_step7()"""
