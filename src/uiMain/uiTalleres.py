@@ -42,7 +42,7 @@ class uiTalleres:
                 pass
             else:
                 raise TypeError("El presupuesto debe ser mayor al estimado")
-        return (self.lineal + self.Manejo.Poliza)/2
+        return (self.lineal + self.Manejo.poliza)/2
             
        
 

@@ -33,6 +33,32 @@ class talleres(Frame):
             try: 
                 final = uiTalleres.funcion3(self, self.aproximado)
                 self.Manejo.precio=final
+                respuesta = messagebox.askokcancel("Confirmación", f"El precio final de su recorrido es de {self.Manejo.precio}, ¿Desea confirmar la reservacion?")
+                if respuesta:
+                    messagebox.showinfo("Información", f"Su ruta se a agendado con exito :))  ¡Enjoy it!!!")
+                    self.Registro.documentos.append(self.documento)
+                    self.Registro.precios.append(self.final)
+                    if self.Ruta.grupo == 1:
+                            self.Registro.grupo1 += 1
+                    else:
+                            self.Registro.grupo2 += 1
+                    self.Registro.fechas += 1
+                    uno=self.Destinos.sitios.count(1)
+                    self.Registro.lug1 += uno
+                    dos=self.Destinos.sitios.count(2)
+                    self.Registro.lug2 += dos
+                    tres=self.Destinos.sitios.count(3)
+                    self.Registro.lug3 += tres
+                    cuatro=self.Destinos.sitios.count(4)
+                    self.Registro.lug4 += cuatro
+
+
+                    GuardarObjetos.guardar_registro(self.Registro)
+                else:
+                    messagebox.showinfo("Información", f"Su ruta ha sido cancelada, :(  una lastima)")
+
+
+
             except TypeError:
                 messagebox.showwarning("Advertencia", f"Su presupuesto debe ser mayor a {self.lineal}")
                 self.clear()
