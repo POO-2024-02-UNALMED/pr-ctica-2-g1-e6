@@ -23,16 +23,29 @@ class talleres(Frame):
         self.pack(expand=True, fill="both")  
         self.create_widgets()
 
+    def clear(self):
+        self.entry.destroy()
+        self.poliza.destroy()
+
     def polixa(self):
-        self.poliza = int(self.entry.get())
-        if self.poliza == 1 or self.poliza == 2 or self.poliza == 3:
-            final = uiTalleres.funcion3(self, self.aproximado, self.poliza)
+        self.Manejo.poliza = int(self.entry.get())
+        if self.Manejo.poliza == 1 or self.Manejo.poliza == 2 or self.Manejo.poliza == 3:
+            try: 
+                final = uiTalleres.funcion3(self, self.aproximado)
+                self.Manejo.precio=final
+            except TypeError:
+                messagebox.showwarning("Advertencia", f"Su presupuesto debe ser mayor a {self.lineal}")
+                self.clear()
+                self.endo()
+
+        
         else:
             messagebox.showwarning("Advertencia", "Debe digitar un número de los ofrecidos en pantalla")
 
 
     def aprox(self):
         self.aproximado=int(self.entry.get())
+        self.entry.delete(0, "end")
         self.doky.config(text="Porfavor digite que número de poliza desea contratar")
         self.poliza = Label(self.frame3, text="1).Poliza todo riesgo Valor: $90000 | 2).Poliza express | Valor: $60000  3).Poliza parcial | Valor: $50000")
         self.poliza.pack(ipadx=30, ipady=10, pady=30)

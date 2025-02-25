@@ -1,8 +1,8 @@
 class Ubicacion:
-    lug1 = 2000
-    lug2 = 2350
-    lug3 = 2700
-    lug4 = 3000
+    LUG1 = 2000
+    LUG2 = 2350
+    LUG3 = 2700
+    LUG4 = 3000
     def puntuacion(self, numero, numero1, numero2, numero3, numero4):
         x=0
         y=numero.length()

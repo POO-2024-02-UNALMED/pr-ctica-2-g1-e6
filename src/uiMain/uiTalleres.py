@@ -1,5 +1,7 @@
 import sys
 import os
+
+import gestorAplicacion.talleres.Ubicacion
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 sys.path.append("src/gestorAplicacion/talleres")
 
@@ -20,8 +22,29 @@ class uiTalleres:
     suma=0
 
 
-    def funcion3(self, aprox, poliza):
-        pass
+    def funcion3(self, aprox):
+        a=0
+        for i in range(0, len(self.Destinos.sitios)):
+            a += self.Destinos.sitios[i] + self.Ruta.actividades[i] + self.Ruta.refrigerios[i]
+            if self.Destinos.sitios[i] == 1:
+                a *= gestorAplicacion.talleres.Ubicacion.Ubicacion.LUG1
+            elif self.Destinos.sitios[i] == 2:
+                a *= gestorAplicacion.talleres.Ubicacion.Ubicacion.LUG2
+            elif self.Destinos.sitios[i] == 3:
+                a *= gestorAplicacion.talleres.Ubicacion.Ubicacion.LUG3
+            else:
+                a *= gestorAplicacion.talleres.Ubicacion.Ubicacion.LUG4
+            a+=self.Manejo.poliza
+            if a > 10000000:
+                a=10000000
+            self.lineal=a
+            if self.aproximado >= a:
+                pass
+            else:
+                raise TypeError("El presupuesto debe ser mayor al estimado")
+        return (self.lineal + self.Manejo.Poliza)/2
+            
+       
 
 
     def funcion2(self, carro):
