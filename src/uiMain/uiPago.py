@@ -9,8 +9,8 @@ from tkinter import messagebox
 from tkinter.simpledialog import askfloat, askinteger
 
 class uiPago:
-    procesador = Pago()
-    notificador = Notificacion()
+    procesador = Pago.Pago()
+    notificador = Notificacion.Notificacion()
 
     @staticmethod
     def go():
