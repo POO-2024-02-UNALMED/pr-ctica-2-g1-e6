@@ -1,21 +1,24 @@
 from multimethod import multimethod
 
 class Itinerario:
-    actividades=[]
-    @multimethod
-    def __init__(self, actividades, refrigerios, fecha, grupo, transporte):
-        self.Itinerario(actividades, refrigerios, fecha, grupo)
-        self.transporte = transporte
-    
-    @multimethod
-    def __init__(self, actividades, refrigerios, fecha, grupo):
+    def inicializar_atributos(self, actividades, refrigerios, fecha, grupo):
+        """Método auxiliar para evitar repetir código"""
         self.actividades = actividades
         self.refrigerios = refrigerios
         self.fecha = fecha
         self.grupo = grupo
 
     @multimethod
-    def __init__(self, documentos=[], precios=[], grupo1=[], grupo2=[], fechas=[], lug1=0, lug2=0, lug3=0, lug4=0):
+    def __init__(self, actividades: list, refrigerios: list, fecha: int, grupo: int, transporte: int):
+        self.inicializar_atributos(actividades, refrigerios, fecha, grupo)
+        self.transporte = transporte 
+
+    @multimethod
+    def __init__(self, actividades: list, refrigerios: list, fecha: int, grupo: int):
+        self.inicializar_atributos(actividades, refrigerios, fecha, grupo)
+
+    @multimethod
+    def __init__(self, documentos: list, precios: list, grupo1: int, grupo2: int, fechas: list, lug1: int, lug2: int, lug3: int, lug4: int):
         self.documentos = documentos
         self.precios = precios
         self.grupo1 = grupo1
@@ -26,80 +29,6 @@ class Itinerario:
         self.lug3 = lug3
         self.lug4 = lug4
     
-    #Getters y setters emulados para Python como hizo my buddy
-
-    @property
-    def actividades(self):
-        return self.actividades
-
-    @actividades.setter
-    def actividades(self, value):
-        self._actividades = value
-
-    @property
-    def refrigerios(self):
-        return self._refrigerios
-
-    @refrigerios.setter
-    def refrigerios(self, value):
-        self._refrigerios = value
-
-    @property
-    def fecha(self):
-        return self._fecha
-
-    @fecha.setter
-    def fecha(self, value):
-        self._fecha = value
-
-    @property
-    def grupo(self):
-        return self._grupo
-
-    @grupo.setter
-    def grupo(self, value):
-        self._grupo = value
-
-    @property
-    def transporte(self):
-        return self._transporte
-
-    @transporte.setter
-    def transporte(self, value):
-        self._transporte = value
-
-    @property
-    def documentos(self):
-        return self._documentos
-
-    @documentos.setter
-    def documentos(self, value):
-        self._documentos = value
-
-    @property
-    def precios(self):
-        return self._precios
-
-    @precios.setter
-    def precios(self, value):
-        self._precios = value
-
-    @property
-    def grupo1(self):
-        return self._grupo1
-
-    @grupo1.setter
-    def grupo1(self, value):
-        self._grupo1 = value
-
-    @property
-    def grupo2(self):
-        return self._grupo2
-
-    @grupo2.setter
-    def grupo2(self, value):
-        self._grupo2 = value
-
     @property
     def fechas(self):
         return self._fechas

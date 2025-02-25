@@ -17,107 +17,62 @@ class uiTalleres:
     refrigerios = []
     sitios = []
     a=0
-    sum=0
+    suma=0
+
+
+    def funcion3(self, aprox, poliza):
+        pass
+
 
     def funcion2(self, carro):
-        pass
+        a = sum(self.Destinos.sitios)
+        d = sum(self.Ruta.refrigerios)/((len(self.Ruta.refrigerios))+1)
+        c = a+self.Ruta.grupo+d
+        return c
 
     def grupo(self, Registro, Destinos, Manejo, Ruta):
         a = 0
-        sum = 0
-        for i in (0, len(Destinos.sitios)-1):
-            sum += Destinos.sitios[i]
-            pass
+        suma = 0
+        suma = sum(self.Destinos.sitios)
         
-        for sitio in Destinos.sitios:
-            a += sitio
+        a = sum(self.Destinos.sitios)
 
-        preGrupo = (sum + a) / Destinos.nro
+        preGrupo = (suma + a) / self.Destinos.nro
 
-        if preGrupo > 7:
-            Ruta.grupo=1
+        if preGrupo > 6 and self.Registro.grupo1 < 15:
+            self.Ruta.grupo=1
         else:
-            Ruta.grupo=2
+            self.Ruta.grupo=2
 
     def funcion1(self, documento, actividades, refrigerios, fecha, transporte, nro, sitios):
         a=0
         suma=0
-        Registro = CargarObjetos.cargar_talleres()
-        Destinos = Lugar(nro, 0, sitios)
-        Manejo = Gestion(documento, 0, 0, 0, 0)
-        Ruta = Itinerario(actividades, refrigerios, fecha, transporte)
-        a = sum(Destinos.sitios)
+        #Registro = Itinerario([], [], 3, 4, [], 2, 3, 4, 5)
+        #GuardarObjetos.guardar_registro(Registro)
+        self.Registro = CargarObjetos.cargar_talleres()
+        self.Destinos = Lugar(nro, 0, sitios)
+        self.Manejo = Gestion(documento, 0, 0, 0, 0)
+        self.Ruta = Itinerario(actividades, refrigerios, fecha, 0, transporte)
+        a = sum(self.Destinos.sitios)
 
         a = a/nro
-        suma = Registro.lug1+Registro.lug2+Registro.lug3+Registro.lug4
-        suma = suma / (Registro.lug1*4+1)
+        suma = self.Registro.lug1+self.Registro.lug2+self.Registro.lug3+self.Registro.lug4
+        suma = suma / (self.Registro.lug1*4+1)
         suma = (suma + a)/2
         Lugar.Puntuacion = suma
-        uiTalleres.grupo(self,Registro, Destinos, Manejo, Ruta)
+        uiTalleres.grupo(self, self.Registro, self.Destinos, self.Manejo, self.Ruta)
 
-        return Ruta.grupo
+        return self.Ruta.grupo
 
-
-    def talleres1():
-        while True:
-            documento=int(input("Digite número de documento: "))
-            if documento > 9999999999:
-                print("Digite un número de documento con 10 cifras  o menos")
-            else: 
-                break
-        while True:
-            nro = int(input("Digite cuántos dias va a hacer actividades y talleres: "))
-            if nro > 7 or nro < 1:
-                print("El máximo de días es de 7, y el minimo de 1")
-            else: break
-        
-        for i in range (0, nro):
-            while True:
-                act = int(input("Qué actividad deseas realizar el dia" + str(i) + "?: 1.Plantaton  2.Avevisor  3.casaCultura  4. casaMusica  5.TurcoParque  6.Tejedores o 7.Toboganes: "))
-                sitio = int(input("En qué sitio deseas realizar la actividad: 1.Parque Berrio 2.San Antonio 3. San Ignacio o 4.Prado: "))
-                refrigerio = int(input("Qué refrigerio deseas para el dia" + str(i) + "1.Sandwich  2. Hamburguesa  3. Pizza: "))
-                if act > 0 and act < 8 and sitio > 0 and sitio < 5 and refrigerio > 0 and refrigerio < 4:
-                    break
-                else:
-                    print("Debe seleccionar los números correspondientes a la opción deseada, no pude elegir opciones diferentes")
-            uiTalleres.actividades.append(act)
-            uiTalleres.sitios.append(sitio)
-            uiTalleres.refrigerios.append(refrigerio)
-        while True:
-            transporte=input("Desea incluir transporte: 1.Sí  2.No")
-            if transporte == 1 or transporte ==2:
-                break
-            else:
-                print("Digite una opción valida 1 para agregar o 2 para no agregar")
-        if transporte == 1:
-            transporte=int(input("Qué transporte desea: 1.Moto 2.Carro express 3.Carro 4.Bus turistico"))
-        else:
-            transporete = 0
-        Destinos = gestorAplicacion.Lugar(nro, 0, uiTalleres.sitios)
-        Manejo = gestorAplicacion.Gestion(documento, 0, 0, 0, 0)
-        if transporte == 0:
-            Ruta = gestorAplicacion.Itineario(uiTalleres.actividades, uiTalleres.refrigerios, 0, 0)
-        else:
-            Ruta = gestorAplicacion.Itineario(uiTalleres.actividades, uiTalleres.refrigerios, 0, 0, transporte)
-        
-        def talleres2():
-            Destinos.puntuacion()
-            if Destinos.puntaje > 3:
-                Destinos.grupo = 1
-                print("Fuiste agregado al grupo 1")
-            else:
-                Destinos.grupo = 2
-                print("Fuiste agregado al grupo 2")
-            x=0
-            for i in range (0, nro):
-                x = Destinos.Lugar[i] + Ruta.actividad[i]
-            x+=Ruta.grupo + Destinos.nro
-            z=0
-            for refri in Ruta.refrigerios:
-                z+= refri
-            x+=z/Ruta.refrigerios.lenght
-            Manejo.descuento = z
-            return z
+        #for i in range (0, nro):
+          #      x = Destinos.Lugar[i] + Ruta.actividad[i]
+          #  x+=Ruta.grupo + Destinos.nro
+           # z=0
+          #  for refri in Ruta.refrigerios:
+           #     z+= refri
+          #  x+=z/Ruta.refrigerios.lenght
+         #   Manejo.descuento = z
+          # return z
 
 
         

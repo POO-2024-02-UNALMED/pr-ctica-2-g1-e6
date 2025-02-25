@@ -6,15 +6,14 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 import baseDatos.CargarObjetos
 import baseDatos.GuardarObjetos
-import gestorAplicacion.talleres.Lugar
-import gestorAplicacion.talleres.Gestion
+from gestorAplicacion.talleres.Gestion import Gestion
+from gestorAplicacion.talleres.Lugar import Lugar
+from gestorAplicacion.talleres.Ubicacion import Ubicacion
+from gestorAplicacion.talleres.Itinerario import Itinerario
 
 from uiTalleres import uiTalleres
-from gestorAplicacion.talleres.Itinerario import Itinerario
 from baseDatos.CargarObjetos import CargarObjetos
 from baseDatos.GuardarObjetos import GuardarObjetos
-
-registro = Itinerario()
 
 class talleres(Frame):  
 
@@ -24,27 +23,72 @@ class talleres(Frame):
         self.pack(expand=True, fill="both")  
         self.create_widgets()
 
+    def polixa(self):
+        self.poliza = int(self.entry.get())
+        if self.poliza == 1 or self.poliza == 2 or self.poliza == 3:
+            final = uiTalleres.funcion3(self, self.aproximado, self.poliza)
+        else:
+            messagebox.showwarning("Advertencia", "Debe digitar un número de los ofrecidos en pantalla")
+
+
+    def aprox(self):
+        self.aproximado=int(self.entry.get())
+        self.doky.config(text="Porfavor digite que número de poliza desea contratar")
+        self.poliza = Label(self.frame3, text="1).Poliza todo riesgo Valor: $90000 | 2).Poliza express | Valor: $60000  3).Poliza parcial | Valor: $50000")
+        self.poliza.pack(ipadx=30, ipady=10, pady=30)
+        self.precio.config(command=self.polixa)
+
+    def endo(self):
+        self.ti1.destroy()
+        self.precio.config(text="Aceptar", command=self.aprox)
+        self.precio.pack(side="bottom", pady=30)
+        self.t2.destroy()
+        self.entry = Entry(self.frame3)
+        self.entry.pack(ipadx=40, ipady=20)
+        self.doky.config(text="Por favor, digite un presupuesto aproximado que tiene para el recorrido ")
+
 
     def descuento(self):
         messagebox.showinfo("Información", f"Usted ha sido agregado al grupo: {self.group}")
         self.frame3.config(bg="black", cursor="star")
-        self.ti1.config(bg="white", text="Asignación de grupos")
-        uiTalleres.funcion2(self, self.transporte)
-
+        self.ti1.config(bg="white", text="Según nuestros calculos", fg="black")
+        self.doky.config(text="Calculo del descuento")
+        self.Manejo.descuento = uiTalleres.funcion2(self, self.transporte)
+        self.t2 = Label(self.frame3, bg="gray", fg="red", text=f"Usted tendrá un descuento del {int(self.Manejo.descuento)}% en el total del recibo por los talleres y actividades", font=("Arial", 15))
+        self.t2.pack(side="top", ipadx=30, ipady=30, pady=20)
+        self.precio = Button(self.frame3, bg="purple", fg="white", text="Haz click aqui para calcular el precio final de tu recorrido", command=self.endo)
+        self.precio.pack(ipady=20, ipadx=60)
     def a(self):
         self.transporte = 1
+        self.op1.destroy()
+        self.op2.destroy()
+        self.op3.destroy()
+        self.op4.destroy()
+
         self.descuento()
 
     def b(self):
         self.transporte = 2
+        self.op1.destroy()
+        self.op2.destroy()
+        self.op3.destroy()
+        self.op4.destroy()
         self.descuento()
 
     def c(self):
         self.transporte = 3
+        self.op1.destroy()
+        self.op2.destroy()
+        self.op3.destroy()
+        self.op4.destroy()
         self.descuento()
 
     def d(self):
         self.transporte = 4
+        self.op1.destroy()
+        self.op2.destroy()
+        self.op3.destroy()
+        self.op4.destroy()
         self.descuento()
 
     def grupo1(self):
