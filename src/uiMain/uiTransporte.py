@@ -404,6 +404,9 @@ class uiTransporte():
         self.master.despejar_frame_inferior()
         self.master.despejar_frame_intermedio()
         
+        tk.Label(self.master.frame_intermedio, font=("Arial",12), wraplength=700, text="Este es el resumen de su reserva. Presione confirmar para confirmar su reserva.").place(relx=0.5, rely=0.5, anchor="center")
+
+        
         #self.precio = 0
         
         self.precio = self.empresa.dar_precio(self.transporte_reserva, self.clase, True if self.fecha_vuelta else False)
