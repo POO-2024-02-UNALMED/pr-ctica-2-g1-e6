@@ -1,4 +1,7 @@
-from gestorAplicacion.pago import Pago, Notificacion
+from gestorAplicacion.pago import Pago, Notificacion, MetodoPago
+import tkinter as tk
+from tkinter import messagebox
+from tkinter.simpledialog import askfloat, askinteger
 
 class uiPago:
     procesador = Pago()
@@ -6,61 +9,69 @@ class uiPago:
 
     @staticmethod
     def go():
-        print("\n=== PROCESO DE PAGO ===")
-        
+        # Se crea una ventana oculta para usar los diálogos de Tkinter
+        root = tk.Tk()
+        root.withdraw()
+
+        messagebox.showinfo("Proceso de Pago", "=== PROCESO DE PAGO ===")
+
         # Paso 1: Solicitar monto
         monto = uiPago.solicitarMonto()
         if monto < 0:
-            return  # Si hubo error, salir
-        
+            root.destroy()
+            return  # Operación cancelada o monto inválido
+
         # Paso 2: Seleccionar método de pago
         metodo = uiPago.seleccionarMetodo()
         if metodo is None:
+            root.destroy()
             return
-        
+
         # Paso 3: Procesar pago
-        uiPago.procesarPago(monto, metodo)
+        uiPago.procesar_pago(monto, metodo)
+
+        root.destroy()
 
     @staticmethod
     def solicitarMonto():
-        while True:
-            try:
-                monto = float(input("\nIngrese el monto a pagar: $"))
-                if monto < Pago.CARGO_MINIMO:
-                    uiPago.notificador.enviarError("Monto mínimo requerido: ${:.2f}".format(Pago.CARGO_MINIMO))
-                    return -1
-                return monto
-            except ValueError:
-                uiPago.notificador.enviarError("Debe ingresar un valor numérico válido.")
+        monto = askfloat("Realizar Pago", "Ingrese el monto a pagar:")
+        if monto is None:
+            uiPago.notificador.enviarError("Operación cancelada.")
+            return -1
+        if monto < Pago.CARGO_MINIMO:
+            uiPago.notificador.enviarError("Monto mínimo requerido: ${:.2f}".format(Pago.CARGO_MINIMO))
+            return -1
+        return monto
 
     @staticmethod
     def seleccionarMetodo():
-        print("\nSeleccione el método de pago:")
-        metodos = list(Pago.MetodoPago)
-        
+        # Construir el mensaje con las opciones disponibles
+        metodos = list(MetodoPago)
+        mensaje = "Seleccione el método de pago:\n"
         for i, metodo in enumerate(metodos):
-            print("{}. {}".format(i+1, metodo.getDescripcion()))
+            # Se utiliza la propiedad get_descripcion definida en el Enum
+            mensaje += "{}. {}\n".format(i+1, metodo.get_descripcion)
         
-        try:
-            opcion = int(input("\nOpción: "))
-            if opcion < 1 or opcion > len(metodos):
-                uiPago.notificador.enviarError("Opción inválida")
-                return None
-            return metodos[opcion-1]
-        except ValueError:
-            uiPago.notificador.enviarError("Debe ingresar un número")
+        opcion = askinteger("Seleccionar Método", mensaje)
+        if opcion is None:
+            uiPago.notificador.enviarError("Operación cancelada.")
             return None
+        if opcion < 1 or opcion > len(metodos):
+            uiPago.notificador.enviarError("Opción inválida")
+            return None
+        return metodos[opcion-1]
 
     @staticmethod
-    def procesarPago(monto, metodo):
+    def procesar_pago(monto, metodo):
         try:
-            factura = uiPago.procesador.procesarPago(monto, metodo)
+            # Se utiliza el método procesar_pago (con guión bajo) de Pago
+            factura = uiPago.procesador.procesar_pago(monto, metodo)
             uiPago.notificador.enviar(factura)
             
-            print("\nPago exitoso!\n")
-            print(factura.generar())
-            
-        except ValueError as e:  # Se usa ValueError en lugar de IllegalArgumentException
+            messagebox.showinfo("Pago Exitoso",
+                                f"Pago realizado correctamente.\nFactura ID: {factura.id}\nMonto: ${factura.monto:.2f}")
+            print(factura.generar())  # También se imprime en consola para registro
+
+        except ValueError as e:
             uiPago.notificador.enviarError(str(e))
-        
-        input("\nPresione Enter para continuar...")
+            messagebox.showerror("Error", str(e))
