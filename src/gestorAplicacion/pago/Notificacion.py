@@ -1,6 +1,6 @@
 from datetime import datetime
 from typing import List
-from factura import Factura
+from .factura import Factura
 
 class Notificacion:
     def __init__(self):

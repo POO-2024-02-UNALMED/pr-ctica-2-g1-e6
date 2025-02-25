@@ -1,4 +1,9 @@
-from gestorAplicacion.pago import Pago, Notificacion, MetodoPago
+import sys, os.path
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
+
+from src.gestorAplicacion.pago import Pago, Notificacion#, MetodoPago
+from src.gestorAplicacion.pago.factura import MetodoPago
 import tkinter as tk
 from tkinter import messagebox
 from tkinter.simpledialog import askfloat, askinteger
